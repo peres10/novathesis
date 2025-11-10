@@ -1,0 +1,317 @@
+%!TEX root = ../template.tex
+
+\chapter{Example Makefile Targets}
+\label{chap:makefile}
+
+\section{Overview}
+
+NOVAthesis provides a fully automated build system implemented through a \texttt{Makefile} located at the root of each project.  
+This system abstracts all \LaTeX{} compilation steps, including bibliography generation, glossary creation, and PDF packaging, ensuring reproducibility and consistency across different environments.
+
+The \texttt{Makefile} is compatible with \texttt{GNU~Make} on Linux, macOS, and Windows (via WSL, Git~Bash, or MiKTeX shell).  
+It also supports automated builds on cloud platforms and continuous integration environments.
+
+This chapter explains the standard targets available in the NOVAthesis \texttt{Makefile}, their dependencies, and typical use cases.
+
+\section{Basic Compilation Targets}
+
+The simplest way to compile a thesis is by invoking one of the pre-defined targets corresponding to the desired \LaTeX{} engine.
+
+\paragraph{Examples.}
+\begin{verbatim}
+make pdf        # Compile using pdfLaTeX
+make xe         # Compile using XeLaTeX
+make lua        # Compile using LuaLaTeX
+\end{verbatim}
+
+Each command performs a full build cycle:
+\begin{itemize}
+  \item Invokes \texttt{latexmk} with appropriate options;
+  \item Runs \texttt{biber} for bibliography processing;
+  \item Executes \texttt{makeglossaries} if glossaries or acronyms are defined;
+  \item Cleans and synchronizes all auxiliary files.
+\end{itemize}
+
+\paragraph{Default Engine.}
+If no target is specified, NOVAthesis defaults to XeLaTeX:
+\begin{verbatim}
+make
+\end{verbatim}
+
+This ensures consistent font rendering and Unicode support across systems.
+
+\section{Working, Provisional, and Final Modes}
+
+The build mode controls visual features such as watermarking, TODO notes, and link colors.  
+Modes are set using the \texttt{MODE} variable:
+
+\begin{verbatim}
+make MODE=working xe
+make MODE=provisional xe
+make MODE=final pdf
+\end{verbatim}
+
+\begin{description}
+  \item[\texttt{working}] — enables draft markers, colored warnings, and visible notes;
+  \item[\texttt{provisional}] — disables watermarks but retains colored hyperlinks;
+  \item[\texttt{final}] — produces the definitive, submission-ready version.
+\end{description}
+
+\paragraph{Media Type.}
+Select the intended output medium (screen or paper):
+
+\begin{verbatim}
+make MODE=final MEDIA=paper xe
+make MODE=final MEDIA=screen xe
+\end{verbatim}
+
+\section{Bibliography and Glossary Management}
+
+Bibliography and glossary generation are automated through dependent targets.
+
+\paragraph{Bibliography Only.}
+\begin{verbatim}
+make bib
+\end{verbatim}
+Executes:
+\begin{verbatim}
+biber template
+\end{verbatim}
+
+\paragraph{Glossary Only.}
+\begin{verbatim}
+make gloss
+\end{verbatim}
+Executes:
+\begin{verbatim}
+makeglossaries template
+\end{verbatim}
+
+\paragraph{Combined Build.}
+\begin{verbatim}
+make all
+\end{verbatim}
+Runs a full compilation sequence:
+\begin{verbatim}
+latexmk -xelatex template
+biber template
+makeglossaries template
+latexmk -xelatex template
+\end{verbatim}
+
+\section{Cleaning Targets}
+
+To maintain a clean working directory, the Makefile defines several cleaning targets.
+
+\paragraph{Remove Temporary Files.}
+\begin{verbatim}
+make clean
+\end{verbatim}
+Deletes auxiliary files (\texttt{.aux}, \texttt{.log}, \texttt{.out}, etc.) but preserves the final PDF.
+
+\paragraph{Full Cleanup.}
+\begin{verbatim}
+make clean-all
+\end{verbatim}
+Removes all auxiliary and generated files, including:
+\begin{itemize}
+  \item Bibliography cache files (\texttt{.bbl}, \texttt{.bcf});
+  \item Glossary and acronym outputs (\texttt{.gls}, \texttt{.glo});
+  \item Auxiliary directories created by \texttt{latexmk}.
+\end{itemize}
+
+\paragraph{Target-Specific Cleanup.}
+\begin{verbatim}
+make clean-bib
+make clean-gloss
+\end{verbatim}
+
+\section{Packaging and Distribution}
+
+NOVAthesis includes automated packaging for archiving and submission.
+
+\paragraph{Create a Submission Archive.}
+\begin{verbatim}
+make package
+\end{verbatim}
+Generates a ZIP archive containing:
+\begin{itemize}
+  \item The compiled PDF (\texttt{template.pdf});
+  \item All configuration files and source directories;
+  \item Figures and bibliography resources;
+  \item A \texttt{README.txt} with version and metadata.
+\end{itemize}
+
+\paragraph{Exclude Source Files (PDF only).}
+\begin{verbatim}
+make package SRC=false
+\end{verbatim}
+
+\paragraph{Custom Output Directory.}
+\begin{verbatim}
+make OUTDIR=build xe
+\end{verbatim}
+
+\section{Version and Metadata Verification}
+
+The Makefile includes a dedicated validation command that verifies all required metadata fields before compilation.
+
+\paragraph{Check Metadata Completeness.}
+\begin{verbatim}
+make check-metadata
+\end{verbatim}
+This target parses \texttt{1\_novathesis.tex} and reports any missing definitions such as:
+\begin{itemize}
+  \item Author or title;
+  \item Supervisor or degree name;
+  \item Date or institution.
+\end{itemize}
+
+\paragraph{Check for Unused References.}
+\begin{verbatim}
+make check-refs
+\end{verbatim}
+Scans for undefined or unused bibliography keys.
+
+\section{Testing and Continuous Integration Targets}
+
+For maintainers and automated systems, the Makefile provides non-interactive test modes.
+
+\paragraph{Automated Validation Build.}
+\begin{verbatim}
+make test
+\end{verbatim}
+Compiles the template using XeLaTeX, reports errors, and validates all example projects.
+
+\paragraph{Silent CI Mode.}
+\begin{verbatim}
+make ci
+\end{verbatim}
+Equivalent to:
+\begin{verbatim}
+latexmk -xelatex -interaction=nonstopmode -halt-on-error
+\end{verbatim}
+Useful for integration with GitHub Actions or GitLab CI pipelines.
+
+\section{Diagnostic and Utility Targets}
+
+\paragraph{View Log File.}
+\begin{verbatim}
+make log
+\end{verbatim}
+Displays the most recent \texttt{.log} file in the terminal.
+
+\paragraph{Word Count Estimate.}
+\begin{verbatim}
+make count
+\end{verbatim}
+Uses \texttt{texcount} to generate a detailed word count by chapter.
+
+\paragraph{Check PDF Metadata.}
+\begin{verbatim}
+make pdfinfo
+\end{verbatim}
+Runs:
+\begin{verbatim}
+pdfinfo template.pdf
+\end{verbatim}
+
+\paragraph{Preview Build (draft mode).}
+\begin{verbatim}
+make preview
+\end{verbatim}
+Runs a fast build without bibliography or glossary updates for rapid iteration.
+
+\section{Customization of Makefile Variables}
+
+The Makefile accepts environment variables to control its behavior.
+
+\begin{description}
+  \item[\texttt{MODE}] — build mode: \texttt{working}, \texttt{provisional}, or \texttt{final};
+  \item[\texttt{MEDIA}] — output type: \texttt{screen} or \texttt{paper};
+  \item[\texttt{ENGINE}] — compiler: \texttt{pdf}, \texttt{xe}, or \texttt{lua};
+  \item[\texttt{OUTDIR}] — directory for compiled outputs (default: project root);
+  \item[\texttt{SRC}] — include source files in package (boolean);
+  \item[\texttt{VERBOSE}] — show or suppress log output.
+\end{description}
+
+\paragraph{Example.}
+\begin{verbatim}
+make MODE=working MEDIA=screen ENGINE=xe VERBOSE=true
+\end{verbatim}
+
+\section{Extending the Makefile}
+
+Advanced users may extend the Makefile with new automation routines.  
+Custom targets can be added without interfering with the core compilation logic.
+
+\paragraph{Example: Spell Check.}
+\begin{verbatim}
+spell:
+    aspell --mode=tex check 2-MainMatter/chapter1.tex
+\end{verbatim}
+
+\paragraph{Example: PDF/A Conversion.}
+\begin{verbatim}
+pdfa:
+    gs -dPDFA=2 -dBATCH -dNOPAUSE \
+       -sDEVICE=pdfwrite \
+       -sOutputFile=template_PDFA.pdf template.pdf
+\end{verbatim}
+
+\paragraph{Example: Increment Version Tag.}
+\begin{verbatim}
+version:
+    @echo "Updating version header..."
+    @date "+%Y/%m/%d" | xargs -I{} sed -i \
+        's/\(ProvidesClass{novathesis}\[.*v\)[0-9.]*\( NOVA Thesis Template\]/\1$(VERSION)\2/' \
+        NOVAthesisFiles/novathesis.cls
+\end{verbatim}
+
+\section{Cross-Platform Compatibility}
+
+The Makefile has been tested on:
+\begin{itemize}
+  \item macOS (MacTeX, GNU~Make 3.81 or later);
+  \item Linux (TeX~Live, GNU~Make 4.3 or later);
+  \item Windows (MiKTeX or TeX~Live via WSL/Git Bash).
+\end{itemize}
+
+If the system lacks GNU~Make, compilation may still be performed manually:
+\begin{verbatim}
+latexmk -xelatex template
+biber template
+makeglossaries template
+latexmk -xelatex template
+\end{verbatim}
+
+\section{Typical Build Scenarios}
+
+\paragraph{Quick Draft.}
+\begin{verbatim}
+make MODE=working preview
+\end{verbatim}
+
+\paragraph{Final Submission (paper version).}
+\begin{verbatim}
+make MODE=final MEDIA=paper xe
+make package
+\end{verbatim}
+
+\paragraph{Digital Archive (PDF/A).}
+\begin{verbatim}
+make MODE=final MEDIA=screen xe
+make pdfa
+\end{verbatim}
+
+\paragraph{Continuous Integration Test.}
+\begin{verbatim}
+make ci
+\end{verbatim}
+
+\section{Summary}
+
+The NOVAthesis Makefile provides a standardized, reproducible build environment across platforms and institutional contexts.  
+By using the provided targets, authors can automate all compilation, packaging, and validation steps without manual intervention.  
+For maintainers, the Makefile forms the foundation of continuous integration and long-term reproducibility within the NOVAthesis development workflow.
+

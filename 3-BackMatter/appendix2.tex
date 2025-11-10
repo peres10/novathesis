@@ -1,28 +1,289 @@
 %!TEX root = ../template.tex
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% appendix2.tex
-%% NOVA thesis document file
-%%
-%% Chapter with example of appendix with a short dummy text
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\typeout{NT FILE appendix2.tex}%
+\chapter{Build Environment Reference}
+\label{chap:build-environment}
 
+\section{Overview}
 
-\chapter{Appendix 2 Lorem Ipsum}
-\label{app:lorem_ipsum2}
+This appendix provides a reference for system administrators and advanced users who deploy NOVAthesis across multiple environments.  
+It lists the essential executables, package dependencies, environment variables, and diagnostic tools required for a reproducible build.  
+It is intended as a concise technical guide complementing the installation and troubleshooting chapters.
 
-This is a test with citing something~\cite{ecoop12-dias} in the appendix.
+\section{Core Requirements}
 
-\begin{newpdflayout}{210mm}{297mm}%{420mm}
+A complete NOVAthesis build environment consists of three layers:
 
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+\begin{enumerate}
+  \item A \LaTeX{} distribution (TeX~Live, MacTeX, or MiKTeX) including \texttt{latexmk} and \texttt{biber};
+  \item A system shell environment capable of executing \texttt{make};
+  \item A minimal set of additional utilities (e.g., Ghostscript, Poppler) for PDF validation and post-processing.
+\end{enumerate}
 
-\lipsum[1-9]
+Table~\ref{tab:required-components} summarizes the standard dependencies.
 
-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-\end{newpdflayout}
+\begin{table}[h]
+\centering
+\caption{Required Components for NOVAthesis Compilation}
+\label{tab:required-components}
+\begin{tabular}{llp{6cm}}
+\toprule
+\textbf{Component} & \textbf{Example Command} & \textbf{Purpose} \\
+\midrule
+\LaTeX{} distribution & \texttt{texlive} / \texttt{mactex} / \texttt{miktex} & Core typesetting engine and package repository \\
+\texttt{latexmk} & \texttt{latexmk --version} & Automates multi-pass compilation \\
+\texttt{biber} & \texttt{biber --version} & Bibliography processor (preferred over \texttt{bibtex}) \\
+\texttt{make} & \texttt{make -v} & Executes the Makefile targets \\
+\texttt{ghostscript} & \texttt{gs --version} & PDF post-processing (optional for validation) \\
+\texttt{bash} & \texttt{bash --version} & Required by the Makefile on Windows systems \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+\paragraph{Recommended versions (as of 2025).}
+\begin{itemize}
+  \item TeX~Live 2024 or newer (full installation);
+  \item MacTeX 2024 or newer;
+  \item MiKTeX 24.3 or newer (with automatic package installation enabled);
+  \item Biber 2.20 or later.
+\end{itemize}
 
-\lipsum[1-10]
+\section{File Structure Dependencies}
+
+The NOVAthesis build system assumes the following directory layout (also summarized in Chapter~\ref{chap:document-structure}):
+
+\begin{verbatim}
+.
+├── 0-Config/         % Configuration files and metadata
+├── 1-FrontMatter/    % Abstracts, acknowledgments, etc.
+├── 2-MainMatter/     % Chapters
+├── 3-BackMatter/     % Appendices and annexes
+├── 4-Bibliography/   % .bib files
+├── 5-Figures/        % Figures and images
+├── NOVAthesisFiles/  % Internal assets (do not modify)
+├── Makefile          % Build automation
+└── template.tex      % Main entry point
+\end{verbatim}
+
+The build scripts depend on these relative paths.  
+Renaming directories or moving configuration files outside this structure will cause build failures unless the Makefile rules are updated accordingly.
+
+\section{External Executables and Environment Variables}
+
+\subsection{Executables}
+
+The Makefile and \texttt{latexmk} use several auxiliary executables internally:
+
+\begin{itemize}
+  \item \texttt{pdflatex}, \texttt{xelatex}, or \texttt{lualatex};
+  \item \texttt{biber} or \texttt{bibtex};
+  \item \texttt{makeindex} or \texttt{xindy} (for glossaries);
+  \item \texttt{pdfcrop}, \texttt{pdfinfo}, \texttt{pdfjam} (optional, for post-processing);
+  \item \texttt{kpsewhich} (used to locate style files).
+\end{itemize}
+
+\subsection{Environment Variables}
+
+The following environment variables influence the build process:
+
+\begin{description}
+  \item[\texttt{PATH}] — Must include directories containing \texttt{latexmk}, \texttt{biber}, and the \LaTeX{} executables.
+  \item[\texttt{ENGINE}] — Overrides the default compilation engine.  
+  Example: \texttt{ENGINE=xelatex}.
+  \item[\texttt{MODE}] — Sets the build mode (\texttt{working}, \texttt{provisional}, \texttt{final}).
+  \item[\texttt{SCHOOL}] — Overrides the institutional preset.
+  \item[\texttt{LATEXMKOPTS}] — Appends custom options to the \texttt{latexmk} command line.
+  \item[\texttt{BIBER}] — Explicit path to the \texttt{biber} executable, if not in PATH.
+\end{description}
+
+\paragraph{Example.}
+\begin{verbatim}
+export ENGINE=xelatex
+export MODE=final
+make
+\end{verbatim}
+
+\section{Package Dependencies}
+
+NOVAthesis relies on a standard set of \LaTeX{} packages.  
+Most are included in full TeX~Live or MacTeX distributions.  
+Administrators installing a minimal system must ensure the following collections are present:
+
+\begin{itemize}
+  \item \texttt{collection-latexrecommended}
+  \item \texttt{collection-fontsrecommended}
+  \item \texttt{collection-latexextra}
+  \item \texttt{collection-bibtexextra}
+  \item \texttt{collection-langportuguese} (for bilingual output)
+  \item \texttt{collection-luatex} and \texttt{collection-xetex}
+\end{itemize}
+
+Additionally, the following individual packages are directly used by the class:
+\texttt{memoir}, \texttt{fontspec}, \texttt{babel}, \texttt{csquotes}, \texttt{biblatex}, \texttt{graphicx}, \texttt{xcolor}, \texttt{booktabs}, \texttt{hyperref}, \texttt{cleveref}, \texttt{fancyvrb}, \texttt{etoolbox}, and \texttt{titlesec}.
+
+\section{Filesystem and Encoding Settings}
+
+\begin{itemize}
+  \item All text files should be encoded in UTF-8 without BOM.  
+  Legacy encodings (Latin-1 or Windows-1252) can cause errors under XeLaTeX or LuaLaTeX.
+  \item File and folder names should contain only lowercase alphanumeric characters and underscores.
+  \item Avoid spaces or diacritics in filenames, especially on Overleaf or network drives.
+\end{itemize}
+
+\section{Compiler-Specific Notes}
+
+\subsection{pdf\LaTeX}
+
+Advantages:
+\begin{itemize}
+  \item Fast and stable;
+  \item Fully portable;
+  \item Compatible with most institutional fonts if packaged as Type~1.
+\end{itemize}
+
+Limitations:
+\begin{itemize}
+  \item No direct OpenType or system font support;
+  \item Limited multilingual typesetting;
+  \item No native transparency in vector graphics.
+\end{itemize}
+
+\subsection{XeLaTeX}
+
+Advantages:
+\begin{itemize}
+  \item Native Unicode support;
+  \item Direct access to system fonts;
+  \item Simple multilingual configuration.
+\end{itemize}
+
+Limitations:
+\begin{itemize}
+  \item Slightly slower compilation time;
+  \item Requires all fonts to be installed locally;
+  \item Some packages (e.g., \texttt{microtype}) offer reduced functionality.
+\end{itemize}
+
+\subsection{LuaLaTeX}
+
+Advantages:
+\begin{itemize}
+  \item Modern engine with advanced microtypography;
+  \item Fully compatible with \texttt{fontspec};
+  \item Extensible through Lua scripting.
+\end{itemize}
+
+Limitations:
+\begin{itemize}
+  \item Requires more memory;
+  \item Slightly different font metrics compared to XeLaTeX;
+  \item Marginally slower on small projects.
+\end{itemize}
+
+\section{Build Modes}
+
+NOVAthesis distinguishes three build modes, controlled by the \texttt{mode} key or the environment variable \texttt{MODE}.
+
+\begin{description}
+  \item[\texttt{working}] — Draft mode; includes todos, colored hyperlinks, and visible overfull boxes.
+  \item[\texttt{provisional}] — Near-final mode; hyperlinks are colored, but minor draft indicators are suppressed.
+  \item[\texttt{final}] — Production mode; black hyperlinks, all debugging features disabled, and layout frozen.
+\end{description}
+
+Each mode affects internal variables that govern the behavior of \texttt{hyperref}, watermark visibility, and header/footer annotations.
+
+\section{Testing and Validation}
+
+\subsection{Verifying the Toolchain}
+
+Run the following commands to confirm availability of required tools:
+
+\begin{verbatim}
+latexmk -version
+biber --version
+kpsewhich novathesis.cls
+\end{verbatim}
+
+\subsection{Test Compilation}
+
+Perform a full rebuild:
+
+\begin{verbatim}
+make clean-all
+make xe
+\end{verbatim}
+
+Verify that:
+\begin{itemize}
+  \item The PDF is generated without errors;
+  \item The log file contains no “undefined reference” or “missing citation” warnings;
+  \item Fonts are embedded (check with \texttt{pdfinfo -f template.pdf}).
+\end{itemize}
+
+\section{Administrator Checklist}
+
+Before deploying NOVAthesis on institutional or shared systems, confirm:
+
+\begin{enumerate}
+  \item Full \LaTeX{} distribution installed and updated;
+  \item \texttt{latexmk}, \texttt{biber}, and \texttt{make} available in all user PATHs;
+  \item UTF-8 locale configured by default;
+  \item Write permissions enabled in project directories;
+  \item Sufficient disk space (minimum 2~GB per user);
+  \item The \texttt{NOVAthesisFiles/} folder is intact and unmodified.
+\end{enumerate}
+
+\section{Diagnostics for Technical Reviewers}
+
+When diagnosing a user’s build failure, request the following artifacts:
+\begin{itemize}
+  \item \texttt{template.log} — compilation log;
+  \item \texttt{template.blg} — bibliography log;
+  \item \texttt{template.bcf} — bibliography control file (for Biber);
+  \item \texttt{0-Config/1\_novathesis.tex} — core configuration;
+  \item Output of \texttt{latexmk -version} and \texttt{biber --version}.
+\end{itemize}
+
+Compare with the reference build in Table~\ref{tab:required-components} to identify version discrepancies.
+
+\section{Minimal Diagnostic Script}
+
+Administrators may use the following shell script to validate an installation:
+
+\begin{verbatim}
+#!/usr/bin/env bash
+echo "=== NOVAthesis Build Environment Diagnostic ==="
+for cmd in latexmk biber xelatex lualatex pdflatex make kpsewhich; do
+    if ! command -v $cmd &>/dev/null; then
+        echo "Missing executable: $cmd"
+    else
+        echo "$cmd OK ($(command -v $cmd))"
+    fi
+done
+echo "TeX distribution version:"
+tex --version | head -n 1
+\end{verbatim}
+
+\section{Version Identification}
+
+Every NOVAthesis release includes a version header within \texttt{novathesis.cls}:
+\begin{verbatim}
+\ProvidesClass{novathesis}[2025/04/07 v7.6.0 NOVA Thesis Template]
+\end{verbatim}
+
+Administrators maintaining multiple installations should reference this value when reporting bugs or submitting compatibility updates.
+
+\section{Archival and Long-Term Reproducibility}
+
+For archival or institutional repository submissions:
+\begin{itemize}
+  \item Include the compiled PDF, the \texttt{0-Config/} directory, and the bibliography files;
+  \item Document the TeX distribution version and NOVAthesis release number;
+  \item Optionally include a checksum (e.g., SHA-256) of the final PDF;
+  \item Avoid distributing auxiliary files or temporary artifacts.
+\end{itemize}
+
+\section{Summary}
+
+This reference consolidates all technical information necessary for deploying and maintaining NOVAthesis in academic and research environments.  
+It ensures that administrators can provide consistent toolchains, detect configuration problems quickly, and reproduce published theses exactly as originally compiled.  
+A properly configured environment with verified dependencies guarantees long-term stability, compatibility with future \LaTeX{} releases, and compliance with institutional archiving requirements.

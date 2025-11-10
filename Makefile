@@ -101,7 +101,7 @@ SCHL := $(if $(SCHL),$(SCHL),nova/fct)
 .PHONY: default
 LUA=$(shell cat $(CACHE))
 default: validate-config check-env check-build
-	$(BUILD) $(SCHL)
+	$(BUILD) $(SCHL) -nr
 
 #————————————————————————————————————————————————————————————————————————————
 # The main targets

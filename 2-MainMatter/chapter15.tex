@@ -1,0 +1,265 @@
+%!TEX root = ../template.tex
+
+\chapter{Contribution Guidelines}
+\label{chap:contribution}
+
+\section{Overview}
+
+The \gls{novathesis} project is a collaborative, open-source initiative maintained by the academic community at NOVA University Lisbon.  
+Its continued evolution depends on feedback, bug reports, and contributions from users across institutions and disciplines.  
+This chapter establishes the formal contribution workflow, coding standards, documentation requirements, and release procedures for maintainers and external contributors.
+
+\section{Governance Model}
+
+The project is maintained under the supervision of the NOVA University Lisbon repository administrators.  
+Governance follows a meritocratic model typical of open academic projects:
+\begin{itemize}
+  \item Core maintainers have commit privileges and review merge requests;
+  \item Regular contributors may submit patches or pull requests;
+  \item Institutional representatives may propose new style presets or language modules.
+\end{itemize}
+
+Decisions regarding structural changes or new features are made by consensus among maintainers, with public discussion recorded in the project issue tracker.
+
+\section{Repository Structure}
+
+The Git repository follows a standardized hierarchy aligned with the template itself:
+
+\begin{verbatim}
+novathesis/
+├── \gls{novathesis}Files/      # Core class and institutional presets
+├── 0-Config/             # Default configuration templates
+├── examples/             # Demonstration projects
+├── docs/                 # Manual and auxiliary documentation
+├── Makefile              # Build automation
+├── README.md             # Overview and usage instructions
+└── LICENSE.txt           # LPPL license declaration
+\end{verbatim}
+
+Contributors must ensure that new or modified files comply with this structure and do not introduce redundant or overlapping functionality.
+
+\section{Code of Conduct}
+
+All contributors are expected to adhere to the project’s Code of Conduct, based on the Contributor Covenant v2.1.  
+In particular:
+\begin{itemize}
+  \item Be respectful and constructive in all discussions;
+  \item Provide technically grounded feedback;
+  \item Avoid personal, political, or institutional bias in reviews;
+  \item Cite authoritative sources when proposing standard or typographic changes.
+\end{itemize}
+
+Violations of the Code of Conduct may result in suspension of contribution privileges.
+
+\section{How to Contribute}
+
+\subsection{Reporting Issues}
+
+Before submitting a new issue, verify that it has not been previously reported.  
+Use the issue tracker to file:
+\begin{itemize}
+  \item Bug reports (unexpected behavior, compilation errors);
+  \item Feature requests (new configuration keys, institutional options);
+  \item Documentation improvements or clarifications.
+\end{itemize}
+
+\paragraph{Bug Reports Should Include:}
+\begin{itemize}
+  \item \gls{novathesis} version and date (from the class header);
+  \item Operating system and \LaTeX{} distribution;
+  \item Compilation engine (\texttt{pdfLaTeX}, \texttt{XeLaTeX}, or \texttt{LuaLaTeX});
+  \item A minimal working example reproducing the issue.
+\end{itemize}
+
+Example command to extract version information:
+\begin{verbatim}
+grep ProvidesClass \gls{novathesis}Files/novathesis.cls
+\end{verbatim}
+
+\subsection{Submitting Patches or Pull Requests}
+
+All contributions must be submitted via GitHub pull requests.  
+Each pull request must:
+\begin{itemize}
+  \item Target the \texttt{develop} branch (never \texttt{main});
+  \item Contain atomic commits addressing a single logical change;
+  \item Pass automated build and regression tests;
+  \item Include updated documentation in the relevant configuration files.
+\end{itemize}
+
+\paragraph{Standard Procedure.}
+\begin{enumerate}
+  \item Fork the repository on GitHub;
+  \item Create a feature branch:
+    \begin{verbatim}
+    git checkout -b feature/new-config-key
+    \end{verbatim}
+  \item Implement and test the modification;
+  \item Commit with a descriptive message:
+    \begin{verbatim}
+    git commit -m "Add institution-specific cover page layout"
+    \end{verbatim}
+  \item Push the branch and open a pull request targeting \texttt{develop}.
+\end{enumerate}
+
+\paragraph{Commit Message Guidelines.}
+\begin{itemize}
+  \item Use the imperative mood (“Add”, “Fix”, “Update”) in subject lines;
+  \item Keep the first line under 72 characters;
+  \item Reference related issue numbers where applicable (e.g., “Fixes \#47”);
+  \item Include a short rationale in the body if necessary.
+\end{itemize}
+
+\section{Development Standards}
+
+\subsection{Class and Package Modifications}
+
+When modifying or extending \texttt{novathesis.cls} or other internal files:
+\begin{itemize}
+  \item Maintain full backward compatibility with existing configuration keys;
+  \item Do not hardcode institutional data or language-dependent strings;
+  \item Use conditional macros and configuration hooks for all institution-specific logic;
+  \item Document all new keys in \texttt{docs/Manual} or inline comments.
+\end{itemize}
+
+\paragraph{Naming Conventions.}
+\begin{itemize}
+  \item Class-level macros: \verb|\nt...| prefix (e.g., \verb|\ntsetup|, \verb|\ntauthor|);
+  \item Internal variables: \verb|\NT@...| prefix (for maintainers only);
+  \item File naming: lowercase, hyphen-separated (e.g., \texttt{nt-cover-ulisboa.sty}).
+\end{itemize}
+
+\subsection{Documentation Updates}
+
+Every feature addition or configuration change must include corresponding updates to:
+\begin{itemize}
+  \item The \texttt{README.md} file;
+  \item The User Manual (this document);
+  \item The \texttt{CHANGELOG.md} file summarizing notable revisions.
+\end{itemize}
+
+All examples provided in the manual must compile without modification under the current release.
+
+\subsection{Testing}
+
+Each contribution must be tested under the following configurations:
+\begin{itemize}
+  \item TeX~Live, MacTeX, and MiKTeX distributions;
+  \item \texttt{pdfLaTeX}, \texttt{XeLaTeX}, and \texttt{LuaLaTeX} engines;
+  \item Linux, macOS, and Windows environments.
+\end{itemize}
+
+The repository includes a Makefile target for automated tests:
+\begin{verbatim}
+make test
+\end{verbatim}
+
+This command verifies successful compilation of all example documents.
+
+\section{Institutional Preset Contributions}
+
+Institutions wishing to integrate their formatting guidelines into \gls{novathesis} should follow the structured preset model.
+
+\paragraph{Procedure.}
+\begin{enumerate}
+  \item Create a new folder under \texttt{\gls{novathesis}Files/Schools/};
+  \item Copy and adapt an existing preset (e.g., \texttt{UNL}, \texttt{FCT});
+  \item Define visual identity files (logo, colors, cover design);
+  \item Update localized strings in \texttt{\gls{novathesis}Files/Strings/};
+  \item Test the preset with a sample thesis project;
+  \item Submit the preset as a pull request with accompanying documentation.
+\end{enumerate}
+
+Each preset must comply with the institutional graphic charter and \gls{novathesis} structure.
+
+\section{Versioning and Release Workflow}
+
+The project uses \textbf{semantic versioning (SemVer)} in the form \texttt{MAJOR.MINOR.PATCH}, e.g., \texttt{7.6.0}.
+
+\paragraph{Policy.}
+\begin{itemize}
+  \item Increment the \texttt{MAJOR} version for incompatible API or class changes;
+  \item Increment the \texttt{MINOR} version for new features that preserve compatibility;
+  \item Increment the \texttt{PATCH} version for bug fixes and minor improvements.
+\end{itemize}
+
+\paragraph{Release Process.}
+\begin{enumerate}
+  \item Merge the \texttt{develop} branch into \texttt{main};
+  \item Tag the release:
+    \begin{verbatim}
+    git tag -a v7.6.1 -m "Minor corrections and documentation update"
+    \end{verbatim}
+  \item Push tags:
+    \begin{verbatim}
+    git push --tags
+    \end{verbatim}
+  \item Generate release notes and update the manual version header.
+\end{enumerate}
+
+\section{License and Intellectual Property}
+
+The \gls{novathesis} Template and all related files are distributed under the \textbf{LaTeX Project Public License (LPPL)} version~1.3c or later.  
+All contributions are accepted under this license to ensure consistent legal status and free academic use.
+
+\paragraph{Contributor Agreement.}
+By submitting a contribution, you agree that:
+\begin{itemize}
+  \item Your work is original and does not infringe third-party rights;
+  \item You license it under the LPPL for redistribution and modification;
+  \item The maintainers may modify or redistribute your contribution under the same terms.
+\end{itemize}
+
+\paragraph{License Reference.}
+\begin{quote}
+LaTeX Project Public License (LPPL), version 1.3c or later.  
+\url{https://www.latex-project.org/lppl.txt}
+\end{quote}
+
+\section{Citation and Acknowledgment of Contributions}
+
+Contributors are credited in the release notes and documentation.  
+Major institutional or code contributions should be cited formally in the project’s reference documentation as:
+
+\begin{quote}
+NOVA University Lisbon. \emph{\gls{novathesis} Template and User Manual}. Version~7.6.0, April~2025.  
+Available at \url{https://github.com/novathesis/novathesis}.
+\end{quote}
+
+Contributors may also include their names in the internal \texttt{AUTHORS.md} file with institutional affiliation and contribution description.
+
+\section{Communication Channels}
+
+\begin{itemize}
+  \item \textbf{GitHub Issues:} primary platform for bug reports and feature requests;
+  \item \textbf{GitHub Discussions:} for usage questions and community support;
+  \item \textbf{Mailing List:} maintained by the \gls{novathesis} coordination team for institutional correspondence;
+  \item \textbf{Release Announcements:} published via GitHub Releases and the official university website.
+\end{itemize}
+
+\section{Deprecation and Backward Compatibility}
+
+\gls{novathesis} maintains backward compatibility for at least two minor versions.  
+Deprecated configuration keys are retained with warning messages before removal.
+
+\paragraph{Policy.}
+\begin{itemize}
+  \item Deprecated keys trigger a log warning: “\texttt{WARNING: Deprecated option in novathesis}”;
+  \item Equivalent replacement keys are documented in the changelog;
+  \item Obsolete features are removed only in major version updates.
+\end{itemize}
+
+\section{Security and Integrity}
+
+To maintain trust in official releases:
+\begin{itemize}
+  \item All release archives are signed using GPG keys of the maintainers;
+  \item Checksums (SHA-256) are published alongside release notes;
+  \item Users are encouraged to verify signatures before installation.
+\end{itemize}
+
+\section{Summary}
+
+The \gls{novathesis} project thrives on community collaboration and academic transparency.  
+These guidelines ensure that every contribution—whether a bug fix, feature enhancement, or institutional preset—is reviewed, tested, documented, and released consistently.  
+By adhering to the governance, testing, and licensing policies described herein, contributors help maintain the template’s reliability, interoperability, and long-term sustainability across institutions and disciplines.

@@ -1,0 +1,277 @@
+%!TEX root = ../template.tex
+
+\chapter{Bibliography and Citation Management}
+\label{chap:bibliography}
+
+\section{Overview}
+
+The management of bibliographic references is a critical aspect of any academic thesis.  
+\gls{novathesis} integrates the \texttt{biblatex} package with the \texttt{biber} backend, offering a modern, flexible, and language-aware citation system.  
+This configuration provides full control over reference styles, multilingual support, and compliance with institutional formatting guidelines.
+
+This chapter explains how to define, cite, and format bibliographic data within the \gls{novathesis} environment, including examples of both numeric and author–year citation schemes.
+
+\section{Bibliography Architecture in \gls{novathesis}}
+
+Bibliographic configuration in \gls{novathesis} is defined across three primary components:
+
+\begin{enumerate}
+  \item The global \texttt{biblatex} setup in \texttt{0-Config/3\_bibliography.tex};
+  \item The bibliography database files (\texttt{.bib}) stored in \texttt{4-Bibliography/};
+  \item The bibliography inclusion command in \texttt{3-BackMatter/appendices.tex} or \texttt{main.tex}.
+\end{enumerate}
+
+The system automatically manages language localization, label formatting, and cross-references between citations and bibliography entries.
+
+\section{Default Configuration}
+
+By default, \gls{novathesis} loads the following settings:
+
+\begin{verbatim}
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  citestyle=authoryear,
+  sorting=nyt,
+  maxbibnames=99,
+  giveninits=true,
+  isbn=false,
+  url=true,
+  doi=true,
+  eprint=true
+]{biblatex}
+
+\addbibresource{4-Bibliography/references.bib}
+\end{verbatim}
+
+This configuration produces an author–year citation style compliant with most academic standards at NOVA University Lisbon.
+
+\paragraph{Main Features.}
+\begin{itemize}
+  \item Full UTF-8 support for multilingual references;
+  \item Automatic hyperlinking to citations and DOIs;
+  \item Compact author lists with initials for first names;
+  \item Sorting by name, year, and title;
+  \item Automatic handling of et~al. abbreviations.
+\end{itemize}
+
+\section{Bibliography Database Structure}
+
+Each entry in a \texttt{.bib} file follows the standard Bib\TeX{} syntax:
+
+\begin{verbatim}
+@article{smith2024energy,
+  author    = {John Smith and Maria Silva},
+  title     = {Renewable Energy Forecasting with Neural Networks},
+  journal   = {Journal of Sustainable Energy},
+  year      = {2024},
+  volume    = {18},
+  number    = {2},
+  pages     = {55--72},
+  doi       = {10.1234/jse.2024.0182}
+}
+\end{verbatim}
+
+Files may contain any number of entries, grouped by type (\texttt{@article}, \texttt{@book}, \texttt{@inproceedings}, etc.).  
+It is best practice to maintain a single, consolidated file such as \texttt{references.bib}.
+
+\paragraph{Recommended Encoding.}
+Always save \texttt{.bib} files in UTF-8 encoding to ensure compatibility with non-English characters.
+
+\section{Adding and Managing Bibliography Files}
+
+To include multiple bibliography databases, use:
+\begin{verbatim}
+\addbibresource{4-Bibliography/books.bib}
+\addbibresource{4-Bibliography/articles.bib}
+\end{verbatim}
+
+Relative paths are recommended for portability.  
+Avoid absolute paths or spaces in filenames.
+
+\section{Citation Commands}
+
+\gls{novathesis} supports all standard \texttt{biblatex} citation commands.
+
+\paragraph{Author–Year Style.}
+\begin{verbatim}
+According to \textcite{smith2024energy}, forecasting accuracy improves...
+\parencite{smith2024energy}
+\end{verbatim}
+
+Output:
+\begin{quote}
+According to Smith and Silva~(2024), forecasting accuracy improves…  
+(Smith and Silva, 2024)
+\end{quote}
+
+\paragraph{Numeric Style.}
+If the numeric style is preferred, change the \texttt{style} and \texttt{citestyle} options:
+\begin{verbatim}
+\usepackage[backend=biber,style=numeric,citestyle=numeric]{biblatex}
+\end{verbatim}
+
+Then use:
+\begin{verbatim}
+\cite{smith2024energy}
+\end{verbatim}
+
+\paragraph{Additional Commands.}
+\begin{description}
+  \item[\texttt{\textbackslash textcite\{\}}] — author name in text, year in parentheses;
+  \item[\texttt{\textbackslash parencite\{\}}] — full citation in parentheses;
+  \item[\texttt{\textbackslash citeauthor\{\}}] — author name only;
+  \item[\texttt{\textbackslash citeyear\{\}}] — year only;
+  \item[\texttt{\textbackslash fullcite\{\}}] — full bibliographic entry inline.
+\end{description}
+
+\section{Printing the Bibliography}
+
+The bibliography is printed automatically at the end of the document.  
+To include it manually, add the following command in the appropriate section:
+
+\begin{verbatim}
+\printbibliography[heading=bibintoc,title={References}]
+\end{verbatim}
+
+This ensures the bibliography appears in both the document and the table of contents.  
+The title will be localized according to the document language.
+
+\section{Language and Localization}
+
+\gls{novathesis} automatically adapts citation labels and reference titles to the current document language.  
+The \texttt{babel} or \texttt{polyglossia} package ensures correct translation of terms such as “editor”, “volume”, “accessed on”, etc.
+
+\paragraph{Example.}
+\begin{verbatim}
+\selectlanguage{portuguese}
+\printbibliography[title={Referências Bibliográficas}]
+\end{verbatim}
+
+\paragraph{Multilingual Documents.}
+When compiling multilingual theses, each bibliography entry retains its original language, while field labels are translated dynamically.
+
+\section{Institutional Citation Styles}
+
+Different faculties within NOVA University may specify preferred citation styles.  
+\gls{novathesis} includes preconfigured styles for:
+\begin{itemize}
+  \item \texttt{authoryear} — default (APA-like);
+  \item \texttt{numeric-comp} — compressed numeric citations;
+  \item \texttt{ieee} — IEEE-style numeric citations for engineering;
+  \item \texttt{chicago-authordate} — humanities and social sciences.
+\end{itemize}
+
+To switch styles, modify:
+\begin{verbatim}
+\usepackage[backend=biber,style=ieee]{biblatex}
+\end{verbatim}
+
+\paragraph{Institutional Presets.}
+Some presets (e.g., \texttt{FCT}, \texttt{NOVAIMS}) apply their own style automatically via the \texttt{school} key in \texttt{1\_novathesis.tex}.
+
+\section{Managing DOIs, URLs, and Access Dates}
+
+\texttt{biblatex} automatically formats DOIs and URLs as hyperlinks when \texttt{hyperref} is active.
+
+\paragraph{Example.}
+\begin{verbatim}
+url    = {https://doi.org/10.1234/abcd.2024},
+urldate= {2024-10-03},
+\end{verbatim}
+
+To hide URLs or DOIs in printed versions:
+\begin{verbatim}
+\AtEveryBibitem{\clearfield{url}\clearfield{doi}}
+\end{verbatim}
+
+\section{Bibliography in Appendices or Separate Sections}
+
+If a thesis contains multiple bibliographies (e.g., one per chapter or appendix), use:
+\begin{verbatim}
+\printbibliography[heading=subbibliography,title={Chapter 2 References},segment=2]
+\end{verbatim}
+
+This requires enabling segmented bibliographies in \texttt{biblatex}:
+\begin{verbatim}
+\usepackage[refsegment=chapter]{biblatex}
+\end{verbatim}
+
+\section{Customizing the Bibliography Layout}
+
+Formatting of the bibliography list can be customized through \texttt{biblatex} options and \gls{novathesis} configuration files.
+
+\paragraph{Changing Font or Spacing.}
+\begin{verbatim}
+\setlength\bibitemsep{0.8\baselineskip}
+\renewcommand*{\bibfont}{\small}
+\end{verbatim}
+
+\paragraph{Adding a Separator Line.}
+\begin{verbatim}
+\defbibheading{bibintoc}{%
+  \section*{#1}\markboth{#1}{#1}\vspace{0.5cm}\hrule\vspace{1cm}}
+\end{verbatim}
+
+\section{Integration with Cross-Referencing}
+
+All citation commands are fully compatible with the \texttt{hyperref} and \texttt{cleveref} systems.  
+When clicking on a citation, readers are directed to the corresponding entry in the bibliography section.  
+Back-references (from bibliography to text) can be enabled with:
+
+\begin{verbatim}
+\usepackage[backref=true]{biblatex}
+\end{verbatim}
+
+This feature is particularly useful in long documents or institutional reviews.
+
+\section{Compiling the Bibliography}
+
+\paragraph{Standard Workflow.}
+\gls{novathesis} compiles the bibliography automatically when using the \texttt{Makefile}.  
+To compile manually:
+
+\begin{verbatim}
+xelatex template.tex
+biber template
+xelatex template.tex
+xelatex template.tex
+\end{verbatim}
+
+\paragraph{Overleaf.}
+Overleaf automatically detects \texttt{biber} as the backend.  
+However, in some cases, users must manually set the bibliography tool to “Biber” under the project’s Compiler settings.  
+For large bibliographies, note that the free Overleaf tier may exceed processing limits.
+
+\section{Validation and Troubleshooting}
+
+\paragraph{Common Issues.}
+\begin{itemize}
+  \item \textbf{Undefined citations:} Re-run \texttt{biber} after the first \LaTeX{} compilation.
+  \item \textbf{Character encoding errors:} Ensure \texttt{.bib} files are UTF-8 encoded.
+  \item \textbf{Duplicate entries:} Each citation key must be unique across all databases.
+  \item \textbf{Incorrect sorting:} Adjust the \texttt{sorting} option (e.g., \texttt{nyt}, \texttt{ynt}, or \texttt{none}).
+\end{itemize}
+
+\paragraph{Debugging.}
+Use the following commands to inspect bibliography logs:
+\begin{verbatim}
+biber --debug template
+cat template.blg
+\end{verbatim}
+
+\section{Best Practices}
+
+\begin{enumerate}
+  \item Maintain a single master \texttt{.bib} file under version control;
+  \item Always include a DOI or URL when available;
+  \item Use sentence case for titles unless required otherwise;
+  \item Keep citation keys descriptive (e.g., \texttt{lastnameYYYYkeyword});
+  \item Verify consistency in author name spelling across entries;
+  \item Test the bibliography under both screen and print modes.
+\end{enumerate}
+
+\section{Summary}
+
+\gls{novathesis} offers a modern and extensible bibliography management system based on \texttt{biblatex} and \texttt{biber}, ensuring consistency, multilingual adaptability, and compliance with institutional citation standards.  
+By following the configuration and best practices outlined in this chapter, authors can produce clean, fully linked bibliographies that integrate seamlessly with the thesis structure and metadata system.

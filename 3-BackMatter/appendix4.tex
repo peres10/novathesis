@@ -1,0 +1,261 @@
+%!TEX root = ../template.tex
+
+\chapter{Adding a New Language}
+\label{chap:newlanguage}
+
+\section{Overview}
+
+NOVAthesis is designed to support multilingual theses through an extensible localization framework.  
+By default, it includes English and Portuguese translations for all interface elements (captions, lists, front matter labels, and metadata).  
+However, additional languages can be added easily without altering the core class files.
+
+This chapter describes how to define a new language, configure translations, adjust typographic conventions, and ensure full compatibility with \texttt{babel} or \texttt{polyglossia}.  
+It also provides best practices for testing and maintaining new language modules.
+
+\section{Localization Framework in NOVAthesis}
+
+Localization in NOVAthesis is handled through modular string definition files located in:
+
+\begin{quote}
+\texttt{NOVAthesisFiles/Strings/}
+\end{quote}
+
+Each file defines the translation of all labels, captions, and terms required for the template.  
+For example:
+
+\begin{verbatim}
+NOVAthesisFiles/Strings/english.ldf
+NOVAthesisFiles/Strings/portuguese.ldf
+\end{verbatim}
+
+To add a new language, create a new file (e.g., \texttt{french.ldf}) and define the localized strings following the same structure.
+
+\section{Creating a New Language File}
+
+\paragraph{Step 1 — Create the File.}
+Copy an existing language file and rename it according to the target language code:
+
+\begin{verbatim}
+cp NOVAthesisFiles/Strings/english.ldf NOVAthesisFiles/Strings/french.ldf
+\end{verbatim}
+
+\paragraph{Step 2 — Define Language Metadata.}
+At the top of the file, declare the language properties:
+
+\begin{verbatim}
+% french.ldf — NOVAthesis language definition
+% Encoding: UTF-8
+\ProvidesFile{french.ldf}[2025/04/15 French translations for NOVAthesis]
+\def\NT@langname{french}
+\def\NT@langlabel{Français}
+\end{verbatim}
+
+\paragraph{Step 3 — Translate the Strings.}
+Each string is defined with the command:
+\begin{verbatim}
+\ntstringdef{<key>}{<translation>}
+\end{verbatim}
+
+\paragraph{Example.}
+\begin{verbatim}
+\ntstringdef{abstractname}{Résumé}
+\ntstringdef{acknowledgmentsname}{Remerciements}
+\ntstringdef{contentsname}{Table des matières}
+\ntstringdef{listfigurename}{Liste des figures}
+\ntstringdef{listtablename}{Liste des tableaux}
+\ntstringdef{bibname}{Références bibliographiques}
+\ntstringdef{appendixname}{Annexe}
+\ntstringdef{supervisorname}{Directeur de thèse}
+\ntstringdef{degreeprefix}{Thèse de Doctorat}
+\end{verbatim}
+
+Ensure that all relevant keys are included.  
+The full list of supported keys is documented in \texttt{english.ldf} and \texttt{portuguese.ldf}.
+
+\paragraph{Step 4 — Save Using UTF-8 Encoding.}
+All `.ldf` files must be saved in UTF-8 encoding to preserve special characters and diacritics.
+
+\section{Registering the New Language}
+
+After creating the file, the new language must be registered in the global configuration.
+
+\paragraph{Step 1 — Declare the Language in the Main File.}
+In \texttt{1\_novathesis.tex}, modify:
+
+\begin{verbatim}
+\ntsetup{
+  mainlanguage=french,
+  otherlanguages={english,portuguese}
+}
+\end{verbatim}
+
+\paragraph{Step 2 — Ensure Package Compatibility.}
+For XeLaTeX or LuaLaTeX, NOVAthesis uses \texttt{polyglossia}.  
+For pdfLaTeX, it uses \texttt{babel}.  
+Both require that the new language be supported by the system TeX distribution.
+
+\paragraph{For \texttt{polyglossia}:}
+\begin{verbatim}
+\setdefaultlanguage{french}
+\setotherlanguages{english,portuguese}
+\end{verbatim}
+
+\paragraph{For \texttt{babel}:}
+\begin{verbatim}
+\usepackage[french,english,portuguese]{babel}
+\selectlanguage{french}
+\end{verbatim}
+
+If the target language is not included in TeX~Live, install its corresponding package (e.g., \texttt{texlive-lang-french}).
+
+\section{Testing the New Language}
+
+Compile the document with the new language set as the main language:
+
+\begin{verbatim}
+make MODE=working MEDIA=screen xe
+\end{verbatim}
+
+Verify the following:
+\begin{itemize}
+  \item The title page and front matter labels display correctly;
+  \item Section titles (e.g., “Chapter”, “Figure”, “Table”) are localized;
+  \item Lists of figures and tables use the correct captions;
+  \item Glossary and bibliography headings appear in the target language;
+  \item PDF metadata (Title, Author, Keywords) include the translated values.
+\end{itemize}
+
+\section{Multilingual Compilation}
+
+NOVAthesis allows simultaneous inclusion of multiple languages in the same document.  
+To use multiple languages dynamically:
+
+\begin{verbatim}
+\selectlanguage{english}
+\chapter{Introduction}
+
+\selectlanguage{french}
+\chapter{Méthodologie}
+
+\selectlanguage{portuguese}
+\chapter{Resultados}
+\end{verbatim}
+
+When switching languages, NOVAthesis automatically updates labels, figure captions, and cross-reference text through its internal localization mechanism.
+
+\section{Translating Metadata Fields}
+
+Metadata such as titles, abstracts, and keywords must also be localized using language-specific keys.
+
+\paragraph{Example.}
+\begin{verbatim}
+\nttitle(main,en){Machine Learning for Climate Prediction}
+\nttitle(main,fr){Apprentissage automatique pour la prévision climatique}
+\ntabstract(fr){
+Cette thèse présente des modèles d'apprentissage automatique pour la prévision climatique.
+}
+\ntkeywords(fr){apprentissage, prévision, climat, intelligence artificielle}
+\end{verbatim}
+
+NOVAthesis automatically selects the correct variant based on the active language.
+
+\section{Language-Specific Typography and Formatting}
+
+Different languages require specific typographic conventions.  
+When adding a new language, review the following parameters:
+
+\begin{itemize}
+  \item \textbf{Quotation marks:} adjust via \texttt{\textbackslash frenchspacing} or language-specific macros;
+  \item \textbf{Date format:} redefine with \texttt{\textbackslash today};
+  \item \textbf{Hyphenation patterns:} ensure the language dictionary is installed;
+  \item \textbf{Decimal and thousands separators:} controlled by \texttt{siunitx};
+  \item \textbf{Font choices:} select a font family that supports all required glyphs.
+\end{itemize}
+
+\paragraph{Example (French typography).}
+\begin{verbatim}
+\frenchspacing
+\renewcommand{\today}{\number\day~\ifcase\month\or
+janvier\or février\or mars\or avril\or mai\or juin\or
+juillet\or août\or septembre\or octobre\or novembre\or décembre\fi~\number\year}
+\end{verbatim}
+
+\section{Right-to-Left and Non-Latin Languages}
+
+For right-to-left (RTL) scripts such as Arabic, Hebrew, or Persian, compilation with \texttt{XeLaTeX} or \texttt{LuaLaTeX} is mandatory.  
+NOVAthesis inherits directionality handling from \texttt{polyglossia}.
+
+\paragraph{Example.}
+\begin{verbatim}
+\setmainlanguage{arabic}
+\setotherlanguages{english}
+\newfontfamily\arabicfont[Script=Arabic]{Amiri}
+\end{verbatim}
+
+RTL languages may also require localized class adaptations for page numbering, table alignment, and chapter heading direction.
+
+\section{Integration with Glossaries and Bibliography}
+
+When using glossaries and bibliographies in multiple languages, ensure that translations are provided for all glossary entries and that the bibliography style supports multilingual fields.
+
+\paragraph{Glossary Example.}
+\begin{verbatim}
+\newglossaryentry{energy}{
+  name={énergie},
+  description={Capacité d'un système à effectuer un travail}
+}
+\end{verbatim}
+
+\paragraph{Bibliography Example.}
+\begin{verbatim}
+@book{dupont2024ai,
+  author  = {Jean Dupont},
+  title   = {Apprentissage profond et systèmes intelligents},
+  year    = {2024},
+  langid  = {french},
+  publisher = {Presses Universitaires de Paris}
+}
+\end{verbatim}
+
+\texttt{biblatex} uses the \texttt{langid} field to format entries according to the target language.
+
+\section{Testing and Validation Checklist}
+
+Before releasing a new language file, verify the following:
+
+\begin{itemize}
+  \item [ ] All string keys defined in \texttt{english.ldf} are translated;
+  \item [ ] File encoding is UTF-8;
+  \item [ ] The language compiles under both XeLaTeX and pdfLaTeX;
+  \item [ ] Accented characters and special punctuation render correctly;
+  \item [ ] Captions, headings, and metadata appear in the target language;
+  \item [ ] The glossary and bibliography correctly localize labels;
+  \item [ ] Documentation includes acknowledgment of the translator.
+\end{itemize}
+
+\section{Submitting a New Language to the Project}
+
+Once validated, new language files may be contributed to the official repository.
+
+\paragraph{Procedure.}
+\begin{enumerate}
+  \item Fork the NOVAthesis repository;
+  \item Add the new file under \texttt{NOVAthesisFiles/Strings/};
+  \item Test with \texttt{make test};
+  \item Update the documentation (in this manual);
+  \item Submit a pull request with:
+    \begin{itemize}
+      \item The new \texttt{.ldf} file;
+      \item Example configuration snippet;
+      \item Translator’s name and institution.
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{License.}
+Language contributions are accepted under the same LPPL license as the rest of the project.
+
+\section{Summary}
+
+Adding a new language to NOVAthesis is a straightforward and modular process.  
+By creating a new \texttt{.ldf} file, registering it in the configuration, and testing it under multiple compilation engines, contributors can expand the template’s multilingual capabilities without altering its core logic.  
+This approach promotes inclusivity, international collaboration, and full linguistic accessibility in academic publishing.

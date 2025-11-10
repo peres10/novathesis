@@ -1,0 +1,279 @@
+%!TEX root = ../template.tex
+
+\chapter{Adding a New Chapter Theme}
+\label{chap:newchaptertheme}
+
+\section{Overview}
+
+NOVAthesis uses a modular system to define the visual appearance of chapter and section titles.  
+These designs, known as \emph{chapter themes}, determine how chapter numbers, titles, subtitles, and spacing are formatted throughout the document.
+
+A chapter theme defines not only typography, but also geometry, alignment, color, and decorative elements (such as rules, boxes, or background panels).  
+This modular approach allows institutions to implement specific visual identities without altering the core class or template logic.
+
+This chapter describes how to create a new chapter theme, integrate it into the existing system, and test it for visual consistency and compliance with academic standards.
+
+\section{Theme Architecture and File Structure}
+
+All chapter themes are stored in the directory:
+
+\begin{quote}
+\texttt{NOVAthesisFiles/ChapterStyles/}
+\end{quote}
+
+Each file defines a single theme using the naming convention:
+
+\begin{verbatim}
+nt-chapter-<theme>.sty
+\end{verbatim}
+
+Examples distributed with the template include:
+
+\begin{verbatim}
+nt-chapter-default.sty
+nt-chapter-modern.sty
+nt-chapter-simple.sty
+nt-chapter-fct.sty
+\end{verbatim}
+
+Themes are selected via the configuration key:
+
+\begin{verbatim}
+\ntsetup{chapterstyle=<theme>}
+\end{verbatim}
+
+\paragraph{Example.}
+\begin{verbatim}
+\ntsetup{
+  chapterstyle=modern,
+  font=palatino,
+  mode=final
+}
+\end{verbatim}
+
+This command automatically loads \texttt{NOVAthesisFiles/ChapterStyles/nt-chapter-modern.sty}.
+
+\section{Structure of a Chapter Theme File}
+
+Each chapter theme file defines:
+\begin{enumerate}
+  \item The style for chapter titles;
+  \item Optional redefinitions for section, subsection, and part headings;
+  \item Visual spacing and alignment rules;
+  \item Optional background or decorative elements.
+\end{enumerate}
+
+\paragraph{Example Skeleton.}
+\begin{verbatim}
+% nt-chapter-minimal.sty — NOVAthesis chapter theme (Minimal)
+% Encoding: UTF-8
+\ProvidesPackage{nt-chapter-minimal}[2025/04/20 Minimal chapter style for NOVAthesis]
+
+% 1. Load dependencies
+\RequirePackage{titlesec}
+\RequirePackage{xcolor}
+
+% 2. Define color scheme
+\definecolor{ChapterColor}{RGB}{0, 55, 133}
+
+% 3. Chapter title format
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{ChapterColor}}
+  {\filcenter\MakeUppercase{\chaptername}~\thechapter}
+  {0.5em}
+  {\filcenter}
+  [\vspace{1em}\titlerule]
+
+% 4. Chapter spacing
+\titlespacing*{\chapter}{0pt}{-2em}{3em}
+
+% 5. Section and subsection styles (optional)
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{ChapterColor}}
+  {\thesection}{1em}{}
+
+\titlespacing*{\section}{0pt}{2em}{1em}
+\end{verbatim}
+
+This example defines a clean, centered layout with a colored chapter number and a horizontal rule below the title.
+
+\section{Naming Conventions}
+
+\begin{itemize}
+  \item File names must follow the pattern \texttt{nt-chapter-<name>.sty};
+  \item The internal \texttt{\textbackslash ProvidesPackage} declaration must match the file name;
+  \item The value of \texttt{<name>} is used as the key for \texttt{\textbackslash ntsetup\{chapterstyle=<name>\}};
+  \item Each theme must be self-contained and must not redefine unrelated elements.
+\end{itemize}
+
+\paragraph{Example.}
+\begin{verbatim}
+File: nt-chapter-academic.sty
+Call: \ntsetup{chapterstyle=academic}
+\end{verbatim}
+
+\section{Customization Parameters}
+
+NOVAthesis provides configuration hooks for chapter formatting through \texttt{titlesec}.  
+Themes can adjust the following parameters:
+
+\begin{description}
+  \item[\texttt{display}] — show the chapter number and title on separate lines;
+  \item[\texttt{hang}] — indent title text under the number label;
+  \item[\texttt{runin}] — display number and title on the same line;
+  \item[\texttt{block}] — align number and title in a framed block.
+\end{description}
+
+\paragraph{Example (Left-Aligned Style).}
+\begin{verbatim}
+\titleformat{\chapter}[hang]
+  {\normalfont\Huge\bfseries}
+  {\thechapter.}{1em}{}
+\titlespacing*{\chapter}{0pt}{-1em}{1em}
+\end{verbatim}
+
+\section{Integration with Institutional Presets}
+
+Institutions may define their own official chapter style files under:
+
+\begin{verbatim}
+NOVAthesisFiles/Schools/<Institution>/ChapterStyles/
+\end{verbatim}
+
+Each institutional preset can reference its preferred theme using:
+
+\begin{verbatim}
+\ntsetup{chapterstyle=fct}
+\end{verbatim}
+
+During compilation, NOVAthesis checks for a matching theme in the institutional folder before loading the default from \texttt{ChapterStyles/}.
+
+\section{Color and Font Coordination}
+
+To maintain visual coherence, each chapter theme should use the same color palette and font configuration as the selected \texttt{font} and \texttt{color} themes.
+
+\paragraph{Example (Coordinated Style).}
+\begin{verbatim}
+\definecolor{InstitutionColor}{RGB}{15, 85, 150}
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{InstitutionColor}\sffamily}
+  {\MakeUppercase{\chaptername}~\thechapter}
+  {0.5em}
+  {\filcenter}
+  [\vspace{0.5em}\titlerule]
+\end{verbatim}
+
+When a theme specifies colors or fonts, it should respect the currently active font theme and color scheme unless explicitly overridden.
+
+\section{Optional Subtitle Support}
+
+Some institutions include optional chapter subtitles.  
+These can be defined by extending the formatting command:
+
+\begin{verbatim}
+\titleformat{name=\chapter,numberless}[display]
+  {\normalfont\Huge\bfseries}
+  {}
+  {0pt}
+  {\filcenter}
+  [\vspace{1em}\Large\itshape\@subtitle]
+\end{verbatim}
+
+The subtitle variable (\texttt{\@subtitle}) can be set via:
+
+\begin{verbatim}
+\renewcommand{\@subtitle}{Optional subtitle text}
+\end{verbatim}
+
+\section{Advanced Design Techniques}
+
+More elaborate themes may incorporate graphical or decorative elements, such as background shapes or colored boxes.
+
+\paragraph{Example (Framed Chapter Title).}
+\begin{verbatim}
+\RequirePackage{tikz}
+
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries}
+  {}
+  {0pt}{
+    \begin{tikzpicture}[remember picture,overlay]
+      \node[fill=gray!20,rounded corners=5pt,
+        inner sep=10pt,text width=\textwidth-2cm]{
+        \centering\color{black}\chaptername~\thechapter\\[5pt]
+        \Large\bfseries\MakeUppercase{#1}
+      };
+    \end{tikzpicture}
+  }
+\end{verbatim}
+
+Themes using TikZ or other graphical elements must load their packages locally to avoid conflicts with other modules.
+
+\section{Testing and Validation}
+
+Before finalizing a new chapter theme, perform a visual inspection of:
+
+\begin{itemize}
+  \item [ ] Chapter title spacing and alignment;
+  \item [ ] Consistent number formatting and case usage;
+  \item [ ] Page break behavior before and after chapter openings;
+  \item [ ] Compatibility with section headings, TOC entries, and bookmarks;
+  \item [ ] Consistency in print and screen modes.
+\end{itemize}
+
+\paragraph{Recommended Test Build.}
+\begin{verbatim}
+make MODE=provisional chapterstyle=academic xe
+\end{verbatim}
+
+\paragraph{Preview Mode.}
+Use:
+\begin{verbatim}
+make preview
+\end{verbatim}
+to compile quickly without glossary or bibliography.
+
+\section{Integration with the NOVAthesis Configuration System}
+
+Each theme is automatically registered when placed in the correct folder.  
+The class loads the file according to the following order of precedence:
+
+\begin{enumerate}
+  \item Custom file in the project’s local \texttt{0-Config/} folder;
+  \item Institutional theme in \texttt{NOVAthesisFiles/Schools/<School>/ChapterStyles/};
+  \item Generic theme in \texttt{NOVAthesisFiles/ChapterStyles/};
+  \item Fallback to \texttt{nt-chapter-default.sty}.
+\end{enumerate}
+
+This hierarchy allows safe institutional overrides while maintaining backward compatibility.
+
+\section{Packaging and Contribution Guidelines}
+
+To contribute a new chapter theme to the official repository:
+
+\begin{enumerate}
+  \item Place the file in \texttt{NOVAthesisFiles/ChapterStyles/};
+  \item Include a descriptive header with version, author, and date;
+  \item Follow naming conventions and coding standards shown above;
+  \item Include a sample PDF demonstrating the visual layout;
+  \item Submit a pull request referencing the NOVAthesis version.
+\end{enumerate}
+
+All contributions must comply with the LPPL license and include only original design work or redistributable graphical assets.
+
+\section{Troubleshooting}
+
+\paragraph{Common Issues.}
+\begin{itemize}
+  \item \textbf{Chapter numbers missing:} Ensure the \texttt{titlesec} style includes \texttt{\textbackslash thechapter};
+  \item \textbf{Inconsistent spacing:} Adjust vertical skips using \texttt{\textbackslash titlespacing*};
+  \item \textbf{Color not applied:} Check that \texttt{xcolor} is loaded and the color name matches the theme palette;
+  \item \textbf{Compilation errors:} Ensure the file uses UTF-8 encoding and does not redefine class macros directly.
+\end{itemize}
+
+\section{Summary}
+
+NOVAthesis chapter themes provide a flexible mechanism for customizing the visual presentation of chapter titles while maintaining full structural compatibility with the class.  
+By creating a new \texttt{nt-chapter-<name>.sty} file, users can implement institutional branding or stylistic preferences without modifying the template core.  
+Adhering to the structure, naming conventions, and testing procedures described here ensures consistent, professional-quality output across all thesis projects.

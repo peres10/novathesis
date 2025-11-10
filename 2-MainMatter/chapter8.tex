@@ -1,0 +1,297 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter8.tex
+%% NOVA thesis document file
+%%
+%% Chapter with lots of dummy text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE chapter8.tex}%
+
+\chapter{Multi-language Support}
+\label{chap:multilanguage}
+
+\section{Overview}
+
+\gls{novathesis} provides comprehensive multilingual capabilities, enabling users to produce theses in one or more languages with full localization of structural elements such as titles, captions, and lists.  
+Language management is built upon the standard \texttt{babel} and \texttt{polyglossia} frameworks, depending on the selected engine, and integrates seamlessly with the class configuration system.
+
+This chapter describes how to configure document languages, define multilingual abstracts, manage localized metadata, and ensure consistent formatting across all language sections.  
+It also outlines advanced techniques for bilingual and multilingual theses.
+
+\section{Supported Languages}
+
+\gls{novathesis} includes predefined string sets for the following languages:
+
+\begin{center}
+\texttt{EN} (English),  
+\texttt{PT} (Portuguese),  
+\texttt{ES} (Spanish),  
+\texttt{FR} (French),  
+\texttt{DE} (German),  
+\texttt{IT} (Italian),  
+\texttt{GR} (Greek),  
+\texttt{UK} (Ukrainian).
+\end{center}
+
+Each language provides localized labels for chapter titles, lists of figures and tables, appendices, and cover-page elements.  
+Additional languages can be defined by creating a new file in \texttt{\gls{novathesis}Files/Strings/} (see Chapter~\ref{sec:new-language}).
+
+\section{Language Architecture}
+
+\gls{novathesis} distinguishes between three levels of language configuration:
+
+\begin{description}
+  \item[\textbf{Main Language}] — Governs the language of the entire document, including headings, captions, and the main body text.
+  \item[\textbf{Abstract Languages}] — Defines the set of languages in which abstracts are provided.
+  \item[\textbf{Extra Languages}] — Enables occasional translations, quotations, or bilingual text fragments within the document.
+\end{description}
+
+All language behavior is controlled by the \verb|\ntsetup| keys in \texttt{0-Config/1\_novathesis.tex}.
+
+\section{Setting the Main Language}
+\label{sec:main-language}
+
+The main document language is selected using the \texttt{mainlanguage} key:
+
+\begin{verbatim}
+\ntsetup{mainlanguage=pt}
+\end{verbatim}
+
+Accepted values correspond to the two-letter ISO codes listed above.  
+This determines:
+\begin{itemize}
+  \item The default hyphenation and typographic conventions;
+  \item Localization of structural strings (chapter, figure, table, appendix, etc.);
+  \item The order and naming of automatically generated lists and tables of contents;
+  \item The primary language for front-matter metadata and cover elements.
+\end{itemize}
+
+\paragraph{Example: English Thesis}
+\begin{verbatim}
+\ntsetup{mainlanguage=en}
+\end{verbatim}
+The entire document, including chapter headings and captions, will appear in English.
+
+\section{Adding Secondary and Abstract Languages}
+\label{sec:abstract-languages}
+
+To include additional languages (typically for abstracts), declare them as a comma-separated list in the \texttt{abstractorder} key:
+
+\begin{verbatim}
+\ntsetup{abstractorder={pt,en}}
+\end{verbatim}
+
+This example generates two abstracts: first in Portuguese, then in English.  
+Each abstract must have a corresponding file declared in \texttt{0-Config/4\_files.tex}:
+
+\begin{verbatim}
+% 0-Config/4_files.tex
+\ntaddfile{abstract}[pt]{abstract-pt}
+\ntaddfile{abstract}[en]{abstract-en}
+\end{verbatim}
+
+\paragraph{Automatic Localization.}
+Each abstract automatically uses the correct localized title (“Resumo”, “Abstract”, etc.) and follows the typographic conventions of its respective language.
+
+\paragraph{Example: Bilingual Abstract Files.}
+
+\begin{verbatim}
+% 1-FrontMatter/abstract-pt.tex
+\begin{abstract}
+  Este trabalho analisa a aplicação de algoritmos de aprendizagem automática
+  em séries temporais financeiras. Foram exploradas técnicas supervisionadas
+  e não supervisionadas com foco na previsibilidade e estabilidade.
+\end{abstract}
+
+% 1-FrontMatter/abstract-en.tex
+\begin{abstract}
+  This work analyzes the application of machine learning algorithms
+  to financial time-series data. Both supervised and unsupervised
+  approaches were explored, emphasizing predictability and stability.
+\end{abstract}
+\end{verbatim}
+
+\section{Localized Metadata}
+\label{sec:localized-metadata}
+
+\gls{novathesis} allows most metadata fields to be defined in multiple languages using the same \verb|\ntsetup| interface.  
+The class automatically selects the version corresponding to the current language context.
+
+\paragraph{Example: Thesis Title and Keywords.}
+\begin{verbatim}
+\nttitle(main,pt){Análise de Dados Climáticos}
+\nttitle(main,en){Climate Data Analysis}
+
+\ntkeywords(pt){Meteorologia, Modelação, Previsão}
+\ntkeywords(en){Meteorology, Modelling, Forecasting}
+\end{verbatim}
+
+When generating the front matter and covers, \gls{novathesis} will automatically display the correct titles and keywords for each language context.
+
+\paragraph{Optional subtitles.}
+Subtitles can also be defined per language:
+\begin{verbatim}
+\nttitle(sub,pt){Modelos Estatísticos e Aprendizagem Automática}
+\nttitle(sub,en){Statistical Models and Machine Learning}
+\end{verbatim}
+
+\section{Changing Language within the Document}
+
+Occasionally, users may need to insert text or quotations in a language other than the main one.  
+The command \verb|\foreignlanguage| may be used directly:
+
+\begin{verbatim}
+\foreignlanguage{pt}{A aprendizagem automática é uma área em rápido crescimento.}
+\end{verbatim}
+
+This ensures correct hyphenation and punctuation rules for the inserted text.  
+In XeLaTeX and LuaLaTeX, \gls{novathesis} automatically selects the appropriate font encodings through \texttt{fontspec}.
+
+\section{Multilingual Captions and Cross-References}
+
+Captions for figures and tables follow the current language context automatically.  
+When working in a mixed-language document, use \verb|\selectlanguage{<code>}| to enforce specific localization before a float environment.
+
+\begin{verbatim}
+\selectlanguage{en}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{5-Figures/sample}
+  \caption{Example of a multilingual caption.}
+\end{figure}
+
+\selectlanguage{pt}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{5-Figures/sample}
+  \caption{Exemplo de legenda multilíngue.}
+\end{figure}
+\end{verbatim}
+
+\section{Bilingual Theses}
+\label{sec:bilingual-thesis}
+
+Some institutions require bilingual theses, where the abstract, keywords, and sometimes chapter titles appear in two languages.  
+\gls{novathesis} supports this through the coordinated use of the \texttt{mainlanguage} and \texttt{abstractorder} keys.
+
+\subsection{Recommended Configuration}
+
+\begin{verbatim}
+\ntsetup{
+  mainlanguage=en,
+  abstractorder={pt,en},
+  lang/extra={pt}
+}
+\end{verbatim}
+
+This configuration produces an English thesis with Portuguese as a secondary language for abstracts and optional quotations.
+
+\subsection{Localized Lists and Captions}
+
+All “List of …” elements (Figures, Tables, Glossaries) automatically use the language of the main document.  
+To provide translated captions or headings, redefine only the necessary strings via \verb|\ntlangsetup|:
+
+\begin{verbatim}
+\ntlangsetup{pt/listfigurename=Lista de Figuras}
+\ntlangsetup{pt/listtablename=Lista de Tabelas}
+\end{verbatim}
+
+\section{Defining a New Language}
+\label{sec:defining-new-language}
+
+If your thesis requires a language not shipped with \gls{novathesis}, follow these steps:
+
+\begin{enumerate}
+  \item Create a new file in \texttt{\gls{novathesis}Files/Strings/}, named after the language code, e.g.,
+  \begin{verbatim}
+  \gls{novathesis}Files/Strings/sv.tex
+  \end{verbatim}
+  for Swedish.
+  \item Copy the structure of an existing file (e.g., \texttt{en.tex}) and translate all values:
+  \begin{verbatim}
+  \ntlangsetup{
+    sv/chaptername=Kapitel,
+    sv/contentsname=Innehåll,
+    sv/figuresname=Figurer,
+    sv/tablesname=Tabeller,
+    sv/appendixname=Bilaga
+  }
+  \end{verbatim}
+  \item Update \texttt{1\_novathesis.tex}:
+  \begin{verbatim}
+  \ntsetup{mainlanguage=sv}
+  \end{verbatim}
+  \item Compile using XeLaTeX or LuaLaTeX (required for Unicode languages).
+\end{enumerate}
+
+\section{Right-to-Left (RTL) Languages}
+
+For languages such as Arabic or Hebrew, XeLaTeX and LuaLaTeX provide native right-to-left text rendering through \texttt{polyglossia}.  
+\gls{novathesis} detects and configures \texttt{polyglossia} automatically when an RTL language is selected as the main language.
+
+\paragraph{Example:}
+\begin{verbatim}
+\ntsetup{mainlanguage=he}
+\end{verbatim}
+
+Ensure that the fonts chosen in \texttt{1\_novathesis.tex} support the corresponding script, for example:
+
+\begin{verbatim}
+\setmainfont{Amiri}
+\setsansfont{Scheherazade New}
+\end{verbatim}
+
+\section{Multilingual Bibliography}
+
+The bibliography system supports multilingual entries through \texttt{biblatex}.  
+Each entry can include language tags:
+\begin{verbatim}
+@book{example2024,
+  author    = {M. Silva},
+  title     = {Introdução à Modelação},
+  year      = {2024},
+  language  = {portuguese}
+}
+\end{verbatim}
+
+\paragraph{Automatic Localization.}
+When the \texttt{babel} package is active, bibliography headings and reference labels are automatically translated according to the main document language.
+
+To print the bibliography in multiple languages, load \texttt{biblatex} with the \texttt{autolang=other} option in \texttt{2\_biblatex.tex}:
+\begin{verbatim}
+\ntbibsetup{
+  backend=biber,
+  autolang=other
+}
+\end{verbatim}
+
+\section{Best Practices for Multilingual Documents}
+
+\begin{enumerate}
+  \item Define the main language first; add secondary ones only as required.
+  \item Maintain one abstract file per language, clearly named.
+  \item Do not mix multiple languages in a single paragraph; switch context explicitly.
+  \item Use XeLaTeX or LuaLaTeX for Unicode and OpenType font compatibility.
+  \item Verify that hyphenation patterns and quotation marks are correct in each language.
+  \item Ensure that all metadata fields (titles, keywords, degree name) have corresponding translations.
+  \item Check the cover page output for correct accent rendering.
+\end{enumerate}
+
+\section{Common Issues and Solutions}
+
+\paragraph{Accented characters not displaying.}
+Ensure all files are UTF-8 encoded and that the selected fonts support the necessary characters.
+
+\paragraph{Wrong language on cover or abstract.}
+Verify that only one instance of each \verb|\nttitle(main,<lang>)| or \verb|\ntdegreename(<lang>)| pair is active.  
+If multiple definitions are provided for the same language, the last one will take precedence.
+
+\paragraph{Hyphenation errors or mixed punctuation.}
+Confirm that the correct main language is set in \texttt{1\_novathesis.tex} and that the proper language package (\texttt{babel} or \texttt{polyglossia}) is loaded automatically by the class.
+
+\section{Summary}
+
+\gls{novathesis} provides robust, flexible multilingual capabilities that cover every aspect of academic document preparation—from abstracts and metadata to captions, covers, and bibliography.  
+By combining institutional presets with standard \LaTeX{} language mechanisms, users can prepare bilingual or multilingual theses effortlessly, without modifying the core class.  
+Adhering to the configuration principles described in this chapter ensures linguistic accuracy, typographic consistency, and full compliance with institutional submission standards.

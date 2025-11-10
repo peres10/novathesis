@@ -1,0 +1,287 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter13.tex
+%% NOVA thesis document file
+%%
+%% Chapter with lots of dummy text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE chapter13.tex}%
+
+\chapter{Printing, Submission, and Archiving}
+\label{chap:printing}
+
+\section{Overview}
+
+The final stage of thesis preparation involves generating the definitive document for submission, publication, and long-term preservation.  
+\gls{novathesis} provides explicit mechanisms for producing print-ready and digital versions, ensuring typographic consistency, metadata accuracy, and compliance with institutional and archival standards.
+
+This chapter explains how to configure and verify the output mode, prepare the thesis for submission, and archive all necessary files for institutional repositories and digital libraries.
+
+\section{Output Modes and Media Configuration}
+
+\gls{novathesis} distinguishes between several build and media modes that govern hyperlink appearance, color usage, watermarking, and inclusion of draft marks.  
+These modes are defined in the configuration file \texttt{0-Config/1\_novathesis.tex}.
+
+\paragraph{Example.}
+\begin{verbatim}
+\ntsetup{
+  mode=final,
+  media=screen
+}
+\end{verbatim}
+
+\begin{description}
+  \item[\texttt{mode}] — controls internal settings such as watermark visibility and compilation strictness:
+    \begin{itemize}
+      \item \texttt{working} — for drafting, includes TODO notes and colored boxes;
+      \item \texttt{provisional} — for near-final review, without watermark but with colored links;
+      \item \texttt{final} — for official submission; disables all draft features.
+    \end{itemize}
+  \item[\texttt{media}] — determines color profile and link appearance:
+    \begin{itemize}
+      \item \texttt{screen} — colored hyperlinks, optimized for digital reading;
+      \item \texttt{paper} — black hyperlinks, optimized for grayscale printing.
+    \end{itemize}
+\end{description}
+
+\paragraph{Command-Line Override.}
+Modes may also be set during compilation:
+\begin{verbatim}
+make MODE=final MEDIA=paper xe
+\end{verbatim}
+
+\section{Verifying the Final Document}
+
+Before printing or submission, confirm the following:
+
+\begin{enumerate}
+  \item All front matter elements (title page, abstracts, acknowledgments) are present and updated;
+  \item No visible TODO notes or draft indicators remain;
+  \item Hyperlinks are functional and appear as black (for print) or colored (for digital);
+  \item Table of contents, lists of figures/tables, and bibliography are complete;
+  \item Fonts are embedded, and the PDF complies with institutional requirements.
+\end{enumerate}
+
+Run a full clean build to remove temporary files and regenerate all references:
+\begin{verbatim}
+make clean-all
+make xe
+\end{verbatim}
+
+\section{Printing Configuration}
+
+\paragraph{Paper Size and Margins.}
+\gls{novathesis} defaults to A4 paper (\SI{210}{\milli\meter} × \SI{297}{\milli\meter}), the standard for European academic submissions.  
+Margins are defined in \texttt{0-Config/0\_memoir.tex} and follow institutional standards (usually 2.5~cm inner, 3.0~cm outer, 2.5~cm top and bottom).  
+To adjust:
+
+\begin{verbatim}
+\settrimmedsize{297mm}{210mm}{*}
+\settrims{0pt}{0pt}
+\settypeblocksize{220mm}{145mm}{*}
+\setlrmargins{*}{*}{1.2}
+\setulmargins{*}{*}{1.2}
+\checkandfixthelayout
+\end{verbatim}
+
+\paragraph{Color Policy.}
+When printing, use the \texttt{media=paper} option to ensure all text, hyperlinks, and references are rendered in black and gray scale.  
+Institutional print shops may require 100\% black output for certain submissions.
+
+\paragraph{Duplex Printing.}
+The template supports duplex (double-sided) printing by default, with mirrored margins.  
+For single-sided printing, disable in \texttt{0-Config/1\_novathesis.tex}:
+
+\begin{verbatim}
+\ntsetup{twoside=false}
+\end{verbatim}
+
+\section{Digital Submission}
+
+\paragraph{File Format.}
+All final submissions must be delivered as PDF documents.  
+\gls{novathesis} automatically generates compliant PDFs with embedded fonts and searchable text.
+
+\paragraph{File Naming.}
+Use the institutional naming convention, typically:
+\begin{verbatim}
+Lastname_Firstname_Thesis_YEAR.pdf
+\end{verbatim}
+
+Avoid spaces, special characters, or diacritics in filenames.
+
+\paragraph{Cover and Metadata.}
+Ensure that all metadata fields (author, title, degree, supervisor, and date) are defined in \texttt{1\_novathesis.tex}.  
+These populate both the title page and the embedded PDF metadata via \texttt{hyperref}.
+
+\paragraph{Example.}
+\begin{verbatim}
+\ntauthor{Maria Silva}
+\nttitle(main,en){Analysis of Renewable Energy Markets}
+\ntdegree{Doctor of Philosophy in Economics}
+\ntsupervisor{Prof.~João Pereira}
+\ntdate{March 2025}
+\end{verbatim}
+
+\section{PDF/A Compliance for Archiving}
+
+Many repositories require archival formats such as PDF/A-1b or PDF/A-2u, ensuring long-term preservation and font integrity.
+
+\paragraph{Validation.}
+After compiling, verify compliance using:
+\begin{verbatim}
+pdfinfo -meta template.pdf
+\end{verbatim}
+
+or with specialized tools such as \emph{veraPDF}.
+
+\paragraph{Creating PDF/A Files.}
+\gls{novathesis} does not automatically enforce PDF/A mode, but compliance can be achieved using \texttt{ghostscript}:
+
+\begin{verbatim}
+gs -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE \
+   -sProcessColorModel=DeviceCMYK \
+   -sDEVICE=pdfwrite \
+   -sPDFACompatibilityPolicy=1 \
+   -sOutputFile=Thesis_PDFA.pdf template.pdf
+\end{verbatim}
+
+\paragraph{Font Embedding.}
+Ensure that all fonts are embedded; this is automatically managed when using TeX~Live or MacTeX with \texttt{fontspec} under XeLaTeX or LuaLaTeX.
+
+\section{Institutional Packaging and Submission}
+
+Institutions typically require submission of the following files:
+
+\begin{itemize}
+  \item Final thesis PDF (compiled in \texttt{mode=final});
+  \item Source code archive (optional, but recommended for reproducibility);
+  \item Supplementary data (datasets, scripts, figures);
+  \item Licensing and originality statements, if applicable.
+\end{itemize}
+
+\paragraph{Automated Packaging.}
+\gls{novathesis} includes a Makefile target that packages the complete project for submission:
+
+\begin{verbatim}
+make package
+\end{verbatim}
+
+This generates an archive:
+\begin{verbatim}
+ThesisPackage_<author>_<date>.zip
+\end{verbatim}
+
+containing:
+\begin{itemize}
+  \item \texttt{template.pdf} (final output);
+  \item \texttt{0-Config/}, \texttt{1-FrontMatter/}, \texttt{2-MainMatter/}, \texttt{3-BackMatter/};
+  \item \texttt{4-Bibliography/} and \texttt{5-Figures/};
+  \item The Makefile and configuration files;
+  \item A \texttt{README.txt} with metadata summary.
+\end{itemize}
+
+\paragraph{Optional Source Exclusion.}
+To exclude the internal class files:
+\begin{verbatim}
+make package SRC=false
+\end{verbatim}
+
+\section{Digital Repository Submission}
+
+Many universities require electronic deposit into an institutional repository or national archive.  
+Before uploading:
+
+\begin{itemize}
+  \item Confirm that the PDF opens without warnings in Acrobat Reader;
+  \item Verify embedded metadata (author, title, subject, keywords);
+  \item Check that page numbering and bookmarks are correct;
+  \item Include separate files for appendices or supplementary material if requested.
+\end{itemize}
+
+\paragraph{Embargo and Licensing.}
+For works under embargo or with restricted data:
+\begin{itemize}
+  \item Include the embargo statement in both the abstract and metadata;
+  \item Specify Creative Commons or institutional licensing in the submission form;
+  \item Retain a signed copy of the copyright declaration.
+\end{itemize}
+
+\section{Archiving the Project}
+
+To ensure long-term reproducibility, the complete project directory should be archived in a versioned repository or institutional backup system.  
+Include:
+
+\begin{itemize}
+  \item The \LaTeX{} source files and configuration directories;
+  \item The final compiled PDF;
+  \item A README documenting the compilation environment (engine, TeX distribution, version);
+  \item The bibliography files and all figures;
+  \item Checksums (e.g., SHA-256) for verification.
+\end{itemize}
+
+\paragraph{Example.}
+\begin{verbatim}
+sha256sum template.pdf > thesis_checksum.txt
+\end{verbatim}
+
+Store both the source and the checksum in the repository archive.
+
+\section{Long-Term Preservation Best Practices}
+
+\begin{itemize}
+  \item Use open-source fonts (e.g., Latin Modern, XITS) for guaranteed embedding;
+  \item Maintain a copy of the corresponding TeX~Live installer image;
+  \item Include the \gls{novathesis} version number in your repository metadata;
+  \item Prefer vector images (PDF, EPS) for figures to ensure scalability;
+  \item Avoid proprietary or compressed font formats;
+  \item Document all system dependencies (Biber, Ghostscript, etc.).
+\end{itemize}
+
+\paragraph{Version Tagging.}
+The project version is recorded automatically in the class header:
+\begin{verbatim}
+\ProvidesClass{novathesis}[2025/04/07 v7.6.0 NOVA Thesis Template]
+\end{verbatim}
+
+Include this line in your submission documentation for traceability.
+
+\section{Quality Assurance Checklist}
+
+Before final submission, confirm the following items:
+
+\begin{itemize}
+  \item [ ] The document compiles in \texttt{mode=final} without errors or warnings;
+  \item [ ] All figures and tables are properly numbered and referenced;
+  \item [ ] All cross-references are resolved;
+  \item [ ] The bibliography is complete and formatted consistently;
+  \item [ ] Acronyms and glossaries are printed;
+  \item [ ] The title page and metadata match institutional templates;
+  \item [ ] Fonts are embedded, and the PDF opens cleanly on multiple platforms;
+  \item [ ] A copy of the project has been archived.
+\end{itemize}
+
+\section{Sample Build Commands for Final Output}
+
+\paragraph{Final Digital Version (screen).}
+\begin{verbatim}
+make MODE=final MEDIA=screen xe
+\end{verbatim}
+
+\paragraph{Print Version (paper).}
+\begin{verbatim}
+make MODE=final MEDIA=paper pdf
+\end{verbatim}
+
+\paragraph{Archive Packaging.}
+\begin{verbatim}
+make clean-all
+make package
+\end{verbatim}
+
+\section{Summary}
+
+This chapter consolidates all procedures required for producing, validating, and preserving the final version of a thesis prepared with \gls{novathesis}.  
+By selecting the correct build mode, embedding complete metadata, and packaging the project according to institutional requirements, authors ensure that their work is reproducible, portable, and compliant with long-term archiving standards such as PDF/A.  
+The result is a thesis that remains accessible and verifiable long after its original submission.

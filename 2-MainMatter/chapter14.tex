@@ -1,0 +1,393 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter14.tex
+%% NOVA thesis document file
+%%
+%% Chapter with lots of dummy text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE chapter14.tex}%
+
+\chapter{Troubleshooting and Frequently Asked Questions}
+\label{chap:troubleshooting}
+
+\section{Overview}
+
+This chapter provides solutions to the most common issues encountered when compiling, configuring, or customizing the \gls{novathesis} template.  
+It also answers frequently asked questions regarding supported environments, fonts, language options, and institutional presets.  
+Each subsection addresses a distinct category of problems, followed by a concise resolution procedure.
+
+\section{Compilation Problems}
+
+\subsection{The document fails to compile on the first run}
+
+\paragraph{Symptom.}  
+\texttt{latexmk} or \texttt{make} aborts with “undefined references” or “missing file” errors on a clean installation.
+
+\paragraph{Cause.}  
+The auxiliary files required by \LaTeX{} (e.g., \texttt{.aux}, \texttt{.toc}, \texttt{.bbl}) do not exist yet.
+
+\paragraph{Resolution.}  
+Run the full build command twice:
+\begin{verbatim}
+make xe
+make xe
+\end{verbatim}
+or simply use \texttt{latexmk}, which automatically performs multiple passes:
+\begin{verbatim}
+latexmk -xelatex template.tex
+\end{verbatim}
+All cross-references, tables, and bibliography entries should then resolve correctly.
+
+\subsection{Bibliography not appearing or citations show as “(?)”}
+
+\paragraph{Cause.}  
+The bibliography backend (\texttt{biber} or \texttt{bibtex}) was not executed.
+
+\paragraph{Resolution.}
+\begin{enumerate}
+  \item Ensure that the backend specified in \texttt{0-Config/2\_biblatex.tex} matches the installed tool:
+  \begin{verbatim}
+  \ntbibsetup{backend=biber}
+  \end{verbatim}
+  \item Recompile cleanly:
+  \begin{verbatim}
+  make clean
+  make xe
+  \end{verbatim}
+  \item If errors persist, run manually:
+  \begin{verbatim}
+  biber template
+  latexmk -xelatex template.tex
+  \end{verbatim}
+\end{enumerate}
+
+\paragraph{Additional note.}  
+In Overleaf, the bibliography backend must be set to \texttt{biber} under the project menu.  
+Free accounts may not support this due to resource limits (see Section~\ref{sec:overleaf-limitations}).
+
+\subsection{Font not found or substituted}
+
+\paragraph{Symptom.}  
+Warnings such as “Font not found: Arial” or “Font substitution: CM Roman used instead.”
+
+\paragraph{Cause.}  
+The selected font theme requires a system or OpenType font that is not installed.
+
+\paragraph{Resolution.}
+\begin{itemize}
+  \item Install the required font family on the system;
+  \item Recompile using XeLaTeX or LuaLaTeX;
+  \item If using Overleaf, switch to a fully portable font theme (e.g., \texttt{newpx}, \texttt{libertine}, or \texttt{erewhon}).
+\end{itemize}
+
+\paragraph{Tip.}  
+To verify which font theme is active, check the line
+\begin{verbatim}
+\ntsetup{style/font=<name>}
+\end{verbatim}
+in \texttt{0-Config/1\_novathesis.tex}.
+
+\subsection{Missing packages or “Undefined control sequence” errors}
+
+\paragraph{Cause.}  
+Your \LaTeX{} distribution lacks one or more required packages.
+
+\paragraph{Resolution.}
+\begin{itemize}
+  \item For macOS or Linux, install the full distribution:
+  \begin{verbatim}
+  sudo apt install texlive-full
+  \end{verbatim}
+  or reinstall MacTeX from \url{https://tug.org/mactex/}.
+  \item For Windows, open the MiKTeX Console and enable “Install missing packages on the fly.”
+\end{itemize}
+
+\paragraph{Diagnosis.}  
+Inspect the first missing package name reported in the log, and install it manually if necessary.  
+For example:
+\begin{verbatim}
+tlmgr install titlesec
+\end{verbatim}
+
+\subsection{Glossaries or acronyms not generated}
+
+\paragraph{Cause.}  
+The glossaries build step was not executed.
+
+\paragraph{Resolution.}
+\begin{enumerate}
+  \item Ensure that the relevant glossaries packages are loaded in \texttt{0-Config/5\_packages.tex};
+  \item Add the corresponding list in \texttt{0-Config/6\_list\_of.tex}:
+  \begin{verbatim}
+  \ntaddlistof{listsofglossaries}
+  \end{verbatim}
+  \item Perform a full rebuild:
+  \begin{verbatim}
+  make clean-all
+  make xe
+  \end{verbatim}
+\end{enumerate}
+
+\subsection{Figures not displaying}
+
+\paragraph{Cause.}  
+File path or format mismatch.
+
+\paragraph{Resolution.}
+\begin{itemize}
+  \item Place all figures under \texttt{5-Figures/};
+  \item Use relative paths (e.g., \verb|\includegraphics{5-Figures/figure1}|);
+  \item Prefer PDF or PNG formats; avoid JPEG for line art;
+  \item Ensure that capitalization matches exactly—paths are case-sensitive on Linux and macOS.
+\end{itemize}
+
+\subsection{Compilation too slow or running out of memory}
+
+\paragraph{Possible causes.}
+\begin{itemize}
+  \item Large images with excessive resolution;
+  \item Multiple redefinitions of macros in \texttt{5\_packages.tex};
+  \item Overuse of TikZ or complex vector graphics.
+\end{itemize}
+
+\paragraph{Mitigation.}
+\begin{itemize}
+  \item Downsample images to 300\,dpi for print-quality output;
+  \item Comment unused packages in \texttt{5\_packages.tex};
+  \item Use externalized TikZ figures (\texttt{tikzexternalize}) to compile them once.
+\end{itemize}
+
+\section{Overleaf-Specific Issues}
+\label{sec:overleaf-limitations}
+
+\subsection{Project does not compile in Overleaf}
+
+\paragraph{Cause.}  
+Free-tier Overleaf accounts provide limited memory and compilation time. \gls{novathesis} is a large, multi-pass template.
+
+\paragraph{Resolution.}
+\begin{itemize}
+  \item Use a \textbf{Professional} or \textbf{Group Plan} account, which increases build resources;
+  \item Set the compiler to XeLaTeX or LuaLaTeX;
+  \item Enable the \texttt{biber} backend under “Project Settings”;
+  \item Clean auxiliary files manually if builds fail repeatedly.
+\end{itemize}
+
+\paragraph{Alternative.}  
+Compile locally using \texttt{make xe}, then upload only the final PDF to Overleaf for collaboration.
+
+\subsection{Images or logos not appearing in Overleaf}
+
+\paragraph{Cause.}  
+Overleaf ignores symbolic links and certain non-ASCII file names.
+
+\paragraph{Resolution.}
+\begin{itemize}
+  \item Ensure all logos and figures are actual files (no symlinks);
+  \item Avoid characters with accents or spaces in filenames;
+  \item Use plain ASCII filenames (\texttt{a-z0-9\_}) and relative paths.
+\end{itemize}
+
+\subsection{Bibliography errors in Overleaf}
+
+\paragraph{Cause.}  
+Biber execution timeout or memory limit reached.
+
+\paragraph{Resolution.}
+\begin{itemize}
+  \item Reduce bibliography size (split large \texttt{.bib} files);
+  \item Recompile locally to generate \texttt{.bbl}, then upload that file to Overleaf;
+  \item Contact Overleaf support if the issue persists with a Professional account.
+\end{itemize}
+
+\section{Institutional Preset and Cover Issues}
+
+\subsection{Institution logo missing on cover}
+
+\paragraph{Cause.}  
+The preset references a logo file that does not exist in \texttt{\gls{novathesis}Files/Logos/}.
+
+\paragraph{Resolution.}
+\begin{itemize}
+  \item Confirm the expected filename (e.g., \texttt{nova\_fct.pdf});
+  \item Ensure the extension is lowercase (\texttt{.pdf});
+  \item Replace the logo file or edit the preset to use the correct name:
+  \begin{verbatim}
+  \ntsetup{logo/front=mylogo}
+  \end{verbatim}
+\end{itemize}
+
+\subsection{Wrong institution name or degree shown}
+
+\paragraph{Cause.}  
+Multiple degree definitions are uncommented in the preset file.
+
+\paragraph{Resolution.}
+Open the preset file (e.g., \texttt{0-Config/9\_nova\_fct.tex}) and ensure that only one pair of \verb|\ntdegreename(pt)| and \verb|\ntdegreename(en)| is uncommented.
+
+\subsection{Committee page shows missing names}
+
+\paragraph{Cause.}  
+Committee member entries were not defined in \texttt{0-Config/3\_cover.tex}.
+
+\paragraph{Resolution.}
+Ensure each committee member is declared using the syntax:
+\begin{verbatim}
+\ntaddperson{committee}(r,m){Dr. John Doe, Associate Professor, NOVA}
+\end{verbatim}
+where the first parameter indicates the role and the second indicates gender (m/f).
+
+\section{Output Formatting Issues}
+
+\subsection{Unexpected spacing or indentation}
+
+\paragraph{Cause.}  
+A \texttt{\textbackslash parskip} or \texttt{\textbackslash baselinestretch} command was redefined in a user package.
+
+\paragraph{Resolution.}
+Check \texttt{0-Config/5\_packages.tex} and comment out any spacing or layout packages such as \texttt{setspace}, \texttt{parskip}, or \texttt{titlesec}.  
+\gls{novathesis} manages these internally through \texttt{memoir}.
+
+\subsection{Incorrect page numbering}
+
+\paragraph{Cause.}  
+Improper file order or mixed numbering styles.
+
+\paragraph{Resolution.}
+Ensure that front matter files (abstracts, acknowledgments) appear before main matter chapters in \texttt{0-Config/4\_files.tex}.  
+The class automatically resets numbering at the transition between front and main matter.
+
+\section{Advanced Debugging Techniques}
+
+\subsection{Using the \texttt{--interaction=nonstopmode} flag}
+
+Run the compiler in nonstop mode to suppress interactive prompts:
+\begin{verbatim}
+latexmk -xelatex -interaction=nonstopmode template.tex
+\end{verbatim}
+This is the mode used internally by \texttt{make xe}.  
+All errors will be logged to \texttt{template.log}.
+
+\subsection{Examining the Log File}
+
+Search the log for:
+\begin{itemize}
+  \item \texttt{! LaTeX Error:} — shows the exact command causing failure;
+  \item \texttt{Missing \textbackslash end\{...}} — indicates mismatched environments;
+  \item \texttt{File ... not found} — missing figures or bibliography files.
+\end{itemize}
+
+\paragraph{Tip.}  
+Use a text editor with syntax highlighting and search (e.g., VS Code, TeXstudio, or TeXworks).
+
+\subsection{Verbose bibliography debugging}
+
+Run:
+\begin{verbatim}
+biber --debug template
+\end{verbatim}
+to obtain detailed information about the bibliography parsing process.  
+Inspect the \texttt{template.blg} file for missing fields or syntax errors in the \texttt{.bib} database.
+
+\subsection{Minimal Working Example (MWE)}
+
+When requesting support, isolate the issue by creating a minimal working example:
+\begin{enumerate}
+  \item Copy \texttt{template.tex} and include only one configuration file and one chapter;
+  \item Remove all images and external packages;
+  \item Test compilation;
+  \item Gradually reintroduce content until the error reappears.
+\end{enumerate}
+
+\section{Frequently Asked Questions}
+
+\subsection*{Q1: Can I use \gls{novathesis} for non-NOVA universities?}
+
+Yes.  
+While the template was originally developed for NOVA University Lisbon, it is fully modular.  
+You can create new presets in \texttt{0-Config/9\_<school>.tex} (see Chapter~\ref{sec:new-school}).
+
+\subsection*{Q2: Does \gls{novathesis} support double-spacing?}
+
+Yes.  
+Add to \texttt{0-Config/0\_memoir.tex}:
+\begin{verbatim}
+\DoubleSpacing
+\end{verbatim}
+However, confirm that your institution permits double-spacing in the final submission.
+
+\subsection*{Q3: Can I print on A4 and Letter paper interchangeably?}
+
+Yes.  
+Set the paper size through your TeX distribution or in the document class options:
+\begin{verbatim}
+\documentclass[a4paper]{novathesis}
+\end{verbatim}
+For US submissions, use \texttt{letterpaper}.
+
+\subsection*{Q4: Is XeLaTeX better than LuaLaTeX?}
+
+Both engines produce high-quality Unicode output.  
+XeLaTeX offers simpler font handling; LuaLaTeX provides finer microtypography control.  
+Most users will not notice practical differences.
+
+\subsection*{Q5: How do I include code listings?}
+
+Load either \texttt{listings} or \texttt{minted} in \texttt{5\_packages.tex}.  
+For \texttt{minted}, compile with:
+\begin{verbatim}
+make xe LATEXMKOPTS="--shell-escape"
+\end{verbatim}
+
+\subsection*{Q6: Can I use multiple bibliography files?}
+
+Yes.  
+Add them to \texttt{0-Config/4\_files.tex}:
+\begin{verbatim}
+\ntaddfile{bib}{main.bib}
+\ntaddfile{bib}{secondary.bib}
+\end{verbatim}
+\gls{novathesis} merges them automatically in the final bibliography.
+
+\subsection*{Q7: How can I disable colored hyperlinks?}
+
+Set in \texttt{1\_novathesis.tex}:
+\begin{verbatim}
+\ntsetup{media=paper}
+\end{verbatim}
+This changes hyperlink colors to black and adjusts margins for print output.
+
+\subsection*{Q8: How can I check my \gls{novathesis} version?}
+
+Open \texttt{novathesis.cls} and look for the line:
+\begin{verbatim}
+\ProvidesClass{novathesis}[YYYY/MM/DD vX.Y.Z]
+\end{verbatim}
+or check the header of \texttt{README.md}.  
+Document the version in your thesis metadata for reproducibility.
+
+\subsection*{Q9: How can I change numbering style (e.g., from Arabic to Roman)?}
+
+Add the following in \texttt{0-Config/0\_memoir.tex}:
+\begin{verbatim}
+\renewcommand{\thechapter}{\Roman{chapter}}
+\end{verbatim}
+Avoid redefining numbering directly in \texttt{novathesis.cls}.
+
+\subsection*{Q10: How do I report bugs or request new features?}
+
+Submit an issue to the official repository or contact the maintainer through your institution’s documentation portal.  
+Include:
+\begin{itemize}
+  \item The \gls{novathesis} version number;
+  \item The TeX distribution and engine used;
+  \item A minimal working example reproducing the problem.
+\end{itemize}
+
+\section{Summary}
+
+This chapter has presented comprehensive solutions to common compilation, configuration, and formatting problems encountered when using \gls{novathesis}.  
+By following the structured troubleshooting procedures and verifying system setup, users can resolve nearly all issues without modifying the class itself.  
+For persistent or institutional-specific problems, users should isolate the issue with a minimal example and consult the maintainers with full version and environment details.
+

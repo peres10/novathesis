@@ -1,0 +1,310 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter11.tex
+%% NOVA thesis document file
+%%
+%% Chapter with lots of dummy text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE chapter11.tex}%
+
+\chapter{Equations, Algorithms, and Mathematical Formatting}
+\label{chap:math}
+
+\section{Overview}
+
+Mathematical notation, algorithms, and formal expressions are critical components of technical and scientific writing.  
+\gls{novathesis} inherits the powerful mathematical capabilities of \LaTeX{} and extends them through the \texttt{amsmath}, \texttt{amsthm}, and \texttt{algorithm} packages.  
+This chapter explains how to typeset equations, define theorem environments, and present algorithms in a clear and consistent manner aligned with institutional standards.
+
+\section{Mathematics Packages in \gls{novathesis}}
+
+The following packages are preloaded by default:
+
+\begin{itemize}
+  \item \texttt{amsmath}, \texttt{amssymb}, and \texttt{amsfonts} — core AMS packages for advanced mathematical typesetting;
+  \item \texttt{mathtools} — an extension of \texttt{amsmath} providing enhanced alignment and tagging;
+  \item \texttt{siunitx} — formatting of physical units and numerical quantities;
+  \item \texttt{bm} — bold math symbols;
+  \item \texttt{algorithm}, \texttt{algorithmicx}, and \texttt{algpseudocode} — for presenting pseudocode algorithms.
+\end{itemize}
+
+Users may load additional math packages in \texttt{0-Config/5\_packages.tex} as needed, provided they are compatible with \texttt{memoir}.
+
+\section{Inline and Display Equations}
+
+Equations may appear inline or as separate numbered displays.
+
+\paragraph{Inline Example.}
+\begin{verbatim}
+The energy is defined by $E = mc^2$.
+\end{verbatim}
+
+\paragraph{Display Example.}
+\begin{verbatim}
+\begin{equation}
+E = mc^2
+\label{eq:energy}
+\end{equation}
+\end{verbatim}
+
+\paragraph{Referencing Equations.}
+\begin{verbatim}
+As shown in Equation~\ref{eq:energy}, energy and mass are equivalent.
+\end{verbatim}
+
+Cross-references automatically include the localized label (“Equation”, “Equação”, etc.).
+
+\section{Aligning Equations}
+
+For systems of equations or multi-line derivations, use the \texttt{align} or \texttt{aligned} environments from \texttt{amsmath}.
+
+\paragraph{Example.}
+\begin{verbatim}
+\begin{align}
+a^2 + b^2 &= c^2 \label{eq:pythagoras}\\
+E &= mc^2  \label{eq:einstein}
+\end{align}
+\end{verbatim}
+
+Each line may be independently numbered and referenced.
+
+\paragraph{Suppressing Numbers.}
+Add the \verb|\nonumber| command or use the \texttt{align*} environment to omit numbering:
+\begin{verbatim}
+\begin{align*}
+x' &= Ax + Bu \\
+y  &= Cx + Du
+\end{align*}
+\end{verbatim}
+
+\section{Equation Numbering and Formatting}
+
+By default, \gls{novathesis} numbers equations sequentially within each chapter:
+\begin{verbatim}
+(2.1), (2.2), ...
+\end{verbatim}
+
+To number equations continuously throughout the document, modify \texttt{0-Config/0\_memoir.tex}:
+\begin{verbatim}
+\counterwithout{equation}{chapter}
+\end{verbatim}
+
+\paragraph{Custom Equation Format.}
+For institutions requiring specific numbering formats (e.g., section-based), redefine:
+\begin{verbatim}
+\numberwithin{equation}{section}
+\end{verbatim}
+
+\section{Multiline Equations}
+
+For long expressions, use \texttt{multline} or \texttt{split}:
+
+\begin{verbatim}
+\begin{multline}
+f(x) = x^3 + 2x^2 + 3x + 5 \\
++ 7x^{-1} + 9x^{-2}
+\end{multline}
+\end{verbatim}
+
+This environment breaks equations automatically across multiple lines while maintaining alignment and numbering.
+
+\section{Matrices and Vectors}
+
+Matrices are supported through \texttt{amsmath} environments.
+
+\paragraph{Example.}
+\begin{verbatim}
+\begin{equation}
+A = 
+\begin{bmatrix}
+  a_{11} & a_{12} & a_{13} \\
+  a_{21} & a_{22} & a_{23}
+\end{bmatrix}
+\end{equation}
+\end{verbatim}
+
+\paragraph{Alternate Bracket Styles.}
+\texttt{pmatrix} for parentheses, \texttt{vmatrix} for determinants, and \texttt{Bmatrix} for braces are all available.
+
+\section{Units and Numerical Formatting}
+
+Use the \texttt{siunitx} package for consistent typesetting of physical quantities and units.
+
+\paragraph{Examples.}
+\begin{verbatim}
+\SI{3.6}{\meter\per\second}
+\SI{9.81}{\meter\per\square\second}
+\SIrange{0}{100}{\celsius}
+\end{verbatim}
+
+\texttt{siunitx} automatically applies proper spacing and typography between numbers and units.
+
+\section{Theorem, Lemma, and Definition Environments}
+
+Formal statements such as theorems, lemmas, and definitions can be declared using \texttt{amsthm}.  
+\gls{novathesis} does not predefine them, allowing institutions to apply their own naming conventions.
+
+\paragraph{Example Definition.}
+Add in \texttt{0-Config/5\_packages.tex}:
+\begin{verbatim}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\end{verbatim}
+
+Then, in the main text:
+\begin{verbatim}
+\begin{theorem}[Pythagoras]
+For any right triangle, $a^2 + b^2 = c^2$.
+\end{theorem}
+\end{verbatim}
+
+Each theorem will be numbered per chapter (e.g., Theorem~2.1).
+
+\paragraph{Proof Environment.}
+Use the standard \verb|\begin{proof}...\end{proof}| block, which automatically appends a Q.E.D. symbol.
+
+\section{Algorithm Presentation}
+\label{sec:algorithms}
+
+Algorithms are formal representations of computational procedures or workflows.  
+\gls{novathesis} provides two methods for including them:
+\begin{itemize}
+  \item As pseudocode environments using \texttt{algorithm} and \texttt{algpseudocode};
+  \item As standard floats using \texttt{algorithmicx}.
+\end{itemize}
+
+\paragraph{Example.}
+\begin{verbatim}
+\begin{algorithm}[htbp]
+\caption{Gradient Descent Optimization}
+\label{alg:gradient}
+\begin{algorithmic}[1]
+  \State Initialize $\theta \leftarrow \theta_0$
+  \For{$t = 1$ \textbf{to} $T$}
+    \State Compute gradient $g_t = \nabla_\theta J(\theta_t)$
+    \State Update parameters $\theta_{t+1} = \theta_t - \eta g_t$
+  \EndFor
+\end{algorithmic}
+\end{algorithm}
+\end{verbatim}
+
+The \texttt{[1]} option enables line numbering for pseudocode clarity.  
+Refer to the algorithm as:
+\begin{verbatim}
+As shown in Algorithm~\ref{alg:gradient}, parameters converge iteratively.
+\end{verbatim}
+
+\paragraph{Styling Algorithms.}
+Adjust appearance in \texttt{0-Config/5\_packages.tex}:
+\begin{verbatim}
+\floatname{algorithm}{Algorithm}
+\renewcommand{\listalgorithmname}{List of Algorithms}
+\end{verbatim}
+
+\section{Equations within Algorithms}
+
+Mathematical expressions may be embedded directly within pseudocode lines:
+
+\begin{verbatim}
+\State $w_{i+1} = w_i - \eta \frac{\partial L}{\partial w_i}$
+\end{verbatim}
+
+Ensure consistent symbol usage between text, equations, and pseudocode for readability.
+
+\section{Special Mathematical Symbols}
+
+\texttt{amssymb} provides additional symbol libraries:
+\begin{quote}
+\verb|\mathbb{R}|, \verb|\mathbb{N}|, \verb|\forall|, \verb|\exists|, \verb|\nabla|, \verb|\partial|, \verb|\in|, \verb|\subset|.
+\end{quote}
+
+For bold vectors or matrices, use:
+\begin{verbatim}
+\bm{v}, \bm{A}
+\end{verbatim}
+
+Avoid using \verb|\mathbf| for Greek letters; use \texttt{bm} instead.
+
+\section{Equation Spacing and Alignment Standards}
+
+\gls{novathesis} automatically manages inter-equation spacing consistent with institutional standards.  
+To adjust spacing manually:
+
+\begin{verbatim}
+\setlength{\abovedisplayskip}{12pt}
+\setlength{\belowdisplayskip}{12pt}
+\end{verbatim}
+
+For alignment in theorems or proofs, use the \texttt{alignat} environment for precise column control.
+
+\section{Mathematical Fonts and Typography}
+
+The choice of math font family depends on the selected font theme (see Chapter~\ref{sec:new-font-theme}).  
+When using XeLaTeX or LuaLaTeX, \texttt{unicode-math} can be loaded to access OpenType math fonts such as \texttt{Latin Modern Math} or \texttt{XITS Math}.
+
+\paragraph{Example.}
+\begin{verbatim}
+\usepackage{unicode-math}
+\setmathfont{XITS Math}
+\end{verbatim}
+
+This approach ensures typographic harmony between text and mathematical symbols.
+
+\section{Multi-line Proofs and Derivations}
+
+For formal derivations spanning multiple steps, use \texttt{align} with text annotations:
+
+\begin{verbatim}
+\begin{align}
+f(x) &= (x + a)^2 \\
+     &= x^2 + 2ax + a^2 \nonumber\\
+     &\text{where $a$ is a constant.}
+\end{align}
+\end{verbatim}
+
+Text inserted via \verb|\text| ensures consistent font and spacing.
+
+\section{Notation Consistency}
+
+\begin{itemize}
+  \item Use italic letters for scalar variables (\(x, y, z\));
+  \item Use bold lowercase letters for vectors (\(\bm{x}\));
+  \item Use bold uppercase letters for matrices (\(\bm{A}\));
+  \item Reserve calligraphic capitals (\(\mathcal{L}\)) for sets or functionals;
+  \item Avoid mixing notations unless required by discipline-specific standards.
+\end{itemize}
+
+\section{Common Errors and Remedies}
+
+\paragraph{Equation exceeds margin.}
+Use \verb|\resizebox|, \verb|multline|, or break long expressions manually.
+
+\paragraph{Undefined symbol.}
+Ensure the relevant package (e.g., \texttt{amssymb}) is loaded.
+
+\paragraph{Mismatched brackets.}
+All math delimiters must be properly paired; use \verb|\left| and \verb|\right| for automatic sizing.
+
+\paragraph{Incorrect alignment in systems.}
+Use \texttt{align} instead of manual spacing with \verb|&|.
+
+\section{Best Practices}
+
+\begin{enumerate}
+  \item Always label important equations for cross-referencing.
+  \item Keep equations centered and consistent in font size.
+  \item Define notation in the first chapter or a dedicated section.
+  \item Avoid excessive inline formulas; use display equations for clarity.
+  \item Align related equations using \texttt{align} or \texttt{aligned}.
+  \item Maintain typographic uniformity across equations, tables, and text.
+\end{enumerate}
+
+\section{Summary}
+
+\gls{novathesis} provides a comprehensive environment for mathematical typesetting and algorithm presentation.  
+By leveraging \texttt{amsmath}, \texttt{amsthm}, and \texttt{algorithmicx}, authors can produce professional-quality mathematical content consistent with academic and institutional standards.  
+Following the best practices and configuration techniques in this chapter ensures clarity, reproducibility, and typographic harmony across all formal and computational content.
+

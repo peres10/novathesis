@@ -1,56 +1,399 @@
 %!TEX root = ../template.tex
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% appendix1.tex
-%% NOVA thesis document file
-%%
-%% Chapter with example of appendix with a short dummy text
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\typeout{NT FILE appendix1.tex}%
+\chapter{Configuration Checklists by Institution}
+\label{app:institution-checklists}
 
-\chapter{\emph{NOVAthesis} covers showcase}
-\label{app:covers_showcase}
+This appendix provides copy--paste snippets for the institutional presets included in the template.  
+For each preset:
+\begin{enumerate}
+  \item Set the preset ID in \texttt{0-Config/1\_novathesis.tex} with \verb|\ntsetup{school=<id>}|.
+  \item Open the corresponding \texttt{0-Config/9\_<...>.tex} file and uncomment \emph{exactly one} option block in each category (Department, Degree name, etc.).
+  \item Recompile after each change; for backend/style changes run \verb|make clean| first.
+\end{enumerate}
 
-This Appendix shows examples of covers for some of the supported Schools.  When the Schools have very similar covers (e.g., all the schools from Universidade do Minho), just one cover is shown.  If the covers for MSc dissertations and PhD  thesis are considerable different (e.g., for FCT-NOVA and UMinho), then both are shown.
+\bigskip
+\noindent\textbf{Preset identifiers (as shipped):}
+\begin{quote}\small
+\verb|nova/fct|, \verb|nova/ims|, \verb|ulisboa/ist|, \verb|ulisboa/iseg|, \verb|ulisboa/fmv|, \verb|uminho|, \verb|uporto/fc|.
+\end{quote}
 
-\newcommand{\showcasecoversize}{0.3\textwidth}
-\newcommand*{\myhfill}{}
-\newcommand{\myincludeimage}[1]{%
-    \myhfill%
-    \defifundef{\mycvbox}{\newsavebox}%
-    \savebox{\mycvbox}{\includegraphics[width=\showcasecoversize]{#1}}%
-    \defifundef{\mycvboxht}{\newlength}%
-    \setlength{\mycvboxht}{\dimexpr \showcasecoversize*\paperheight/\paperwidth}%
-    \rule{0pt}{1.1\mycvboxht}%
-    \setlength{\fboxsep}{0pt}%
-    \fbox{\includegraphics[width=\showcasecoversize]{#1}}%
-    \renewcommand*{\myhfill}{\hfill}%
-}
+%======================================================================
+\section{NOVA / FCT (\texttt{school=nova/fct})}
+\label{app:nova-fct}
 
-% \noindent\forcsvlist{\myincludeimage}{%
-%   cover-nova-fct-msc,
-%   cover-nova-fct-phd,
-%   cover-nova-ims-phd,
-%   %
-%   cover-uminho-ee-phd,
-%   cover-uminho-ee-msc,
-%   cover-other-esep-phd,
-%   %
-%   cover-nova-fcsh-phd,
-%   cover-nova-ensp-phd,
-%   cover-iscteiul-eta-phd,
-%   %
-%   cover-ulisboa-fc-phd,
-%   cover-ulisboa-ist-phd,
-%   cover-ulht-deisi-msc,
-%   %
-%   cover-ipl-isel-msc,
-%   cover-ips-ests-msc,
-%   cover-other-mscgt-msc%
-% }
+\subsection*{1) Select your Department (choose one PT/EN pair)}
+Paste \emph{one} pair below into \texttt{0-Config/9\_nova\_fct.tex} and keep all others commented:
+\begin{verbatim}
+% --- Department (Portuguese / English) ---
+\ntdepartment(pt){Departamento de\\Ciência dos Materiais}
+\ntdepartment(en){Department of\\Materials Science}
 
-\lipsum[1-20]
+\ntdepartment(pt){Departamento de\\Ciências Sociais Aplicadas}
+\ntdepartment(en){Department of\\Applied Social Sciences}
 
-\section{A section here}
+\ntdepartment(pt){Departamento de\\Ciências da Terra}
+\ntdepartment(en){Department of\\Earth Sciences}
 
-\lipsum[1-20]
+\ntdepartment(pt){Departamento de\\Ciências da Vida}
+\ntdepartment(en){Department of\\Life Sciences}
+
+\ntdepartment(pt){Departamento de\\Ciências e Engenharia do Ambiente}
+\ntdepartment(en){Department of\\Environmental Sciences and Engineering}
+
+\ntdepartment(pt){Departamento de\\Ciências e Engenharia do Espaço}
+\ntdepartment(en){Department of\\Earth, Environment and Energy}
+
+\ntdepartment(pt){Departamento de\\Ciências e Engenharia do Mar}
+\ntdepartment(en){Department of\\Maritime Science and Technology}
+
+\ntdepartment(pt){Departamento de\\Ciências e Engenharia Navais}
+\ntdepartment(en){Department of\\Naval Architecture and Ocean Engineering}
+
+\ntdepartment(pt){Departamento de\\Engenharia Civil}
+\ntdepartment(en){Department of\\Civil Engineering}
+
+\ntdepartment(pt){Departamento de\\Engenharia Electrotécnica e de Computadores}
+\ntdepartment(en){Department of\\Electrical and Computer Engineering}
+
+\ntdepartment(pt){Departamento de\\Engenharia Industrial}
+\ntdepartment(en){Department of\\Industrial Engineering}
+
+\ntdepartment(pt){Departamento de\\Física}
+\ntdepartment(en){Department of\\Physics}
+
+\ntdepartment(pt){Departamento de\\Informática}
+\ntdepartment(en){Department of\\Computer Science}
+
+\ntdepartment(pt){Departamento de\\Matemática}
+\ntdepartment(en){Department of\\Mathematics}
+\end{verbatim}
+
+\subsection*{2) Select your Degree name (choose one PT/EN pair)}
+Paste \emph{one} pair below into \texttt{0-Config/9\_nova\_fct.tex} and keep all others commented:
+\begin{verbatim}
+% --- Degree name (Portuguese / English) ---
+\ntdegreename(pt){Alterações Climáticas e Políticas de Desenvolvimento Sustentável}
+\ntdegreename(en){Climate Change and Sustainable Development Policies}
+
+\ntdegreename(pt){Ambiente e Sustentabilidade}
+\ntdegreename(en){Environment and Sustainability}
+
+\ntdegreename(pt){Biociências Moleculares}
+\ntdegreename(en){Molecular Biosciences}
+
+\ntdegreename(pt){Bioenergia}
+\ntdegreename(en){Bioenergy}
+
+\ntdegreename(pt){Biofísica e Bioquímica das Radiações}
+\ntdegreename(en){Radiation Biology and Biophysics}
+
+\ntdegreename(pt){Biologia}
+\ntdegreename(en){Biology}
+
+\ntdegreename(pt){Biologia Computacional e Bioinformática}
+\ntdegreename(en){Computational Biology and Bioinformatics}
+
+\ntdegreename(pt){Biologia Molecular em Saúde}
+\ntdegreename(en){Molecular Biology in Health}
+
+\ntdegreename(pt){Biotecnologia}
+\ntdegreename(en){Biotechnology}
+
+\ntdegreename(pt){Biotecnologias Marinhas}
+\ntdegreename(en){Marine Biotechnology}
+
+\ntdegreename(pt){Ciência de Dados e Engenharia}
+\ntdegreename(en){Data Science and Engineering}
+
+\ntdegreename(pt){Ciência e Engenharia de Materiais}
+\ntdegreename(en){Materials Science and Engineering}
+
+\ntdegreename(pt){Ciência e Engenharia do Ambiente}
+\ntdegreename(en){Environmental Science and Engineering}
+
+\ntdegreename(pt){Ciência e Engenharia do Mar}
+\ntdegreename(en){Marine Sciences and Engineering}
+
+\ntdegreename(pt){Ciências Biomédicas}
+\ntdegreename(en){Biomedical Sciences}
+
+\ntdegreename(pt){Ciências da Terra}
+\ntdegreename(en){Earth Sciences}
+
+\ntdegreename(pt){Ciências e Engenharia Geoespacial}
+\ntdegreename(en){Geospatial Sciences and Engineering}
+
+\ntdegreename(pt){Ciências Farmacêuticas}
+\ntdegreename(en){Pharmaceutical Sciences}
+
+\ntdegreename(pt){Ciências Gastronómicas}
+\ntdegreename(en){Gastronomical Sciences}
+
+\ntdegreename(pt){Ciências Forenses}
+\ntdegreename(en){Forensic Sciences}
+
+\ntdegreename(pt){Ciências e Tecnologias do Ambiente}
+\ntdegreename(en){Environmental Sciences and Technology}
+
+\ntdegreename(pt){Computação Móvel}
+\ntdegreename(en){Mobile Computing}
+
+\ntdegreename(pt){Conservação e Restauro}
+\ntdegreename(en){Conservation and Restoration}
+
+\ntdegreename(pt){Cultura Científica e Tecnológica}
+\ntdegreename(en){Scientific and Technological Culture}
+
+\ntdegreename(pt){Data Science}
+\ntdegreename(en){Data Science}
+
+\ntdegreename(pt){Ecologia e Gestão Ambiental}
+\ntdegreename(en){Ecology and Environmental Management}
+
+\ntdegreename(pt){Ecologia Marinha}
+\ntdegreename(en){Marine Ecology}
+
+\ntdegreename(pt){Eletrónica de Potência e Energias Renováveis}
+\ntdegreename(en){Power Electronics and Renewable Energies}
+
+\ntdegreename(pt){Engenharia Biomédica}
+\ntdegreename(en){Biomedical Engineering}
+
+\ntdegreename(pt){Engenharia Civil}
+\ntdegreename(en){Civil Engineering}
+
+\ntdegreename(pt){Engenharia e Gestão Industrial}
+\ntdegreename(en){Industrial Engineering and Management}
+
+\ntdegreename(pt){Engenharia Eletrotécnica e de Computadores}
+\ntdegreename(en){Electrical and Computer Engineering}
+
+\ntdegreename(pt){Engenharia Informática}
+\ntdegreename(en){Computer Engineering}
+
+\ntdegreename(pt){Engenharia Mecânica}
+\ntdegreename(en){Mechanical Engineering}
+
+\ntdegreename(pt){Engenharia Química e Biológica}
+\ntdegreename(en){Chemical and Biochemical Engineering}
+
+\ntdegreename(pt){Física}
+\ntdegreename(en){Physics}
+
+\ntdegreename(pt){Geologia}
+\ntdegreename(en){Geology}
+
+\ntdegreename(pt){Gestão e Conservação de Recursos Naturais}
+\ntdegreename(en){Management and Conservation of Natural Resources}
+
+\ntdegreename(pt){Instrumentação Biomédica}
+\ntdegreename(en){Biomedical Instrumentation}
+
+\ntdegreename(pt){Matemática}
+\ntdegreename(en){Mathematics}
+
+\ntdegreename(pt){Matemática Aplicada a Riscos Financeiros}
+\ntdegreename(en){Applied Mathematics to Financial Risk}
+
+\ntdegreename(pt){Matemática e Aplicações}
+\ntdegreename(en){Mathematics and Applications}
+
+\ntdegreename(pt){Micro e Nanotecnologia}
+\ntdegreename(en){Micro and Nanotechnology}
+
+\ntdegreename(pt){Neurociências}
+\ntdegreename(en){Neurosciences}
+
+\ntdegreename(pt){Oceanografia}
+\ntdegreename(en){Oceanography}
+
+\ntdegreename(pt){Paleontologia}
+\ntdegreename(en){Paleontology}
+
+\ntdegreename(pt){Planeamento e Gestão do Território}
+\ntdegreename(en){Spatial Planning and Urban Management}
+
+\ntdegreename(pt){Proteção Radiológica e Segurança}
+\ntdegreename(en){Radiation Protection and Safety}
+
+\ntdegreename(pt){Química}
+\ntdegreename(en){Chemistry}
+
+\ntdegreename(pt){Química Aplicada}
+\ntdegreename(en){Applied Chemistry}
+
+\ntdegreename(pt){Química Industrial}
+\ntdegreename(en){Industrial Chemistry}
+
+\ntdegreename(pt){Reabilitação Urbana}
+\ntdegreename(en){Urban Rehabilitation}
+
+\ntdegreename(pt){Sistemas de Informação Geográfica e Ciência de Informação Geográfica}
+\ntdegreename(en){Geographic Information Systems and Science}
+
+\ntdegreename(pt){Tecnologia de Materiais}
+\ntdegreename(en){Materials Technology}
+
+\ntdegreename(pt){Tecnologias e Gestão de Produção e Manutenção}
+\ntdegreename(en){Production and Maintenance Technologies and Management}
+
+\ntdegreename(pt){Telecomunicações e Informática}
+\ntdegreename(en){Telecommunications and Informatics}
+
+\ntdegreename(pt){Engenharia e Gestão da Energia}
+\ntdegreename(en){Energy Engineering and Management}
+
+% ... (The shipped file includes many more; select exactly one PT/EN pair.)
+\end{verbatim}
+
+\subsection*{3) Optional (ADC/Department of Informatics reports)}
+\begin{verbatim}
+% Company mark for DI/ADC reports:
+% \ntsetup{nova/fct/company/logo=google-logo}
+% \ntsetup{nova/fct/company/name=Google}
+\end{verbatim}
+
+\medskip
+\noindent\textit{Reminders:} Keep only one \verb|\ntdepartment| pair and one \verb|\ntdegreename| pair uncommented.
+
+%======================================================================
+\section{NOVA / IMS (\texttt{school=nova/ims})}
+\label{app:nova-ims}
+
+Open \texttt{0-Config/9\_nova\_ims.tex}. The file lists the UN Sustainable Development Goals (SDGs) with bilingual labels.  
+Follow the in-file instructions to \emph{mark the SDGs relevant to your work}. If your program requires listing SDGs on the cover or abstracts, ensure your School’s rules are followed.
+
+\paragraph{Checklist.}
+\begin{verbatim}
+% 1) Set the preset:
+\ntsetup{school=nova/ims}
+
+% 2) In 9_nova_ims.tex, mark the SDGs that apply to your thesis
+%    following the bilingual list provided in the file.
+%    (If your version exposes a key like ims/sdgs, use it as documented.)
+\end{verbatim}
+
+%======================================================================
+\section{ULisboa / IST (\texttt{school=ulisboa/ist})}
+\label{app:ulisboa-ist}
+
+Open \texttt{0-Config/9\_ulisboa\_ist.tex}. Uncomment and fill as required:
+
+\begin{verbatim}
+% Final classification (as required by IST)
+\ntsetup{classification=Aprovado com …}
+
+% Funding (list of {Agency, grant} pairs)
+% \ntsetup{funding={
+%   {Fundação para a Ciência e Tecnologia, projeto #1234 1234 1234},
+%   {União Europeia, projeto #9876 ABCD}
+% }}
+\end{verbatim}
+
+\paragraph{Checklist.}
+\begin{itemize}
+  \item Set \verb|\ntsetup{school=ulisboa/ist}| in \texttt{1\_novathesis.tex}.
+  \item Provide classification text exactly as required by IST.
+  \item List funding agencies and projects if mandated.
+\end{itemize}
+
+%======================================================================
+\section{ULisboa / ISEG (\texttt{school=ulisboa/iseg})}
+\label{app:ulisboa-iseg}
+
+Open \texttt{0-Config/9\_ulisboa\_iseg.tex}. Uncomment funding if applicable:
+
+\begin{verbatim}
+% Funding (list of {Agency, grant} pairs)
+% \ntsetup{funding={
+%   {Fundação para a Ciência e Tecnologia, projeto #1234 1234 1234},
+%   {União Europeia, projeto #9876 ABCD}
+% }}
+\end{verbatim}
+
+\paragraph{Checklist.}
+\begin{itemize}
+  \item Set \verb|\ntsetup{school=ulisboa/iseg}|.
+  \item Provide funding information if required by program rules.
+\end{itemize}
+
+%======================================================================
+\section{ULisboa / FMV (\texttt{school=ulisboa/fmv})}
+\label{app:ulisboa-fmv}
+
+Open \texttt{0-Config/9\_ulisboa\_fmv.tex}. Uncomment and set:
+
+\begin{verbatim}
+% Exam date (year)
+% \ntsetup{examdate/year=2099}
+
+% Embargo period: I (Immediate), 6, or 12 months
+% \ntsetup{embargo/period=6}
+
+% Embargo justification (if embargo is set to 6 or 12)
+% \ntsetup[embargo/justification]{Motivo do embargo temporário.}
+
+% Reproduction rights: I (integral), P (partial), N (none)
+% \ntsetup{reproduction=P}
+\end{verbatim}
+
+\paragraph{Checklist.}
+\begin{itemize}
+  \item Set \verb|\ntsetup{school=ulisboa/fmv}|.
+  \item Confirm program’s required fields (exam date, embargo, reproduction).
+\end{itemize}
+
+%======================================================================
+\section{UMinho (all Schools) (\texttt{school=uminho})}
+\label{app:uminho}
+
+Open \texttt{0-Config/9\_uminho.tex}. Uncomment as needed:
+
+\begin{verbatim}
+% Creative Commons modifier (default: by-nc-sa)
+% \ntsetup{copyrightmodifier=by-nc-sa}
+
+% Skip verso (back) of the covers for certain doctypes
+% \ntsetup{skipblankcovers=true}
+
+% Remove signature line in integrity statement (if not required)
+% \ntsetup{signatureline=false}
+\end{verbatim}
+
+\paragraph{Checklist.}
+\begin{itemize}
+  \item Set \verb|\ntsetup{school=uminho}|.
+  \item Verify your School’s cover and integrity requirements.
+\end{itemize}
+
+%======================================================================
+\section{U.Porto / FC (\texttt{school=uporto/fc})}
+\label{app:uporto-fc}
+
+Open \texttt{0-Config/9\_uporto\_fc.tex}. Uncomment and fill:
+
+\begin{verbatim}
+% Final classification (if required)
+\ntsetup{classification=Aprovado com …}
+
+% Funding (list of {Agency, grant} pairs)
+% \ntsetup{funding={
+%   {Fundação para a Ciência e Tecnologia, projeto #1234 1234 1234},
+%   {União Europeia, projeto #9876 ABCD}
+% }}
+\end{verbatim}
+
+\paragraph{Checklist.}
+\begin{itemize}
+  \item Set \verb|\ntsetup{school=uporto/fc}|.
+  \item Provide final classification and funding as mandated.
+\end{itemize}
+
+%======================================================================
+\section*{General Reminders}
+\begin{itemize}
+  \item Keep exactly \emph{one} Department and \emph{one} Degree pair active when your preset provides catalogs (e.g., NOVA/FCT).
+  \item For presets with optional metadata (classification, funding, embargo), include them only if required by your program.
+  \item When switching bibliography backend or major preset options, run \verb|make clean| before recompiling.
+\end{itemize}
+

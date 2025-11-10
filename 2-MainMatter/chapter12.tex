@@ -1,0 +1,302 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter12.tex
+%% NOVA thesis document file
+%%
+%% Chapter with lots of dummy text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE chapter12.tex}%
+
+\chapter{Cross-Referencing, Indexes, and Glossaries}
+\label{chap:crossref}
+
+\section{Overview}
+
+Accurate cross-referencing and terminology management are essential to the clarity and navigability of any academic thesis.  
+\gls{novathesis} provides an integrated framework for managing internal references, hyperlinks, acronyms, glossaries, and indexes.  
+This system is built upon standard \LaTeX{} packages—\texttt{hyperref}, \texttt{cleveref}, and \texttt{glossaries}—and is configured to operate automatically in both printed and digital versions of the document.
+
+This chapter explains how to define and reference document elements, generate glossaries and acronym lists, and produce subject indexes.
+
+\section{Internal Cross-References}
+
+All document elements (chapters, sections, figures, tables, equations, algorithms, etc.) can be cross-referenced using \verb|\label| and \verb|\ref|.
+
+\paragraph{Basic Usage.}
+\begin{verbatim}
+\section{Introduction}
+\label{sec:intro}
+...
+As explained in Section~\ref{sec:intro}, the motivation for this study...
+\end{verbatim}
+
+Labels should follow a structured prefix convention:
+\begin{quote}
+\texttt{chap:}, \texttt{sec:}, \texttt{fig:}, \texttt{tab:}, \texttt{eq:}, \texttt{alg:}, etc.
+\end{quote}
+
+This naming scheme avoids conflicts and improves searchability.
+
+\section{The \texttt{cleveref} Package}
+
+\gls{novathesis} preloads \texttt{cleveref}, which automatically formats references with appropriate names and numbering.  
+It also handles ranges and multiple references.
+
+\paragraph{Example.}
+\begin{verbatim}
+As seen in \cref{fig:setup,tab:results}, the experimental conditions were identical.
+\end{verbatim}
+
+Output:
+\begin{quote}
+As seen in Figures~2.1 and~2.2, the experimental conditions were identical.
+\end{quote}
+
+\paragraph{Ranges.}
+\begin{verbatim}
+See \crefrange{eq:first}{eq:last} for the full derivation.
+\end{verbatim}
+
+\paragraph{Capitalization.}
+Use \verb|\Cref| (capital “C”) at the start of a sentence:
+\begin{verbatim}
+\Cref{sec:methodology} provides the full description of the approach.
+\end{verbatim}
+
+\paragraph{Localization.}
+Reference names (“Figure”, “Table”, “Equation”, etc.) are automatically translated according to the document language (see Chapter~\ref{chap:multilanguage}).
+
+\section{Hyperlinks and PDF Metadata}
+
+\gls{novathesis} loads the \texttt{hyperref} package with configuration consistent with institutional requirements.  
+All cross-references, table-of-contents entries, and URLs become clickable in the generated PDF.
+
+\paragraph{Default PDF Properties.}
+The class automatically sets:
+\begin{itemize}
+  \item \texttt{pdfauthor}, \texttt{pdftitle}, \texttt{pdfsubject}, and \texttt{pdfkeywords};
+  \item Link colors depending on the selected build mode (\texttt{media=screen} or \texttt{media=paper});
+  \item Bookmarks and document structure for all major headings.
+\end{itemize}
+
+\paragraph{Media Modes.}
+\begin{verbatim}
+\ntsetup{media=screen} % colored links
+\ntsetup{media=paper}  % black links for print
+\end{verbatim}
+
+\paragraph{Customizing Colors.}
+If necessary, override in \texttt{0-Config/5\_packages.tex}:
+\begin{verbatim}
+\hypersetup{
+  linkcolor=blue,
+  citecolor=darkgray,
+  urlcolor=navy
+}
+\end{verbatim}
+
+\paragraph{Referencing URLs and DOIs.}
+\begin{verbatim}
+\url{https://novathesis.github.io}
+\href{https://doi.org/10.1234/abcd}{DOI: 10.1234/abcd}
+\end{verbatim}
+
+\section{Acronyms and Abbreviations}
+
+\gls{novathesis} integrates the \texttt{glossaries} package to manage acronyms and abbreviations.  
+Acronyms are defined once and automatically expanded upon first use.
+
+\paragraph{Defining Acronyms.}
+Add entries in \texttt{1-FrontMatter/acronyms.tex}:
+\begin{verbatim}
+\newacronym{ml}{ML}{Machine Learning}
+\newacronym{ai}{AI}{Artificial Intelligence}
+\end{verbatim}
+
+\paragraph{Using Acronyms.}
+\begin{verbatim}
+\gls{ml} models are a subset of \gls{ai} systems.
+\end{verbatim}
+
+The first occurrence prints the full form followed by the abbreviation:  
+“Machine Learning (ML) models are a subset of Artificial Intelligence (AI) systems.”  
+Subsequent uses display only the short form.
+
+\paragraph{Plural and Capitalized Forms.}
+\begin{verbatim}
+\glspl{ml}      % plural form
+\Gls{ai}        % capitalized form
+\Glspl{ai}      % capitalized plural
+\end{verbatim}
+
+\paragraph{List of Acronyms.}
+Enable in \texttt{0-Config/6\_list\_of.tex}:
+\begin{verbatim}
+\ntaddlistof{acronyms}
+\end{verbatim}
+
+This list will appear in the front matter.
+
+\section{Glossaries}
+
+Glossaries are used to define technical terms or symbols.  
+Each entry includes a key, a name, and a description.
+
+\paragraph{Example.}
+Add definitions to \texttt{1-FrontMatter/glossary.tex}:
+\begin{verbatim}
+\newglossaryentry{entropy}{
+  name=Entropy,
+  description={A measure of disorder or randomness in a system}
+}
+\newglossaryentry{overfitting}{
+  name=Overfitting,
+  description={Modeling noise instead of the underlying relationship}
+}
+\end{verbatim}
+
+Use terms in the text:
+\begin{verbatim}
+\gls{entropy} is a fundamental concept in thermodynamics.
+\end{verbatim}
+
+\paragraph{Printing the Glossary.}
+At the end of the document, add:
+\begin{verbatim}
+\printglossaries
+\end{verbatim}
+
+or enable the automatic inclusion in \texttt{0-Config/6\_list\_of.tex}:
+\begin{verbatim}
+\ntaddlistof{glossaries}
+\end{verbatim}
+
+\section{Generating Glossaries}
+
+When compiling locally, the Makefile automatically invokes the \texttt{makeglossaries} command.  
+If run manually:
+
+\begin{verbatim}
+makeglossaries template
+latexmk -xelatex template.tex
+\end{verbatim}
+
+Ensure that the glossary definitions are placed in separate files (e.g., \texttt{acronyms.tex}, \texttt{glossary.tex}) and that they are included through \texttt{0-Config/4\_files.tex}.
+
+\paragraph{Overleaf Limitation.}
+Overleaf’s free tier does not support the \texttt{makeglossaries} executable.  
+Either upgrade to a paid account or generate the glossary locally and upload the resulting \texttt{.gls} and \texttt{.glo} files manually.
+
+\section{Multiple Glossaries}
+
+The \texttt{glossaries} package supports multiple glossary types (e.g., symbols, nomenclature, abbreviations).  
+Declare new types in \texttt{0-Config/5\_packages.tex}:
+
+\begin{verbatim}
+\newglossary[symg]{symbols}{sym}{sbl}{List of Symbols}
+\end{verbatim}
+
+Then define entries:
+\begin{verbatim}
+\newglossaryentry{alpha}{
+  type=symbols,
+  name={\ensuremath{\alpha}},
+  description={Learning rate in optimization algorithms}
+}
+\end{verbatim}
+
+\paragraph{Printing.}
+\begin{verbatim}
+\printglossary[type=symbols]
+\end{verbatim}
+
+\section{Indexes}
+\label{sec:indexes}
+
+An index provides a comprehensive alphabetical list of topics, authors, or keywords referenced throughout the document.  
+\gls{novathesis} integrates the standard \texttt{makeidx} and \texttt{imakeidx} packages.
+
+\paragraph{Enabling Indexing.}
+In \texttt{0-Config/5\_packages.tex}, uncomment:
+\begin{verbatim}
+\makeindex
+\end{verbatim}
+
+\paragraph{Creating Entries.}
+Mark terms for indexing using:
+\begin{verbatim}
+\index{machine learning}
+\index{artificial intelligence!supervised learning}
+\end{verbatim}
+
+Nested entries use the “!” separator.
+
+\paragraph{Printing the Index.}
+Add the following at the end of the document or enable it in \texttt{0-Config/6\_list\_of.tex}:
+\begin{verbatim}
+\printindex
+\end{verbatim}
+
+\paragraph{Building the Index.}
+If not managed automatically, run:
+\begin{verbatim}
+makeindex template
+latexmk -xelatex template.tex
+\end{verbatim}
+
+\section{Nomenclature and Symbols}
+
+For technical documents requiring a list of symbols or nomenclature, reuse the glossary mechanism or employ the \texttt{nomencl} package.
+
+\paragraph{Example with \texttt{nomencl}.}
+\begin{verbatim}
+\usepackage{nomencl}
+\makenomenclature
+
+\nomenclature{$E$}{Energy (J)}
+\nomenclature{$m$}{Mass (kg)}
+\nomenclature{$c$}{Speed of light (m/s)}
+
+\printnomenclature
+\end{verbatim}
+
+Compile with:
+\begin{verbatim}
+makeindex template.nlo -s nomencl.ist -o template.nls
+\end{verbatim}
+
+\section{Cross-Referencing Best Practices}
+
+\begin{itemize}
+  \item Always assign meaningful label names reflecting the element type;
+  \item Place \verb|\label| immediately after the \verb|\caption| command in floats;
+  \item Use \verb|\cref|/\verb|\Cref| instead of manual “Figure~\verb|\ref|{}” combinations;
+  \item Verify that every reference resolves after two compilation passes;
+  \item Avoid duplicating labels across different environments;
+  \item For equations, use short and descriptive labels (e.g., \texttt{eq:navier-stokes});
+  \item Regularly clean auxiliary files (\texttt{make clean}) to remove stale references.
+\end{itemize}
+
+\section{Common Issues and Remedies}
+
+\paragraph{“Label(s) may have changed.”}  
+This message is informational; recompile once more to synchronize references.
+
+\paragraph{“Undefined references” or “???” in output.}  
+Ensure that \verb|\label| names match their \verb|\ref| usage exactly (case-sensitive).
+
+\paragraph{Glossary not generated.}  
+Run \texttt{makeglossaries template} manually, then recompile.
+
+\paragraph{Acronym list empty.}  
+Ensure that acronyms are defined before first use and that the list is included in \texttt{0-Config/6\_list\_of.tex}.
+
+\paragraph{Broken hyperlinks in Overleaf.}  
+Recompile using XeLaTeX or LuaLaTeX; ensure that \texttt{hyperref} is not redefined by another package.
+
+\section{Summary}
+
+\gls{novathesis} integrates comprehensive cross-referencing, hyperlinking, glossary, and index systems that operate seamlessly across languages and compilation modes.  
+By defining clear labels, consistent acronyms, and structured glossaries, authors ensure that readers can navigate the document effectively and that institutional standards for cross-referencing and terminology management are satisfied.  
+All such mechanisms function automatically within the \gls{novathesis} workflow, requiring only minimal configuration.

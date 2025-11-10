@@ -1,0 +1,207 @@
+%!TEX root = ../template.tex
+
+\chapter{Project Maintenance and Future Development}
+\label{chap:maintenance}
+
+\section{Overview}
+
+This chapter documents the long-term maintenance strategy and development roadmap for the \gls{novathesis} Template.  
+It is intended for maintainers, institutional partners, and contributors responsible for ensuring the continuity, stability, and evolution of the project.
+
+\gls{novathesis} has matured into a modular and extensible platform that serves as the standard academic writing framework across NOVA University Lisbon and other partner institutions.  
+To preserve its long-term relevance, the project adheres to structured maintenance practices, semantic versioning, and formal governance procedures.
+
+\section{Maintenance Objectives}
+
+The main objectives of project maintenance are:
+
+\begin{enumerate}
+  \item \textbf{Reliability} — ensuring that every release compiles successfully across supported systems;
+  \item \textbf{Compatibility} — preserving backward compatibility of configuration files and institutional presets;
+  \item \textbf{Compliance} — maintaining alignment with institutional formatting and publication standards;
+  \item \textbf{Sustainability} — providing a clear development roadmap, documentation updates, and succession planning;
+  \item \textbf{Reproducibility} — ensuring that older theses can be recompiled identically using the same template version.
+\end{enumerate}
+
+\section{Maintenance Model}
+
+\gls{novathesis} follows a hybrid maintenance model combining centralized coordination with community input.  
+
+\paragraph{Core Maintainers.}
+A small group of maintainers is responsible for:
+\begin{itemize}
+  \item Reviewing and merging contributions;
+  \item Coordinating institutional preset updates;
+  \item Publishing release tags and build artifacts;
+  \item Maintaining documentation and build automation.
+\end{itemize}
+
+\paragraph{Community Contributors.}
+External contributors may:
+\begin{itemize}
+  \item Submit bug reports and feature proposals;
+  \item Contribute institutional styles and translations;
+  \item Improve documentation and example projects;
+  \item Participate in roadmap discussions.
+\end{itemize}
+
+All development activity occurs through transparent processes documented in the public repository.
+
+\section{Release Lifecycle Policy}
+
+Each major \gls{novathesis} release is maintained under the following lifecycle:
+
+\begin{itemize}
+  \item \textbf{Active Maintenance:} 12 months — includes feature updates and bug fixes;
+  \item \textbf{Extended Support:} 12 additional months — security and compatibility fixes only;
+  \item \textbf{Archived Status:} after 24 months — release remains accessible but unsupported.
+\end{itemize}
+
+Maintenance versions are tracked in the \texttt{CHANGELOG.md} file.  
+Older releases remain permanently available in the GitHub Releases archive to ensure reproducibility of previously submitted theses.
+
+\section{Automated Testing and Continuous Integration}
+
+Each commit and pull request undergoes automated testing to verify compilation integrity.
+
+\paragraph{Testing Pipeline.}
+\begin{itemize}
+  \item Compilation using \texttt{latexmk} under \texttt{pdfLaTeX}, \texttt{XeLaTeX}, and \texttt{LuaLaTeX};
+  \item Validation of glossary, bibliography, and cross-references;
+  \item Verification of institutional presets and multi-language examples.
+\end{itemize}
+
+Failures must be resolved before merging into the \texttt{main} branch.  
+Testing infrastructure is implemented using GitHub Actions or an equivalent CI environment.
+
+\section{Documentation Maintenance}
+
+The \gls{novathesis} manual (this document) is versioned alongside the template and updated for every minor release.  
+Documentation is maintained in both \texttt{.tex} and \texttt{.pdf} formats, and all examples are verified through automated builds.
+
+\paragraph{Documentation Sources.}
+\begin{itemize}
+  \item \texttt{docs/manual/} — \LaTeX{} sources of the User Manual;
+  \item \texttt{README.md} — short introduction for repository users;
+  \item \texttt{examples/} — compilable sample projects illustrating usage.
+\end{itemize}
+
+\paragraph{Publication.}
+Updated documentation is distributed with every tagged release and uploaded to the project’s GitHub Pages site for online access.
+
+\section{Dependency Management}
+
+To minimize incompatibility with upstream \LaTeX{} distributions:
+\begin{itemize}
+  \item Dependencies are limited to core packages included in TeX~Live, MacTeX, or MiKTeX;
+  \item Version constraints are documented in \texttt{\gls{novathesis}Files/requirements.txt};
+  \item The project is periodically tested against the latest TeX~Live distribution (LTS and rolling versions).
+\end{itemize}
+
+If upstream packages introduce breaking changes, maintainers issue compatibility patches under the next minor version.
+
+\section{Institutional Collaboration}
+
+\gls{novathesis} encourages formal collaboration with universities and research institutions.  
+Each partner institution may contribute:
+\begin{itemize}
+  \item Custom visual identity presets (cover pages, logos, color schemes);
+  \item Localized string files for additional languages;
+  \item Standardized formatting policies for specific degree programs.
+\end{itemize}
+
+To ensure consistency, new institutional presets must undergo review by the core maintainers before inclusion in the main repository.
+
+\section{Internationalization and Accessibility Roadmap}
+
+\paragraph{Internationalization.}
+Future versions aim to expand built-in localization support beyond the existing languages, with improved handling of right-to-left scripts and additional regional typographic standards.
+
+\paragraph{Accessibility.}
+Planned improvements include:
+\begin{itemize}
+  \item Automatic tagging of structural elements for screen readers (PDF/UA compliance);
+  \item Better contrast verification for color themes;
+  \item Guidelines for accessible figure captions and table descriptions.
+\end{itemize}
+
+\section{Technical Roadmap}
+
+The following roadmap outlines the current development priorities:
+
+\begin{description}
+  \item[Version 7.7.0] — Improved build performance, modular bibliography styles, and expanded example projects.
+  \item[Version 7.8.0] — Enhanced institutional preset management and internationalized metadata fields.
+  \item[Version 8.0.0] — Major release introducing complete class modularization, Lua-based configuration, and native PDF/A generation.
+\end{description}
+
+Each roadmap item is subject to revision following community review and institutional requirements.
+
+\section{Sustainability and Archival Strategy}
+
+Long-term sustainability depends on transparent documentation, reproducible builds, and open governance.  
+The following practices are enforced:
+
+\begin{itemize}
+  \item All releases archived with digital signatures and SHA-256 checksums;
+  \item Documentation preserved in PDF/A format for institutional libraries;
+  \item Source code and manual mirrored in the university’s GitLab and GitHub instances;
+  \item A stable identifier (DOI) assigned to each major version for citation.
+\end{itemize}
+
+\section{Succession Planning}
+
+To guarantee project continuity:
+\begin{itemize}
+  \item At least two maintainers must have administrative access to the repository;
+  \item Maintenance credentials are documented in the institutional repository;
+  \item Handover documentation describes the build process, test routines, and release workflow;
+  \item All core macros and configuration files include inline version metadata.
+\end{itemize}
+
+\section{Community Engagement}
+
+Community engagement is central to \gls{novathesis} sustainability.  
+The maintainers encourage:
+\begin{itemize}
+  \item Academic workshops and thesis preparation seminars using the template;
+  \item Student contributions through open coursework or theses;
+  \item Continuous feedback via GitHub Discussions;
+  \item Cross-institutional collaboration for formatting harmonization.
+\end{itemize}
+
+Community input directly informs roadmap priorities and design decisions.
+
+\section{Acknowledgment of Institutional Support}
+
+NOVA University Lisbon and its affiliated schools provide infrastructure and academic oversight for \gls{novathesis}.  
+Special recognition is extended to the faculty members and students who contributed to the early design, testing, and translation of the template.  
+Institutional support ensures that the project remains aligned with current academic publishing standards.
+
+\section{End of Document Notice}
+
+This User Manual, version~7.6.0, concludes the official documentation for the corresponding \gls{novathesis} release.  
+Readers are encouraged to verify the version date printed on the cover and consult the repository for subsequent updates.
+
+\paragraph{Citation.}
+\begin{quote}
+NOVA University Lisbon. \emph{\gls{novathesis} Template and User Manual}.  
+Version~7.6.0, April~2025. Available at  
+\url{https://github.com/novathesis/novathesis}.
+\end{quote}
+
+\paragraph{Contact.}
+For official correspondence and maintenance coordination:
+\begin{quote}
+\textbf{\gls{novathesis} Coordination Team}\\
+NOVA University Lisbon\\
+Lisbon, Portugal\\
+\url{https://novathesis.github.io}
+\end{quote}
+
+\section{Summary}
+
+This chapter defines the long-term maintenance and development framework of the \gls{novathesis} project.  
+By maintaining rigorous testing, transparent governance, and institutional collaboration, \gls{novathesis} ensures durability and adaptability in the evolving academic and technological landscape.  
+Through sustained community engagement and adherence to open standards, the project will continue to support the preparation of high-quality academic theses for years to come.
+

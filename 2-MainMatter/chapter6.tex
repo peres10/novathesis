@@ -1,0 +1,303 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter6.tex
+%% NOVA thesis document file
+%%
+%% Chapter with lots of dummy text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE chapter5.tex}%
+
+\chapter{Makefile and Build System}
+\label{chap:build-system}
+
+\section{Overview}
+
+\gls{novathesis} provides a fully automated build environment based on the \texttt{Makefile} utility.  
+It abstracts the complexity of multiple \LaTeX{} compilation passes, bibliography generation, and auxiliary file management into a simple and predictable command-line interface.  
+This design ensures reproducible builds across platforms and enables integration with continuous integration (CI) pipelines, local scripts, and Overleaf’s \texttt{latexmk} backend.
+
+The build system is compatible with:
+\begin{itemize}
+  \item macOS (via \texttt{MacTeX});
+  \item GNU/Linux (via \texttt{TeX\,Live});
+  \item Windows (via \texttt{MiKTeX} with \texttt{make} from Git Bash or \texttt{MinGW});
+  \item Overleaf (via its internal \texttt{latexmk} environment).
+\end{itemize}
+
+\section{Build Philosophy}
+
+Compiling a \gls{novathesis} project involves several coordinated steps:
+\begin{enumerate}
+  \item Reading configuration and metadata from \texttt{0-Config/};
+  \item Running \texttt{latexmk} to perform multiple \LaTeX{} passes automatically;
+  \item Running the appropriate bibliography backend (\texttt{biber} or \texttt{bibtex});
+  \item Producing a fully consistent PDF output with all references and lists resolved.
+\end{enumerate}
+
+The \texttt{Makefile} shipped with \gls{novathesis} encapsulates these steps under descriptive targets.  
+It also provides cleanup, packaging, and debugging utilities for maintenance and distribution.
+
+\section{Primary Build Targets}
+\label{sec:primary-targets}
+
+All commands below should be executed from the root of the \gls{novathesis} project, in a terminal or command prompt that supports \texttt{make}.
+
+\begin{description}
+  \item[\texttt{make pdf}]  
+  Compiles using \textbf{pdf\LaTeX}.  
+  Suitable when all fonts are provided by standard \LaTeX{} packages and when no OpenType system fonts are required.
+
+  \item[\texttt{make xe}]  
+  Compiles using \textbf{XeLaTeX}.  
+  Recommended for most users, particularly when the selected font theme requires system or OpenType fonts (see Section~\ref{sec:cfg-fonts}).  
+  XeLaTeX supports full Unicode and multilingual typesetting.
+
+  \item[\texttt{make lua}]  
+  Compiles using \textbf{LuaLaTeX}.  
+  Functionally equivalent to XeLaTeX in most cases, but with finer control of microtypography and font rendering.
+
+  \item[\texttt{make view}]  
+  Builds the document using the default engine (typically XeLaTeX) and opens the resulting PDF in the system’s viewer.  
+  On Linux, this uses the \texttt{xdg-open} utility; on macOS, \texttt{open}; on Windows, \texttt{start}.
+
+  \item[\texttt{make clean}]  
+  Removes all auxiliary build files (\texttt{.aux}, \texttt{.bbl}, \texttt{.bcf}, \texttt{.log}, \texttt{.out}, etc.) while keeping the PDF output.  
+  Use this to force a fresh rebuild.
+
+  \item[\texttt{make clean-all}]  
+  Performs a deep clean by removing \emph{all} auxiliary files, intermediate PDFs, and temporary data (including glossaries, listings, and \texttt{biber} caches).  
+  Recommended before switching compilation engines or bibliography backends.
+
+  \item[\texttt{make help}]  
+  Prints a concise list of available targets and a short description of each, directly from the Makefile.
+
+  \item[\texttt{make dry-run}]  
+  Simulates the build process, printing which School preset, mode, and engine would be used without performing any compilation.  
+  Useful for validating configuration discovery.
+
+  \item[\texttt{make zip}]  
+  Packages the entire project (excluding temporary files) into a clean ZIP archive suitable for submission or distribution.  
+  The ZIP includes configuration, class files, and content, but excludes the \texttt{template.pdf} output.
+\end{description}
+
+\paragraph{Default target.}  
+Running \texttt{make} without arguments executes \texttt{make pdf} by default, unless redefined in the file’s header.
+
+\section{Advanced Targets and Variables}
+\label{sec:advanced-targets}
+
+The Makefile accepts several environment variables that can override automatic detection.
+
+\begin{description}
+  \item[\texttt{ENGINE}]  
+  Forces a specific compilation engine.  
+  Example:
+  \begin{verbatim}
+  make ENGINE=xelatex
+  \end{verbatim}
+
+  \item[\texttt{SCHOOL}]  
+  Overrides the school preset inferred from \texttt{0-Config/1\_novathesis.tex}.  
+  Example:
+  \begin{verbatim}
+  make SCHOOL=nova/fct
+  \end{verbatim}
+
+  \item[\texttt{MODE}]  
+  Switches between build modes (\texttt{working}, \texttt{provisional}, \texttt{final}).  
+  Example:
+  \begin{verbatim}
+  make MODE=final
+  \end{verbatim}
+
+  \item[\texttt{BIBER}]  
+  Path to the \texttt{biber} executable, if non-standard.  
+  Example:
+  \begin{verbatim}
+  make BIBER=/usr/local/texlive/2025/bin/x86_64-linux/biber
+  \end{verbatim}
+\end{description}
+
+When any of these variables are provided, the Makefile exports them to the \texttt{latexmk} process, ensuring consistent behaviour across all steps.
+
+\section{Integration with \texttt{latexmk}}
+
+\subsection{Purpose of \texttt{latexmk}}
+\texttt{latexmk} automates multi-pass compilation by invoking the compiler until all cross-references, bibliographies, and glossaries are resolved.  
+\gls{novathesis} relies on \texttt{latexmk}’s dependency detection and log parsing capabilities to eliminate the need for manual rebuilds.
+
+\subsection{Internal Workflow}
+
+A typical \texttt{make xe} invocation performs the following internal steps:
+
+\begin{enumerate}
+  \item Run \texttt{latexmk -xelatex -interaction=nonstopmode template.tex};
+  \item Detect \texttt{biber} or \texttt{bibtex} usage via log analysis;
+  \item Execute \texttt{biber template} (if backend=biber);
+  \item Re-run \texttt{latexmk} as many times as needed for stable cross-references;
+  \item Copy or rename the resulting \texttt{template.pdf}.
+\end{enumerate}
+
+All these steps are idempotent and may be repeated without risk of data loss.
+
+\subsection{Overriding \texttt{latexmk} Options}
+
+If your environment requires special compiler flags (for example, enabling shell escape for \texttt{minted} or \texttt{gnuplot}), set them through the \texttt{LATEXMKOPTS} variable:
+
+\begin{verbatim}
+make xe LATEXMKOPTS="--shell-escape"
+\end{verbatim}
+
+The class does not enable shell escape by default for security reasons.
+
+\section{Parallel Compilation and Continuous Integration}
+\label{sec:ci}
+
+\subsection{Parallel Builds}
+\texttt{make} can execute independent rules concurrently when invoked with \texttt{-j}.  
+Although individual targets are sequential by design, this can accelerate multi-engine builds, for instance:
+
+\begin{verbatim}
+make -j3 pdf xe lua
+\end{verbatim}
+
+\subsection{Continuous Integration Pipelines}
+
+For reproducible builds in CI (e.g., GitHub Actions, GitLab CI), define the following minimal pipeline step:
+
+\begin{verbatim}
+- name: Build \gls{novathesis}
+  run: |
+    sudo apt install texlive-full biber make
+    make xe
+\end{verbatim}
+
+Ensure that your pipeline image includes sufficient disk space (typically >5 GB for \texttt{texlive-full}).
+
+\section{Using the Makefile on Windows}
+
+Windows users must ensure that \texttt{make} is available in the PATH.  
+It is typically bundled with \texttt{Git for Windows} or \texttt{MinGW}.  
+Run the commands from \texttt{Git Bash} or \texttt{MinGW64 Shell}:
+
+\begin{verbatim}
+make pdf
+make clean
+\end{verbatim}
+
+If \texttt{make} is not available, the same results can be obtained using \texttt{latexmk} directly:
+
+\begin{verbatim}
+latexmk -xelatex template.tex
+biber template
+latexmk -xelatex template.tex
+\end{verbatim}
+
+\section{File and Directory Naming Conventions}
+
+The Makefile and class expect:
+\begin{itemize}
+  \item no spaces in directory or file names;
+  \item all chapter and figure file names in lowercase with hyphens or underscores;
+  \item the main file named \texttt{template.tex}.
+\end{itemize}
+
+These conventions ensure that relative paths resolve correctly across different operating systems.
+
+\section{Common Compilation Scenarios}
+\label{sec:common-builds}
+
+\subsection{First Compilation}
+\begin{enumerate}
+  \item Configure the template (see Chapter~\ref{chap:getting-started});
+  \item Run \verb|make xe|;
+  \item Verify that \texttt{template.pdf} is generated successfully.
+\end{enumerate}
+
+\subsection{Switching Font Engines}
+If you change the \texttt{style/font} key in \texttt{1\_novathesis.tex} to a theme requiring system fonts, clean and rebuild with XeLaTeX or LuaLaTeX:
+\begin{verbatim}
+make clean
+make xe
+\end{verbatim}
+
+\subsection{Bibliography Errors}
+If citations appear unresolved, clean intermediate bibliography files and rebuild:
+\begin{verbatim}
+make clean
+make xe
+\end{verbatim}
+This re-triggers \texttt{biber} or \texttt{bibtex} as required.
+
+\section{Troubleshooting the Build System}
+\label{sec:build-troubleshooting}
+
+\begin{itemize}
+  \item \textbf{“File not found” errors:} Verify that paths in \texttt{0-Config/4\_files.tex} correspond to existing files without extensions.
+  \item \textbf{Fonts missing:} Ensure required fonts are installed (especially for \texttt{opensans}, \texttt{calibri}, \texttt{futura}, etc.) and rebuild with XeLaTeX or LuaLaTeX.
+  \item \textbf{Biber not found:} Confirm that \texttt{biber} is installed and available in PATH. Run \verb|which biber| (Unix) or \verb|where biber| (Windows).
+  \item \textbf{Glossary not appearing:} If using glossaries, run \verb|make clean-all| followed by \verb|make xe| to ensure the glossaries auxiliary files are rebuilt.
+  \item \textbf{Inconsistent page numbering:} Ensure the front matter sequence in \texttt{4\_files.tex} matches institutional requirements; the class manages transitions automatically.
+\end{itemize}
+
+\section{Packaging and Distribution}
+\label{sec:packaging}
+
+Use the \texttt{make zip} target to produce a portable archive for submission or backup.  
+This rule gathers the following components:
+
+\begin{itemize}
+  \item All user files under \texttt{0-Config/}, \texttt{1-}, \texttt{2-}, \texttt{3-}, \texttt{4-}, and \texttt{5-Figures/};
+  \item The class file \texttt{novathesis.cls};
+  \item The Makefile itself;
+  \item The license file.
+\end{itemize}
+
+It automatically excludes:
+\begin{itemize}
+  \item Intermediate files (\texttt{.aux}, \texttt{.log}, \texttt{.bbl}, \texttt{.blg}, etc.);
+  \item The compiled PDF;
+  \item Local editor files (e.g., \texttt{.DS\_Store}, \texttt{.synctex.gz}).
+\end{itemize}
+
+The resulting ZIP can be submitted directly to institutional repositories or shared with collaborators.
+
+\section{Extending the Build System}
+
+The Makefile is designed for clarity and ease of extension.  
+Common customizations include:
+\begin{itemize}
+  \item Adding a new target for glossaries regeneration:
+  \begin{verbatim}
+  glossaries:
+      make clean
+      make xe LATEXMKOPTS="--shell-escape"
+  \end{verbatim}
+  \item Creating a \texttt{draft} target that enables the \texttt{working} mode:
+  \begin{verbatim}
+  draft:
+      make MODE=working xe
+  \end{verbatim}
+  \item Adding an \texttt{upload} target to push the generated PDF to a remote repository or Overleaf via Git.
+\end{itemize}
+
+When editing the Makefile, preserve the default targets and comment structure for maintainability.
+
+\section{Build Reproducibility and Archival Practices}
+\label{sec:build-reproducibility}
+
+Reproducibility is a key principle of \gls{novathesis}.  
+To ensure consistent builds across environments:
+\begin{itemize}
+  \item Record the TeX distribution version (e.g., TeX\,Live 2025) and \gls{novathesis} version (e.g., 7.6.0) in your thesis’ metadata.
+  \item Archive the final \texttt{.pdf}, \texttt{.bib}, and \texttt{0-Config/} folder together in institutional repositories.
+  \item Use \texttt{make zip} for a clean and deterministic snapshot of the build state.
+\end{itemize}
+
+\section{Summary}
+
+The \gls{novathesis} Makefile and build system provide a robust, cross-platform environment that automates all steps of document compilation.  
+By relying on standardized tools such as \texttt{latexmk} and \texttt{biber}, it ensures that any user—regardless of platform—can reproduce identical results using the same configuration and class version.  
+Proper use of the Makefile not only simplifies day-to-day compilation but also guarantees that submitted documents are consistent, traceable, and compliant with institutional formatting policies.
+

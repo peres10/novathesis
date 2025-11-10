@@ -1,0 +1,259 @@
+%!TEX root = ../template.tex
+
+\chapter{Adding a New Font Theme}
+\label{chap:newfont}
+
+\section{Overview}
+
+Typography plays a central role in the visual identity and readability of academic documents.  
+NOVAthesis employs a modular system for font management, allowing users and institutions to define distinct \emph{font themes} that encapsulate all typographic parameters — including text, math, and monospaced fonts.  
+
+This chapter explains how to create, configure, and test a new font theme using the NOVAthesis modular system, without modifying the core class.  
+It also describes recommended font combinations and institutional customization guidelines.
+
+\section{Font Theme Architecture}
+
+All font-related configurations are located in the folder:
+
+\begin{quote}
+\texttt{NOVAthesisFiles/Fonts/}
+\end{quote}
+
+Each font theme is stored in an independent file, typically named:
+
+\begin{verbatim}
+NOVAthesisFiles/Fonts/nt-font-<theme>.sty
+\end{verbatim}
+
+Examples included with the distribution:
+\begin{verbatim}
+nt-font-default.sty
+nt-font-modern.sty
+nt-font-times.sty
+nt-font-sans.sty
+nt-font-palatino.sty
+\end{verbatim}
+
+Font themes are selected using the configuration key:
+\begin{verbatim}
+\ntsetup{font=<theme>}
+\end{verbatim}
+
+\paragraph{Example.}
+\begin{verbatim}
+\ntsetup{
+  font=modern,
+  mode=final,
+  media=screen
+}
+\end{verbatim}
+
+This command loads \texttt{NOVAthesisFiles/Fonts/nt-font-modern.sty} automatically.
+
+\section{Structure of a Font Theme File}
+
+Each font theme file defines three categories of fonts:
+
+\begin{enumerate}
+  \item Serif (main text);
+  \item Sans-serif (headings, captions, or alternate);
+  \item Monospace (code or listings).
+\end{enumerate}
+
+In addition, the theme specifies math font compatibility and general typographic spacing parameters.
+
+\paragraph{Example Skeleton.}
+\begin{verbatim}
+% nt-font-minion.sty — NOVAthesis font theme (Minion + Myriad)
+% Encoding: UTF-8
+\ProvidesPackage{nt-font-minion}[2025/04/18 NOVAthesis font theme: Minion/Myriad]
+
+% Load required packages
+\RequirePackage{fontspec}
+
+% Serif font (main text)
+\setmainfont{Minion Pro}[
+  Ligatures=TeX,
+  Numbers=OldStyle,
+  Scale=1.0
+]
+
+% Sans-serif font (headings)
+\setsansfont{Myriad Pro}[
+  Ligatures=TeX,
+  Scale=MatchLowercase
+]
+
+% Monospace font (code, listings)
+\setmonofont{Inconsolata}[
+  Scale=MatchLowercase
+]
+
+% Math font (if available)
+\setmathfont{Minion Math}
+
+% Adjust paragraph spacing and leading
+\linespread{1.05}
+\end{verbatim}
+
+All commands are executed within the scope of the template’s internal font setup module.  
+If a font is unavailable on the system, XeLaTeX or LuaLaTeX will issue a warning and fall back to the default.
+
+\section{Font Theme Naming Conventions}
+
+\begin{itemize}
+  \item The filename must begin with \texttt{nt-font-};
+  \item The extension must be \texttt{.sty};
+  \item The internal \texttt{\textbackslash ProvidesPackage} declaration must match the file name;
+  \item The theme name used in \texttt{\textbackslash ntsetup\{font=\ldots\}} must correspond to the suffix of the file name.
+\end{itemize}
+
+\paragraph{Example.}
+\begin{verbatim}
+File: nt-font-garamond.sty
+Called as: \ntsetup{font=garamond}
+\end{verbatim}
+
+\section{Recommended Fonts and Compatibility}
+
+NOVAthesis officially supports Unicode-aware fonts available in TeX~Live and modern operating systems.
+
+\paragraph{Recommended Typefaces.}
+\begin{itemize}
+  \item \textbf{Times New Roman / TeX Gyre Termes} — traditional, widely accepted;
+  \item \textbf{Palatino / TeX Gyre Pagella} — balanced for long reading;
+  \item \textbf{Minion + Myriad} — professional dual-family pair;
+  \item \textbf{Libertinus} — free, open-source family with full math coverage;
+  \item \textbf{STIX Two} — excellent for scientific publications;
+  \item \textbf{Latin Modern} — default fallback, compatible with all TeX distributions.
+\end{itemize}
+
+\paragraph{Free and Open Source Fonts.}
+For maximum portability, it is recommended that font themes rely on open-source fonts included in TeX~Live.
+
+\section{Math Font Configuration}
+
+Mathematical fonts must be compatible with the main text font to ensure visual harmony.
+
+\paragraph{Example (Libertinus).}
+\begin{verbatim}
+\setmainfont{Libertinus Serif}
+\setsansfont{Libertinus Sans}
+\setmonofont{Libertinus Mono}
+\setmathfont{Libertinus Math}
+\end{verbatim}
+
+\paragraph{Example (TeX Gyre).}
+\begin{verbatim}
+\setmainfont{TeX Gyre Pagella}
+\setmathfont{TeX Gyre Pagella Math}
+\end{verbatim}
+
+If no math font is declared, NOVAthesis defaults to Latin Modern Math.
+
+\section{Conditional Font Loading}
+
+To provide fallback behavior, conditionals can be included to verify whether the desired font is installed.
+
+\paragraph{Example.}
+\begin{verbatim}
+\IfFontExistsTF{Minion Pro}{
+  \setmainfont{Minion Pro}
+}{
+  \setmainfont{TeX Gyre Pagella}
+}
+\end{verbatim}
+
+This ensures robust compilation even on systems lacking proprietary fonts.
+
+\section{Fine-Tuning Typography}
+
+Each font theme may redefine typographic parameters such as:
+\begin{itemize}
+  \item \texttt{\textbackslash linespread} — line spacing multiplier;
+  \item \texttt{\textbackslash baselinestretch} — alternative for line height control;
+  \item \texttt{\textbackslash parskip} and \texttt{\textbackslash parindent};
+  \item Title and section font weights using \texttt{\textbackslash renewcommand};
+  \item Small-caps or letter-spacing adjustments for headings.
+\end{itemize}
+
+\paragraph{Example (adjust headings).}
+\begin{verbatim}
+\renewcommand{\chapternamefont}{\sffamily\Large\bfseries}
+\renewcommand{\chapternumberfont}{\sffamily\huge\bfseries}
+\renewcommand{\chaptertitlefont}{\sffamily\Huge\bfseries}
+\end{verbatim}
+
+\section{Testing and Validation}
+
+Before finalizing a new font theme, test it under all standard configurations.
+
+\paragraph{Test Checklist.}
+\begin{itemize}
+  \item [ ] Compile with XeLaTeX and LuaLaTeX (both must succeed);
+  \item [ ] Verify that all fonts load correctly (no “font not found” warnings);
+  \item [ ] Inspect the title page, table of contents, and bibliography;
+  \item [ ] Confirm proper math symbol alignment and equation spacing;
+  \item [ ] Ensure small-caps and bold weights render consistently;
+  \item [ ] Check PDF font embedding using:
+    \begin{verbatim}
+    pdffonts template.pdf
+    \end{verbatim}
+\end{itemize}
+
+\paragraph{Compilation Example.}
+\begin{verbatim}
+make MODE=final MEDIA=paper font=garamond xe
+\end{verbatim}
+
+\section{Packaging and Contribution Guidelines}
+
+To distribute a new font theme with the template or submit it for inclusion in the official repository, follow these steps:
+
+\begin{enumerate}
+  \item Place the file under \texttt{NOVAthesisFiles/Fonts/};
+  \item Ensure it includes a proper header with author, version, and license;
+  \item Add a comment specifying font licensing and installation requirements;
+  \item Test on both macOS (MacTeX) and Linux (TeX~Live);
+  \item Submit a pull request including:
+    \begin{itemize}
+      \item The new theme file (\texttt{nt-font-<name>.sty});
+      \item A compiled example thesis using the theme;
+      \item A short entry in the documentation (this manual or \texttt{README.md}).
+    \end{itemize}
+\end{enumerate}
+
+\section{Licensing and Font Distribution}
+
+Due to licensing restrictions, NOVAthesis does not distribute proprietary fonts.  
+Users are responsible for ensuring that any commercial typeface (e.g., Minion Pro, Myriad Pro) is properly licensed on their system.  
+
+Open-source themes (e.g., Libertinus, TeX~Gyre, STIX) may be redistributed under their respective licenses, provided that the NOVAthesis class remains under LPPL.
+
+\section{Troubleshooting}
+
+\paragraph{Common Issues.}
+\begin{itemize}
+  \item \textbf{Font not found:} Ensure the font is installed system-wide and accessible to XeLaTeX or LuaLaTeX;
+  \item \textbf{Incorrect bold or italic variants:} Specify explicit \texttt{BoldFont=} and \texttt{ItalicFont=} options;
+  \item \textbf{Math symbols mismatched:} Use a compatible math font or revert to Latin Modern Math;
+  \item \textbf{Inconsistent spacing:} Adjust \texttt{\textbackslash linespread} and \texttt{\textbackslash parskip} values.
+\end{itemize}
+
+\paragraph{Debugging Fonts.}
+Use:
+\begin{verbatim}
+luaotfload-tool --find "Font Name"
+\end{verbatim}
+to confirm font availability, or:
+\begin{verbatim}
+fc-list | grep "Font Name"
+\end{verbatim}
+on Linux/macOS systems.
+
+\section{Summary}
+
+Font themes in NOVAthesis are modular, portable, and easy to customize.  
+By defining a new \texttt{nt-font-<name>.sty} file within the \texttt{NOVAthesisFiles/Fonts/} directory, users can achieve institution-specific typography while maintaining full compatibility with the template’s automation and build system.  
+
+Following the conventions and testing procedures described in this chapter ensures that new typographic configurations remain consistent, reproducible, and compliant with academic publishing standards.

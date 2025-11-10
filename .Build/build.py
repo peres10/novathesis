@@ -46,7 +46,7 @@ BRIGHT_MAGENTA = "\033[95m"
 BRIGHT_CYAN    = "\033[96m"
 BRIGHT_WHITE   = "\033[97m"
 # --- Pattern Builders -------------------------------------------------------
-def build_patterns(new_doc_type: str, new_school_id: str, new_lang_code: str, cover_only: bool, doc_status: str) -> dict[str, dict[Pattern, Callable[[str], str]]]:
+def build_patterns(new_doc_type: str, new_school_id: str, new_lang_code: str, cover_only: bool, doc_status: str, demo: bool) -> dict[str, dict[Pattern, Callable[[str], str]]]:
     """
     Build regex patterns and transformation functions for configuration file processing.
     Args:
@@ -54,7 +54,8 @@ def build_patterns(new_doc_type: str, new_school_id: str, new_lang_code: str, co
         new_school_id: School identifier (e.g., 'nova/fct')
         new_lang_code: Language code (e.g., 'en', 'pt', 'uk', 'gr')
         cover_only: Whether to build cover-only version
-        doc_status: Document status (e.g., 'working', 'provisional', 'final')
+        doc_status: Document status (e.g., 'working', 'provisional', 'final', 'keep')
+        demo: Whether to build demo version with all abstracts
     Returns:
         Dictionary mapping filenames to pattern-transformer dictionaries
     """
@@ -86,8 +87,6 @@ def build_patterns(new_doc_type: str, new_school_id: str, new_lang_code: str, co
             _uncomment_replace("school", new_school_id),
         re.compile(r"^\s*%?\s*\\ntsetup\{\s*lang\s*=\s*[^}]+\}\s*.*$"):
             _uncomment_replace("lang", new_lang_code),
-        re.compile(r"^\s*%?\s*\\ntsetup\{\s*docstatus\s*=\s*[^}]+\}\s*.*$"):
-            _uncomment_replace("docstatus", doc_status),
         re.compile(r"^\s*%?\s*\\ntsetup\{\s*spine/layout\s*=\s*[^}]+\}\s*.*$"):
             _uncomment_replace("spine/layout", "trim"),
         re.compile(r"^\s*%?\s*\\ntsetup\{\s*spine/width\s*=\s*[^}]+\}\s*.*$"):
@@ -97,6 +96,11 @@ def build_patterns(new_doc_type: str, new_school_id: str, new_lang_code: str, co
         re.compile(r"^\s*%?\s*\\ntsetup\{\s*abstractorder=\{en,pt,uk,gr\}\}\s*.*$"):
             lambda line: re.sub(r"^(\s*)%+\s*", r"\1", line),
     }
+    
+    # Only add docstatus pattern if it's not "keep"
+    if doc_status != "keep":
+        file_1_patterns[re.compile(r"^\s*%?\s*\\ntsetup\{\s*docstatus\s*=\s*[^}]+\}\s*.*$")] = _uncomment_replace("docstatus", doc_status)
+    
     result = {
         "1_novathesis.tex": file_1_patterns,
     }
@@ -121,13 +125,15 @@ def build_patterns(new_doc_type: str, new_school_id: str, new_lang_code: str, co
             "6_list_of.tex": file_6_patterns,
         }
     else:
-        # Full build: include additional abstract files
-        file_4_patterns = {
-            re.compile(r"^\s*%?\s*\\ntaddfile\{abstract\}\[gr\]\{abstract-gr\}\s*.*$"):
-                lambda line: re.sub(r"^(\s*)%+\s*", r"\1", line),
-            re.compile(r"^\s*%?\s*\\ntaddfile\{abstract\}\[uk\]\{abstract-uk\}\s*.*$"):
-                lambda line: re.sub(r"^(\s*)%+\s*", r"\1", line),
-        }
+        # Full build: only include additional abstract files in demo mode
+        file_4_patterns = {}
+        if demo:
+            file_4_patterns = {
+                re.compile(r"^\s*%?\s*\\ntaddfile\{abstract\}\[gr\]\{abstract-gr\}\s*.*$"):
+                    lambda line: re.sub(r"^(\s*)%+\s*", r"\1", line),
+                re.compile(r"^\s*%?\s*\\ntaddfile\{abstract\}\[uk\]\{abstract-uk\}\s*.*$"):
+                    lambda line: re.sub(r"^(\s*)%+\s*", r"\1", line),
+            }
         result |= {
             "4_files.tex": file_4_patterns,
         }
@@ -470,10 +476,10 @@ def main() -> None:
     )
     ap.add_argument(
         "-s", "--docstatus",
-        default="working",
-        choices=["working", "provisional", "final"],
+        default="keep",
+        choices=["working", "provisional", "final", "keep"],
         dest="status",
-        help="Document status: 'working', 'provisional', 'final' (default: working)"
+        help="Document status: 'working', 'provisional', 'final', or 'keep' to leave unchanged (default: keep)"
     )
     ap.add_argument(
         "-l", "--lang",
@@ -534,6 +540,12 @@ def main() -> None:
         default=False,
         help="Build cover-only version without main content (default: False)"
     )
+    ap.add_argument(
+        "--demo",
+        action="store_true",
+        default=False,
+        help="Build demo version with all abstracts and final status (default: False)"
+    )
     # Optional arguments
     ap.add_argument(
         "--confdir",
@@ -541,6 +553,12 @@ def main() -> None:
         help="Directory containing LaTeX configuration files (default: 0-Config)"
     )
     args = ap.parse_args()
+    
+    # If demo mode is active, override status to "final"
+    if args.demo:
+        args.status = "final"
+        print(f"{BRIGHT_CYAN}🎯 Demo mode: setting docstatus to 'final'{RESET}")
+    
     # redefine --lines if --cover-only is active
     if args.cover_only:
         args.lines = 2400
@@ -570,7 +588,7 @@ def main() -> None:
     # Set up temporary workspace
     tmp_root = prepare_temp_workspace(project_root, args.build_dir)
     # Build regex patterns using CLI args
-    patterns = build_patterns(args.doctype, args.school_id, args.lang, args.cover_only, args.status)
+    patterns = build_patterns(args.doctype, args.school_id, args.lang, args.cover_only, args.status, args.demo)
     # Localize & process the target files inside the TEMP tree
     changed_any = localize_and_process_files(
         tmp_root=tmp_root,

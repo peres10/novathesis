@@ -1,0 +1,412 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter7.tex
+%% NOVA thesis document file
+%%
+%% Chapter with lots of dummy text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE chapter7.tex}%
+
+\chapter{Advanced Customization}
+\label{chap:advanced-customization}
+
+\section{Overview}
+
+This chapter describes advanced customization techniques for users who wish to adapt \gls{novathesis} to new institutions, modify visual design elements, or introduce new structural and typographic conventions.  
+These procedures assume familiarity with \LaTeX{}, class options, and the overall configuration workflow presented in previous chapters.  
+
+All customization should be performed in a controlled and modular manner to preserve upgradeability and maintain compliance with institutional or publisher guidelines.
+
+\section{Principles of Safe Customization}
+
+\begin{itemize}
+  \item \textbf{Never edit core files.}  
+  Do not modify \texttt{novathesis.cls} or files inside \texttt{\gls{novathesis}Files/}.  
+  Instead, override behaviour through configuration keys, macros, or new files under \texttt{0-Config/}.
+  This ensures that future updates of the template can be applied without losing local changes.
+
+  \item \textbf{Preserve the class API.}  
+  \gls{novathesis} provides stable interfaces for customization, such as:
+  \begin{quote}
+  \verb|\ntsetup{...}|, \quad \verb|\ntbibsetup{...}|, \quad \verb|\ntlangsetup{...}|, \quad \verb|\ntaddfile{...}|
+  \end{quote}
+  Use these rather than redefining lower-level commands.
+
+  \item \textbf{Use version control.}  
+  Keep your customized template in a Git repository. Tag stable build versions, and note the class version (e.g., 7.6.0) in your README and thesis metadata.
+\end{itemize}
+
+\section{Adding a New Institutional Preset}
+\label{sec:new-school}
+
+Institutions not currently included in the official presets can be supported by creating a new configuration file under \texttt{0-Config/} following the established naming convention.
+
+\subsection{Step 1: Create the Preset File}
+
+Copy an existing preset, such as \texttt{0-Config/9\_nova\_fct.tex}, and rename it according to the pattern:
+
+\begin{verbatim}
+0-Config/9_<institution>.tex
+\end{verbatim}
+
+For example, to create a preset for the University of Coimbra’s Faculty of Science and Technology:
+
+\begin{verbatim}
+0-Config/9_ucoimbra_fctuc.tex
+\end{verbatim}
+
+\subsection{Step 2: Define Metadata}
+
+Inside the new file, define:
+\begin{itemize}
+  \item Department(s) or School(s);
+  \item Degree names (in Portuguese and English);
+  \item Institution name, logos, and optional color palette;
+  \item Specific keys for examination, embargo, or signatures, if applicable.
+\end{itemize}
+
+Example:
+\begin{verbatim}
+% University of Coimbra – Faculty of Science and Technology (FCTUC)
+
+% Department (PT/EN)
+\ntdepartment(pt){Departamento de Engenharia Informática}
+\ntdepartment(en){Department of Informatics Engineering}
+
+% Degree names (PT/EN)
+\ntdegreename(pt){Engenharia Informática}
+\ntdegreename(en){Informatics Engineering}
+
+% University and faculty labels
+\ntsetup{
+  schoolname/pt = {Faculdade de Ciências e Tecnologia},
+  schoolname/en = {Faculty of Science and Technology},
+  university/pt = {Universidade de Coimbra},
+  university/en = {University of Coimbra}
+}
+\end{verbatim}
+
+\subsection{Step 3: Assign a School Identifier}
+
+The file name corresponds to the identifier used in \texttt{1\_novathesis.tex}.  
+For the above example:
+
+\begin{verbatim}
+\ntsetup{school=ucoimbra/fctuc}
+\end{verbatim}
+
+The class will automatically search for a file named \texttt{0-Config/9\_ucoimbra\_fctuc.tex} and apply its contents.
+
+\subsection{Step 4: Add Logos (Optional)}
+
+Place institutional logos in the folder \texttt{\gls{novathesis}Files/Logos/} following the same naming pattern:
+
+\begin{verbatim}
+\gls{novathesis}Files/Logos/ucoimbra_fctuc.pdf
+\end{verbatim}
+
+Then reference them in your preset file:
+\begin{verbatim}
+\ntsetup{
+  logo/front = ucoimbra_fctuc,
+  logo/back  = ucoimbra_fctuc_small
+}
+\end{verbatim}
+
+\subsection{Step 5: Test and Validate}
+
+Compile with:
+\begin{verbatim}
+make xe
+\end{verbatim}
+Verify that:
+\begin{itemize}
+  \item The institution and degree names appear correctly on the cover;
+  \item The logo is positioned and scaled appropriately;
+  \item Fonts, margins, and colors adhere to institutional branding guidelines.
+\end{itemize}
+
+\paragraph{Tip:}  
+Preserve the original style of other presets (structure, naming, comments) to ensure forward compatibility.
+
+\section{Customizing the Cover Page}
+\label{sec:custom-cover}
+
+Cover customization is one of the most common advanced modifications.  
+\gls{novathesis} provides several mechanisms for defining your own cover design.
+
+\subsection{High-Level Metadata Control}
+
+Most visual elements can be controlled through \texttt{0-Config/3\_cover.tex}:
+\begin{itemize}
+  \item Title and subtitle (\verb|\nttitle(main,<lang>)| and \verb|\nttitle(sub,<lang>)|);
+  \item Degree name (\verb|\ntdegreename|);
+  \item Specialization (\verb|\ntspecialization|);
+  \item Sponsors (\verb|\ntsponsors|);
+  \item Committee (\verb|\ntaddperson{committee}(role,gender){...}|).
+\end{itemize}
+
+\subsection{Overriding the Default Layout}
+
+If your institution demands a fully custom design, define your own cover file and include it via \texttt{4\_files.tex}:
+\begin{verbatim}
+\ntaddfile{cover}[1]{cover-front}
+\end{verbatim}
+
+Create \texttt{cover-front.tex} in the project root or under \texttt{3-BackMatter/}, and include any custom layout you wish using standard \LaTeX{} primitives or graphics.
+
+\begin{verbatim}
+\begin{titlepage}
+  \centering
+  \includegraphics[width=5cm]{\gls{novathesis}Files/Logos/ucoimbra_fctuc}
+  \vfill
+  {\Huge\bfseries My Custom Cover Design}
+  \vfill
+  {\large Author: John Doe\\[1em]
+   Supervisor: Prof.\ Jane Smith}
+  \vfill
+  {\normalsize Coimbra, 2025}
+\end{titlepage}
+\end{verbatim}
+
+\subsection{Adding a Custom Spine or Back Cover}
+
+To add custom spine or back covers, declare:
+\begin{verbatim}
+\ntaddfile{cover}[spine]{cover-spine}
+\ntaddfile{cover}[N]{cover-back}
+\end{verbatim}
+
+Disable the default second cover if required:
+\begin{verbatim}
+\ntsetup{print/secondcover=false}
+\end{verbatim}
+
+\section{Defining a New Font Theme}
+\label{sec:new-font-theme}
+
+Font themes reside under \texttt{\gls{novathesis}Files/FontStyles/} and are selected via \texttt{style/font} in \texttt{1\_novathesis.tex}.  
+Each theme is implemented as a small package defining font families, scaling, and optional microtypography adjustments.
+
+\subsection{Step 1: Copy an Existing Font Style}
+
+Duplicate one of the existing files, for example:
+\begin{verbatim}
+\gls{novathesis}Files/FontStyles/newpx.sty
+\end{verbatim}
+and rename it:
+\begin{verbatim}
+\gls{novathesis}Files/FontStyles/mycustomfont.sty
+\end{verbatim}
+
+\subsection{Step 2: Define the Font Families}
+
+Inside your new style file, load the desired packages or system fonts.  
+For example:
+\begin{verbatim}
+% My custom font style
+\ProvidesPackage{FontStyles/mycustomfont}
+
+\RequirePackage{fontspec} % required for XeLaTeX/LuaLaTeX
+
+\setmainfont{Roboto Slab}
+\setsansfont{Open Sans}
+\setmonofont{Inconsolata}
+\end{verbatim}
+
+\subsection{Step 3: Reference It in the Configuration}
+
+In \texttt{1\_novathesis.tex}, set:
+\begin{verbatim}
+\ntsetup{style/font=mycustomfont}
+\end{verbatim}
+and compile using XeLaTeX or LuaLaTeX.
+
+\subsection{Step 4: Test Typography}
+
+Ensure that all elements (headings, captions, math, tables) are rendered correctly.  
+If mathematical symbols appear mismatched, consider using \texttt{unicode-math} and loading a math font compatible with your text font.
+
+\section{Extending Language Support}
+\label{sec:new-language}
+
+\gls{novathesis} supports several languages natively (EN, PT, ES, FR, DE, IT, GR, UK).  
+To add a new language, create a new file under:
+
+\begin{verbatim}
+\gls{novathesis}Files/Strings/<lang>.tex
+\end{verbatim}
+
+The file should define localized strings for all keys in the default English version:
+\begin{verbatim}
+\ntlangsetup{
+  <lang>/contentsname=Índice,
+  <lang>/figuresname=Figuras,
+  <lang>/tablesname=Tabelas,
+  <lang>/chaptername=Capítulo,
+  ...
+}
+\end{verbatim}
+
+Once created, set \verb|mainlanguage=<lang>| in \texttt{1\_novathesis.tex} and recompile.
+
+\section{Defining Custom Metadata Fields}
+\label{sec:custom-fields}
+
+Institutions occasionally require additional metadata fields (e.g., embargo justification, research line, funding codes).  
+\gls{novathesis} allows the creation of custom key–value pairs through \verb|\ntsetup|:
+
+\begin{verbatim}
+\ntsetup{project/code=UIDP/05037/2025}
+\ntsetup{research/line=Artificial Intelligence and Systems}
+\end{verbatim}
+
+These fields can then be printed in covers or statements using:
+\begin{verbatim}
+\ntprint{project/code}
+\ntprint{research/line}
+\end{verbatim}
+
+\paragraph{Best practice.}  
+Prefix custom keys with a unique namespace (e.g., \texttt{project/}, \texttt{grant/}) to avoid name collisions with future class updates.
+
+\section{Overriding Language Strings}
+\label{sec:lang-overrides}
+
+To modify localized labels without editing class files, use the \verb|\ntlangsetup| macro in \texttt{0-Config/5\_packages.tex}.  
+Examples:
+
+\begin{verbatim}
+\ntlangsetup{en/contentsname=TABLE OF CONTENTS}
+\ntlangsetup{pt/contentsname=ÍNDICE}
+\ntlangsetup{en/listfigurename=FIGURES}
+\ntlangsetup{pt/listfigurename=FIGURAS}
+\end{verbatim}
+
+Recompile to verify that headings and captions reflect the updated names.
+
+\section{Custom Commands and Environments}
+\label{sec:new-commands}
+
+Users may define new macros or environments for repetitive content.  
+These should be placed in \texttt{5\_packages.tex} after the package imports to ensure proper scope.
+
+\begin{verbatim}
+% Example: Highlight command
+\newcommand{\highlight}[1]{\textbf{\color{novaBlue}#1}}
+
+% Example: Definition environment
+\newtheorem{definition}{Definition}[chapter]
+\end{verbatim}
+
+Avoid redefining core \gls{novathesis} commands (\texttt{\textbackslash nt...}) or \texttt{memoir} internals unless you fully understand their interaction.
+
+\section{Changing the Page Layout}
+\label{sec:page-layout}
+
+The low-level layout settings (margins, binding correction, page style) are governed by the \texttt{memoir} class.  
+\gls{novathesis} exposes these controls in \texttt{0-Config/0\_memoir.tex}.
+
+\paragraph{Example:}
+\begin{verbatim}
+% Adjust text block and margins
+\setlrmarginsandblock{3.5cm}{3cm}{*}
+\setulmarginsandblock{3cm}{3cm}{*}
+\checkandfixthelayout
+\end{verbatim}
+
+\paragraph{Headers and footers:}
+\begin{verbatim}
+\makepagestyle{nova}
+\makeoddhead{nova}{\thechapter.~\leftmark}{}{\thepage}
+\makeevenhead{nova}{\thepage}{}{\thechapter.~\rightmark}
+\pagestyle{nova}
+\end{verbatim}
+
+All such adjustments should be documented and approved by your institution before final submission.
+
+\section{Custom Colors and Branding}
+\label{sec:branding}
+
+\gls{novathesis} uses color definitions from the institutional presets located in \texttt{\gls{novathesis}Files/Colors/}.  
+To define your own palette, copy an existing file and modify it:
+
+\begin{verbatim}
+% mycolors.sty
+\ProvidesPackage{Colors/mycolors}
+\definecolor{novaBlue}{RGB}{0,84,160}
+\definecolor{accentGray}{RGB}{150,150,150}
+\end{verbatim}
+
+Then select it in your preset file:
+\begin{verbatim}
+\ntsetup{style/colors=mycolors}
+\end{verbatim}
+
+Use these colors consistently across figures and typography for a coherent institutional identity.
+
+\section{Incorporating External Packages}
+\label{sec:external-packages}
+
+Packages not included in the default distribution can be loaded in \texttt{0-Config/5\_packages.tex}.  
+Ensure compatibility with \texttt{memoir} and \gls{novathesis} macros.
+
+\paragraph{Example: Adding \texttt{todonotes} and \texttt{siunitx}}
+\begin{verbatim}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage{siunitx}
+\sisetup{detect-all, range-phrase=--, range-units=single}
+\end{verbatim}
+
+\paragraph{Package conflicts.}  
+Avoid loading packages that redefine structural commands (\texttt{titlesec}, \texttt{geometry}, \texttt{fancyhdr}) as these are already managed by \texttt{memoir}.
+
+\section{Integrating Code and Data}
+\label{sec:code-data}
+
+For projects requiring code listings or data tables:
+\begin{itemize}
+  \item Use \texttt{listings} or \texttt{minted} for source code (see Chapter~\ref{sec:floats});
+  \item Place scripts under a subfolder (e.g., \texttt{code/}) and refer to them with relative paths;
+  \item For reproducible figures, integrate \texttt{pgfplots} or \texttt{tikz} code directly into your \LaTeX{} files.
+\end{itemize}
+
+When using \texttt{minted}, compile with shell escape enabled:
+\begin{verbatim}
+make xe LATEXMKOPTS="--shell-escape"
+\end{verbatim}
+
+\section{Version Control and Template Updates}
+\label{sec:versioning}
+
+To ensure long-term maintainability:
+
+\begin{itemize}
+  \item Keep the entire \gls{novathesis} directory under version control (e.g., Git);
+  \item Commit configuration and content changes incrementally;
+  \item Tag each submission or milestone build with the \gls{novathesis} version used;
+  \item Before updating the class to a new release, back up your \texttt{0-Config/} and \texttt{4-Bibliography/} folders.
+\end{itemize}
+
+If you modify internal macros for a new feature, store the patch separately and avoid changing the main class file.  
+Submit improvements upstream if they may benefit other users.
+
+\section{Checklist: Safe Customization Practices}
+
+\begin{enumerate}
+  \item Keep all local edits within \texttt{0-Config/} and user content directories.
+  \item Avoid modifying \texttt{novathesis.cls} and \texttt{\gls{novathesis}Files/}.
+  \item Create new presets and font styles instead of altering shipped ones.
+  \item Use \verb|\ntsetup| and related macros to define new fields.
+  \item Always test after modifying cover layouts or fonts.
+  \item Maintain version control for full reproducibility.
+  \item Document all customizations in your project README.
+\end{enumerate}
+
+\section{Summary}
+
+Advanced customization of \gls{novathesis} allows users to adapt the template to virtually any academic institution or publication format while preserving the underlying architecture.  
+By following the structured methods described in this chapter—creating new presets, defining font and color themes, extending metadata, and introducing localized elements—users can achieve full visual and structural compliance without compromising compatibility or maintainability.  
+All modifications should remain confined to configuration files, ensuring that the core class remains stable and upgrade-safe.
+

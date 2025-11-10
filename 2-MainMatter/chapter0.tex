@@ -1,0 +1,136 @@
+%!TEX root = ../template.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% chapter1.tex
+%% NOVA thesis document file
+%%
+%% Chapter with introduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\typeout{NT FILE chapter1.tex}%
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+\section*{Purpose of this Manual}
+
+This manual is the official user guide for the \textbf{\gls{novathesis} Template}, a \LaTeX{}-based document class and project structure designed for the preparation of academic theses and dissertations.  
+Its objective is to provide a complete, reproducible reference for students, supervisors, and institutions using the template for scientific and academic writing.
+
+The manual covers the entire workflow, from installation and configuration to advanced customization, build automation, and troubleshooting.  
+It also serves as a technical reference for system administrators who maintain institutional deployments or verify compliance with formatting policies.
+
+All examples and configuration fragments shown in this document are directly compatible with the release version distributed in the \texttt{template-7.6.0} package.
+
+\section*{Intended Audience}
+
+The primary audience of this manual includes:
+\begin{itemize}
+  \item \textbf{Undergraduate, Master’s, and Doctoral students} preparing theses or dissertations using \LaTeX{};
+  \item \textbf{Supervisors and examiners} verifying structural and typographic compliance;
+  \item \textbf{System administrators and technical staff} responsible for configuring \LaTeX{} environments in institutional servers or laboratories;
+  \item \textbf{Template maintainers and developers} extending or adapting the \gls{novathesis} class to new institutions.
+\end{itemize}
+
+The manual assumes basic familiarity with \LaTeX{} compilation and directory structures, but no prior experience with class development.
+
+\section*{Scope}
+
+This document describes:
+\begin{itemize}
+  \item The structure and configuration system of the \gls{novathesis} template;
+  \item The supported installation methods (local and cloud-based);
+  \item The automated build and packaging workflow using \texttt{make} and \texttt{latexmk};
+  \item The customization mechanisms for institutions, covers, fonts, and metadata;
+  \item Troubleshooting and diagnostic procedures for all major environments.
+\end{itemize}
+
+It does not provide a tutorial on general \LaTeX{} usage; readers seeking an introduction to \LaTeX{} syntax and document preparation should consult the standard documentation distributed with TeX~Live or available at \url{https://www.latex-project.org}.
+
+\section*{Acknowledgments}
+
+The \gls{novathesis} project was originally developed to standardize thesis formatting across the NOVA University Lisbon schools.  
+It has since evolved into a modular and extensible platform for academic document preparation, thanks to contributions from faculty, researchers, and students.
+
+The maintainers acknowledge the foundational work of the \texttt{memoir} class authors, as well as the developers of \texttt{biblatex}, \texttt{fontspec}, and the \LaTeX3 project team.  
+Their tools provide the robust foundation upon which \gls{novathesis} is built.
+
+Contributors to the template and documentation are listed in the project repository’s history.
+
+\section*{Version and Maintenance Policy}
+
+This manual corresponds to \gls{novathesis} version \textbf{7.6.0} (April~2025).  
+Future releases will include incremental updates to both the class and this manual.  
+Backward compatibility of configuration files is preserved whenever possible; any breaking changes will be explicitly documented in release notes.
+
+Users are encouraged to verify the version printed on the cover page of the manual and in the class header:
+
+\begin{verbatim}
+\ProvidesClass{novathesis}[2025/04/07 v7.6.0 NOVA Thesis Template]
+\end{verbatim}
+
+\section*{Feedback and Support}
+
+Questions, error reports, and feature requests may be submitted through the official project repository.  
+When reporting issues, include:
+\begin{itemize}
+  \item The \gls{novathesis} version and date;
+  \item The operating system and TeX distribution used;
+  \item The compilation engine (\texttt{pdfLaTeX}, \texttt{XeLaTeX}, or \texttt{LuaLaTeX});
+  \item A minimal working example reproducing the problem.
+\end{itemize}
+
+\section*{Citation}
+
+When referencing this work in publications or institutional documentation, cite it as:
+
+\begin{quote}
+NOVA University Lisbon. \emph{\gls{novathesis} Template and User Manual}. Version~7.6.0, April~2025.  
+Available at \url{https://github.com/novathesis/novathesis}.
+\end{quote}
+
+\section*{License}
+
+The \gls{novathesis} Template and this manual are distributed under the terms of the \textbf{LaTeX Project Public License (LPPL)}, version~1.3c or later.  
+You are free to use, distribute, and modify the template under the following conditions:
+\begin{itemize}
+  \item Any distributed modification must clearly identify the modified version;
+  \item The original author and license notices must be preserved;
+  \item Modified versions must not be distributed under the same file names as the original;
+  \item The template and manual are provided \emph{without warranty}, express or implied.
+\end{itemize}
+
+A copy of the LPPL is included in the distribution as \texttt{LICENSE.txt} and available at \url{https://www.latex-project.org/lppl.txt}.
+
+\section*{Disclaimer}
+
+The \gls{novathesis} maintainers and affiliated institutions make no warranty regarding compliance with specific institutional submission requirements.  
+Users are responsible for verifying that their final thesis or dissertation meets the formatting standards of their respective academic unit.
+
+\section*{Revision History}
+
+\begin{description}
+  \item[Version 7.6.0] (April~2025) — Updated configuration architecture, revised institutional presets, and full manual rewrite.
+  \item[Version 7.5.0] (September~2024) — Introduced modular font styles and extended build automation.
+  \item[Version 7.4.0] (May~2024) — Added multi-institutional support and Overleaf compatibility improvements.
+  \item[Version 7.0.0] (April~2023) — Major redesign introducing unified configuration and template structure.
+\end{description}
+
+\section*{Structure of this Document}
+
+This manual is divided into the following main chapters:
+
+\begin{enumerate}
+  \item \textbf{Introduction} — Purpose and scope of the template;
+  \item \textbf{Installation} — Local and cloud installation methods;
+  \item \textbf{Document Structure} — File hierarchy and logical organization;
+  \item \textbf{Makefile and Build System} — Automation and reproducible compilation;
+  \item \textbf{Advanced Customization} — Extending and adapting the template;
+  \item \textbf{Troubleshooting and FAQ} — Problem-solving and diagnostics;
+  \item \textbf{Build Environment Reference} — Technical appendix for maintainers.
+\end{enumerate}
+
+Each chapter can be read independently, though readers new to \LaTeX{} should begin with Chapters~1 through~3 before attempting advanced customization.
+
+\bigskip
+\noindent\textit{Lisbon, April~2025}\\
+\textit{NOVA University Lisbon}
