@@ -18,290 +18,114 @@
 \setlength\epigraphwidth{12.5cm}
 \setlength\epigraphrule{0pt}
 
-\includegraphics[width=0.1\linewidth]{NOVAthesisFiles/Images/novathesis-insignia}\hfill
-\includegraphics[width=0.875\linewidth]{NOVAthesisFiles/Images/novathesis-text}
+\section{Context and Background}
+  \label{sec:intro_context_background}
 
-\noindent This is the \gls{novathesis} \LaTeX\ template \ntindex[Template!]{Version} \novathesisversion\ from   {Template!date}\novathesisdate.
+  \ntindex[Template]{}
 
-\epigraph{
-  This work is licensed under the \href{https://www.latex-project.org/lppl/lppl-1-3c/}{\LaTeX\ Project Public License v1.3c}.
-  To view a copy of this \ntindex[Template!]{license}, visit the \href{https://www.latex-project.org/lppl/}{LaTeX project public license}.
-}
+  The transition of students from academic life to the professional 
+  market or advanced research is a centerpiece of the university experience, 
+  essentially enabled through three diferent distinct paths at the 
+  Departament of Informatics (DI) of NOVA FCT:
 
-% \section{Welcome to the \novathesis\ Template}
-% \label{sec:if_you_use_this_template}
+  \begin{itemize}
+    \item {Undergraduate Internships: Primarly offered by external companies to provide students with their first professional experience.}
+    \item {Master’s Dissertations: Scientific thesis typically conducted within the university, focusing on academic research under the supervision of professors.}
+    \item {Engineering Projects: Practical projects proposed by external companies or the Department of Informatics itself, allowing Master’s students to apply advanced engineering priciples to real-world projects.}
+  \end{itemize}
 
-This first Chapter introduces the \gls{novathesis} template and how it is organized. In Chapter~\ref{cha:users_manual} you can find some specific instructions on how to use this template.  Chapter~\ref{cha:a_short_latex_tutorial_with_examples} shows some examples and give some hints on how to write your text. Please read these next Chapters carefully.
+  Managing those processes involves a complex coordination of multiple stakeholders: 
+  students seeking opportunities alligned with their skills and intersts, professors 
+  overseeing academic quality, and external companies providing practical challenges. 
+  Within this ecosystem, a reliable digital platform is essential to act as a central 
+  hub for communication, proposal submission, and student placement.
 
-\section{The \emph{NOVAthesis} Template}
-\label{sec:a_bit_of_history}
+\section{Problem Statement}
+  \label{sec:intro_problem_statement}
 
-\ntindex[Template]{}
+  \ntindex[Template]{}
+  At DI @ NOVA FCT, the management of internships, dissertations and engineering projects 
+  involves a multi-stage lifecycle that inculdes proposal submission, clarification and approval processes, 
+  making proposals available to students, report/dissertation submission, and providing documentation to juries. 
+  Currently the department relies on a legacy platform to support some of these activities; however this system 
+  presents several critical issues that hinder the efficienty of the department.
+  \\
+  The most significant limitation is that the current platform is not being utilized for the Master’s degree 
+  processes - including both scientific dissertations and engineering projects. 
+  At the moment it is exclusively used to manage undergraduate internships, 
+  meaning that the more complex workflows associated with Master’s students are handled through manual, 
+  or non-standardized methods. This creates a lack of centralized data an increases the administrative 
+  burden on coordinators, professors and the secretatriat.
+  \\
+  Furthermore, even within its current scope, the legacy system suffers from several functional and technological gaps:
 
-The \gls{novathesis} template was born at the \gls{DI} of  \gls{FCT} of \gls{NOVA}, Portugal.  But the user base grew… initially grew to other Departments of NOVA FCT, then to other Schools of NOVA, and later to other Schools of other Universities.  Currently more than~25 Schools are natively supported by the \gls{novathesis} template.  The full list of supported Schools can be founf at the
-\href{https://github.com/joaomlourenco/novathesis}{Project's GitHub page}.
+  \begin{itemize}
+    \item {Communication Gaps and Reliability: The current method for “Call for Proposals” is manual, 
+      requiring coordinators to send individual emails to companies, advertisting the opportunity send proposals, 
+      for each edition. There are no safeguards to ensure that these emails follow specific deliverability rules, 
+      often resulting in messages being flagged as spam. Additionally, the system lacks the flexibility to 
+      create and edit email templates, preventing coordinators from customizing communication for different 
+      editions or context.}
+    \item {Inneficient Feedback Loops: Although companies can submit proposals, there is no integrated mechanism 
+      for coordinators to provide direct feedback on those proposals for clarification. 
+      This forces corrections to be handled outside the platform, whereas a centralized system would allow companies 
+      to correct and resbumit proposals based on coordinator comments.}
+    \item {Stale Company Data: The existing repository contains a large amout of outdated information, 
+      including companies that no longer exist or have changed their contacts or other information. 
+      There is a lack of a “validation” status to ensure only active and verified companies can send proposals.}
+    \item {Manual Protocol Management: For new companies that have never participated in previous editions, 
+      the process of signing the required protocols is still enteriely manual. The platform should automate 
+      delivery and tracking of these legal documents as soon as a new comapny registers.}
+    \item {Outdated User Experience (UX): The interface is not intuitive for external stakeholders, 
+      making it difficult for comapnies to register, manage their employees accounts, or monitor the 
+      status of their proposals in real-time.}
+  \end{itemize}
 
-% (see Tables~\ref{tab:supported_schools_NOVA University Lisbon}, \ref{tab:supported_schools_University of Lisbon}, \ref{tab:supported_schools_University of Minho}, \ref{tab:supported_schools_Instituto Politécnico de Lisboa}, \ref{tab:supported_schools_Instituto Politécnico de Setúbal}, and \ref{tab:supported_schools_Other Universities/Schools/Degrees}).
-%
-% \newenvironment{ntUniversity}[1]{
-%   \renewcommand\tabularxcolumn[1]{m{##1}}% for vertical centering text in X column
-%   % \renewcommand\cellgape{\Gape[1cm]}
-%   % \setcellgapes{20pt}
-%   % \makegapedcells
-%   % % \setlength{\extrarowheight}{20pt}
-%   % \renewcommand{\arraystretch}{2}
-%   \rowcolors{1}{}{GhostWhite}
-%     \xltabular{\linewidth}{cX}%
-%       \caption{#1's Schools supported by the \gls{novathesis} template\label{tab:supported_schools_#1}}\\
-%     \toprule%
-%     \rowcolor{Gainsboro}%
-%     & \Gape[1.5ex]{\thead[l]{#1}}\\
-%     \midrule%
-% }{%
-%     \bottomrule
-%     \endxltabular%
-% }
-%
-% \makeatletter
-% \newtoggle{coverspace}
-% \newcommand{\docCover}[1]{%
-%   \setlength{\fboxsep}{0pt}%
-%   \togglefalse{coverspace}%
-%     \Gape[1.5ex]{\begin{mcellbox}[cc]
-%     \@for\myi:=#1\do{%
-%       \fbox{\colorbox{White}{\includegraphics[align=c,width=1.5cm]{1up/\myi}}}%
-%         \ifx\@xfor@nextelement\@nnil
-%           % last iteration
-%         \else
-%           % not last iteration
-%           \iftoggle{coverspace}{\togglefalse{coverspace}\\\\[-14pt]}{\toggletrue{coverspace}~}%
-%         \fi
-%   }%
-%     \end{mcellbox}}
-% }
-% \makeatother
-% \newcommand{\schlName}[3]{\textbf{#1} (\href{#3}{#2})}
-% \newcommand{\degreeName}[3]{\newline\null\quad • #1 \href{#3}{(#2)}}
-%
-% \begin{ntUniversity}{NOVA University Lisbon}
-%   % {
-%   %     \docCover{nova-fct-phd-en,nova-fct-msc-en}
-%   % } &  {
-%   %   \schlName{NOVA School of Science and Technology}{NOVA FCT}{https://www.fct.unl.pt}
-%   %   \degreeName{All PhD Programs}{PhD}{https://www.fct.unl.pt/en/education/phd-programmes}
-%   %   \degreeName{All MSc Programs}{MSc}{https://www.fct.unl.pt/en/education/master-degrees}
-%   % }\\
-%   % {
-%   %     \docCover{nova-fcsh-phd-en,nova-fcsh-msc-en}
-%   % } &  {
-%   %   \schlName{NOVA School of Social Sciences and Humanities}{FCSH-NOVA}{https://www.fcsh.unl.pt}
-%   %   \degreeName{All PhD Programs}{PhD}{https://www.fcsh.unl.pt/cursos/\#doutoramentos}
-%   %   \degreeName{All MSc Programs}{MSc}{https://www.fcsh.unl.pt/cursos/\#mestrados}
-%   % }\\
-%   {
-%       \docCover{nova-ims-phd-en,nova-ims-msc-mmaa-en,%
-%                 nova-ims-msc-megi-en,nova-ims-msc-mgi-en,%
-%                 nova-ims-msc-mcsig-en,nova-ims-msc-mgt-en}
-%   } &  {
-%     \schlName{NOVA Information Management School}{NOVA-IMS}{https://www.novaims.unl.pt}
-%     \degreeName{All PhD Programs}{PhD}{https://www.novaims.unl.pt}
-%     \degreeName{Master's in Data Science and Advanced Analytics}{MMAA}{https://www.novaims.unl.pt/mdsaa-ba}
-%     \degreeName{Master's in in Statistics and Information Management}{MEGI}{https://www.novaims.unl.pt}
-%     \degreeName{Master's in Information Management}{MGI}{https://www.novaims.unl.pt}
-%     \degreeName{Master's in Geographic Information Systems and Science}{MCSIG}{https://www.novaims.unl.pt/unigis}
-%     \degreeName{Master's in Geospatial Technologies}{GeoTech}{https://www.novaims.unl.pt/geotech}
-%   }\\
-%   % {
-%   %     \docCover{nova-ensp-phd-en,nova-ensp-msc-en}
-%   % } &  {
-%   %   \schlName{National School of Public Heath}{ENSP-NOVA}{https://www.ensp.unl.pt}
-%   %   \degreeName{All PhD Programs}{PhD}{https://www.ensp.unl.pt/courses/phds}
-%   %   \degreeName{All MSc Programs}{MSc}{https://www.ensp.unl.pt/courses/masters}
-%   % }\\
-%   % {
-%   %     \docCover{nova-itqb-phd-green-en,nova-itqb-msc-green-en,%
-%   %               nova-itqb-phd-gray-en,nova-itqb-msc-gray-en}
-%   % } & {
-%   %   \schlName{Instituto de Tecnologia Química e Biológica}{ITQB-NOVA}{https://www.itqb.unl.pt}
-%   %   \degreeName{All PhD Programs}{PhD}{https://www.itqb.unl.pt/education/PhD\%20Programs}
-%   %   \degreeName{All MSc Programs}{MSc}{https://www.itqb.unl.pt/education/masters-courses}
-%   % }\\
-% \end{ntUniversity}
-%
-% \begin{ntUniversity}{University of Lisbon}
-%   {
-%     \docCover{ulisboa-ist-phd-en,ulisboa-ist-msc-en}
-%   } & {
-%     \schlName{Instituto Superior Técnico}{IST-UL}{https://tecnico.ulisboa.pt}
-%     \degreeName{All PhD Programs}{PhD}{https://tecnico.ulisboa.pt/en/education/courses/phd-programmes/}
-%     \degreeName{All MSc Programs}{MSc}{https://tecnico.ulisboa.pt/en/education/courses/masters-programmes}
-%   }\\
-%   {
-%     \docCover{ulisboa-fc-phd-en,ulisboa-fc-msc-en}
-%   } & {
-%     \schlName{Faculdade de Ciências}{FCUL}{https://ciencias.ulisboa.pt}
-%     \degreeName{All PhD Programs}{PhD}{https://ciencias.ulisboa.pt/en/educational-offer/}
-%     \degreeName{All MSc Programs}{MSc}{https://ciencias.ulisboa.pt/en/educational-offer/}
-%   }\\
-%   {
-%     \docCover{ulisboa-fmv-phd-en,ulisboa-fmv-msc-en}
-%   } & {
-%     \schlName{Faculdade de Medicina Veterinária}{FMV-UL}{https://www.fmv.ulisboa.pt}
-%     \degreeName{All PhD Programs}{PhD}{https://www.fmv.ulisboa.pt/en/study/phd}
-%     \degreeName{All MSc Programs}{MSc}{https://www.fmv.ulisboa.pt/pt/ensino/mestrados}
-%   }\\
-% \end{ntUniversity}
-%
-%
-% \newdata*{schlname}
-% \newdata*{schlurl}
-% \schlname(ea):={School of Architecture}
-% \schlurl(ea):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/School-of-Architecture.aspx}
-% \schlname(ec):={School of Sciences}
-% \schlurl(ec):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-sciences.aspx}
-% \schlname(ed):={School of Law}
-% \schlurl(ed):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-law.aspx}
-% \schlname(ee):={School of Engineering}
-% \schlurl(ee):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-Engineering.aspx}
-% \schlname(eeg):={School of Economics and Management}
-% \schlurl(eeg):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-economics-and-management.aspx}
-% \schlname(em):={School of Medicine}
-% \schlurl(em):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-Medicine.aspx}
-% \schlname(ep):={School of Psychology}
-% \schlurl(ep):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-psychology.aspx}
-% \schlname(ese):={School of Nursing}
-% \schlurl(ese):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-nursing.aspx}
-% \schlname(i3b):={Research Institute 13Bs}
-% \schlurl(i3b):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/Institute-I3Bs.aspx}
-% \schlname(ics):={Institute of Social Sciences}
-% \schlurl(ics):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/institute-of-social-sciences.aspx}
-% \schlname(ie):={Institute of Education}
-% \schlurl(ie):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/institute-of-education.aspx}
-% \schlname(elach):={School of Arts and Humanities}
-% \schlurl(elach):={https://www.uminho.pt/EN/uminho/Units/schools-and-institutes/Pages/school-of-arts-and-humanities.aspx}
-%
-%
-% \begin{ntUniversity}{University of Minho}
-%     {
-%       \docCover{uminho-ea-phd-en,uminho-ea-msc-en}
-%     } & {
-%       \schlName{\theschlname(ea)}{\uppercase{ea}-UMINHO}{\theschlurl(ea)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-ec-phd-en,uminho-ec-msc-en}
-%     } & {
-%       \schlName{\theschlname(ec)}{\uppercase{ec}-UMINHO}{\theschlurl(ec)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-ed-phd-en,uminho-ed-msc-en}
-%     } & {
-%       \schlName{\theschlname(ed)}{\uppercase{ed}-UMINHO}{\theschlurl(ed)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-ee-phd-en,uminho-ee-msc-en}
-%     } & {
-%       \schlName{\theschlname(ee)}{\uppercase{ee}-UMINHO}{\theschlurl(ee)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-eeg-phd-en,uminho-eeg-msc-en}
-%     } & {
-%       \schlName{\theschlname(eeg)}{\uppercase{eeg}-UMINHO}{\theschlurl(eeg)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-em-phd-en,uminho-em-msc-en}
-%     } & {
-%       \schlName{\theschlname(em)}{\uppercase{em}-UMINHO}{\theschlurl(em)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-ep-phd-en,uminho-ep-msc-en}
-%     } & {
-%       \schlName{\theschlname(ep)}{\uppercase{ep}-UMINHO}{\theschlurl(ep)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-ese-phd-en,uminho-ese-msc-en}
-%     } & {
-%       \schlName{\theschlname(ese)}{\uppercase{ese}-UMINHO}{\theschlurl(ese)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-ics-phd-en,uminho-ics-msc-en}
-%     } & {
-%       \schlName{\theschlname(ics)}{\uppercase{ics}-UMINHO}{\theschlurl(ics)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-ie-phd-en,uminho-ie-msc-en}
-%     } & {
-%       \schlName{\theschlname(ie)}{\uppercase{ie}-UMINHO}{\theschlurl(ie)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-elach-phd-en,uminho-elach-msc-en}
-%     } & {
-%       \schlName{\theschlname(elach)}{\uppercase{elach}-UMINHO}{\theschlurl(elach)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-%     {
-%       \docCover{uminho-i3b-phd-en,uminho-i3b-msc-en}
-%     } & {
-%       \schlName{\theschlname(i3b)}{\uppercase{i3b}-UMINHO}{\theschlurl(i3b)}
-%       \degreeName{All PhD Programs}{PhD}{https://www.uminho.pt/EN/education/educational-offer/Pages/PhD-degrees.aspx}
-%       \degreeName{All MSc Programs}{MSc}{https://www.uminho.pt/EN/education/educational-offer/Pages/Master-degrees.aspx}
-%     }\\
-% \end{ntUniversity}
-%
-%
-% %
-% % % \begin{ntUniversity}{ISCTE — Instituto Universitário de Lisboa}
-% % %     \ntSchool{cover-iscteiul-eta-phd}%
-% % %              {Escola{ de Tecnologias e Arquitectura};{ETA-ISCTE-IUL};{https://ciencia.iscte-iul.pt/schools/escola-tecnologias-arquitectura}%}
-% % % \end{ntUniversity}
-% %
-% \begin{ntUniversity}{Instituto Politécnico de Lisboa}
-%     {
-%       \docCover{ipl-isel-msc-en}
-%     } & {
-%       \schlName{Instituto Superior de Engenharia de Lisboa}{ISEL-IPL}{https://www.isel.pt}
-%       \degreeName{All MSc Programs}{MSc}{https://www.isel.pt/candidatos/candidaturas/mestrados}
-%     }\\
-% \end{ntUniversity}
-%
-% \begin{ntUniversity}{Instituto Politécnico de Setúbal}
-%     {
-%       \docCover{ips-ests-msc-en}
-%     } & {
-%       \schlName{Escola Superior de Tecnologia de Setúbal}{ISEL-IPL}{https://www.estbarreiro.ips.pt}
-%       \degreeName{All MSc Programs}{MSc}{https://www.estbarreiro.ips.pt/candidaturas/mestrados}
-%     }\\
-% \end{ntUniversity}
-%
-% \begin{ntUniversity}{Other Universities/Schools/Degrees}
-%     {
-%       \docCover{other-esep-msc-en}
-%     } & {
-%       \schlName{Escola Superior de Enfermagem do Porto}{ESEP}{https://www.esenf.pt/pt}
-%       \degreeName{All MSc Programs}{MSc}{https://estudar.esenf.pt/mestrados}
-%     }\\
-% \end{ntUniversity}
-    
+  In conclusion, the necessity for a new platform arises from the need to unify all academic degrees under a 
+  single digital infrastrcture, replacing manual tracking with a secure, automated system that ensures data 
+  integrity and seamless experience for all stakeholders.
+
+\section{Objectives}
+  \label{sec:intro_objectives}
+
+  \ntindex[Template]{}
+  The primary objective of this dissertation is to design and develop a modernized web-based platform that 
+  unifies and automates the management and entire lifecycle of undergraduate internships, Master’s dissertations, 
+  and engineering projects for DI @ NOVA FCT. The projects aims to transition from a fragmented, manual system 
+  to a centralized digital ecosystem.
+  \\
+  To achieve this goal, the following specific objectives have been defined for the initial version:
+  
+  \begin{itemize}
+    \item {Process Unification: Integrate the lifecycles of undergraduate internships and Master’s degree pathways (both scientific and engineering-focused) into a single platform, replacing the current manual methods.}
+    \item {Workflow Automation: Implement automated procedures for the “Call for Proposals student seriation (ranking), and the validation of proposals.}
+    \item {Enhanced Communication and Feedback: Establish direct feedback loops within the platform, allowing coordinators to request clarifications on proposals and ensuring companies can resubmit corrected versions.}
+    \item {Document and Protocol Management: Automate the delivery, tracking, and storage of legal protocols, student CVs, and recommendation letters.}
+    \item {Administrative Oversight: Develop advanced administrative tools, including “superuser” access for student support, detailed system logs for auditing, and validation workflow for new company registrations.}
+  \end{itemize}
+
+
+\section{Methodology}
+  \label{sec:intro_methodology}
+
+  \ntindex[Template]{}
+  TThis project will follow an Agile/Scrum methodology, characterized by iterative development, frequent feedback loops to ensure the final platform aligns with the university’s complex requirements. The work plan is structured into several phases, prioritizing rapid prototyping followed by a transition to a high-performance custom architecture.
+  \\
+  To achieve this goal, the following specific objectives have been defined for the initial version:
+  
+  \begin{enumerate}
+    \item{Requirement Gathering and Analysis: A through analysis of the legacy system and current manual processes was conducted to identify functional and non-functional requirements. This phase includes the definition of user roles (Admin, Coordinator, Student, Professor, Company, Secretariat) and their respective use cases.}
+    \item{System Modeling and Design: Utilizing BPMN (Business Process Model and Notation) to map complex workflows and ERD (Entitiy-Relationships Diagrams) to design the database schema. This phase also involves planning the system architecture.}
+    \item{AI-Assisted Prototyping (Vibe Coding): The initial implementation phase will leverage Vibe Coding tools, such as Lovable, Figma Make or Google AI Studio, to rapidly generate the frontend and core functional interfaces. These tools excel at creating React-based user interfaces through iterative natural language prompting. During this stage, Supabase will be utilized as Backend-as-a-Service (BaaS) to provide an immediate infrastructure for authentication, database management, and initial data structures via SQL. This approach allows for the rapid fulfillment of most functional requirements while maintaining a live, testable version of the platform.}
+    \item{Architectural Transition and Manual Development: Once the prototype reaches a stable state and meets the primary functional requirements, the proejct will transition from AI-generated code to manual developlment. This move is essential to refine the User Experinece (UX), optimize performance, and implement custom features that go beyond the limitations of AI-driven boilerplate.}
+    \item{Custom Backend Implementation: To support the department’s more complex business logic - such as the specialized student seriation (ranking) algorithms and robust administrative auditing - the system will transition to a dedicated custom backend, likely using Spring Boot. While Supabase is effective for rapid prototyping, a Spring Boot architecture offers superior domain modeling, type safety and maintanability through its layered structure (Controller, Service, Repository). This transition ensures that the platform is not only fast to develo intially but also scalable and reliable for long-term university use.}
+    \item{Verification and Validation: The platform will be tested against the initial requirements, ensuring that automated emails follow specific deliverability rules avoiding being flagged as spam.Additionally, the seriationa logic will be rigourously validated to ensure it correctly handles student placements and matching according to pre-defined criteria.}
+    \item{Documentation and Evaluation: There will be a continuous documentation of the architecture decisions, providing detailed justications for technical choices such as the preference for SQL over NoSQL for structured academic data, and other technical choices. }
+  \end{enumerate}
+
+
+
+%%%% extra
 \subsection{Your Time is Precious}
 \label{sub:time_is_money}
 
