@@ -10,9 +10,89 @@
 \setlength\epigraphwidth{12.5cm}
 \setlength\epigraphrule{0pt}
 
-\section{Backend Architectures and BaaS}
+{
+    This chapter examines the current state of software engineering practices and technologies relevant to building 
+    a modern platform for the \gls{DI} at \glsxtrshort{NOVA} \gls{FCT}. The goal is to overcome limitations of the legacy system - 
+    such as fragmented data, manual workflows, and inefficient comunication - by systematically evaluating contemporary approaches to backend 
+    architecutres, data persitence, frontend frameworks, and \glsxtrshort{AI}-assisted devleopment workflows. Particular attention is given to the emerging 
+    paradigm of \glsxtrshort{AI}-assisted software development, often described as “Vibe Coding” \cite{vibecoding2025} which supports rapid prototyping by allowing developers to 
+    steer \gls{LLM} through natural-language interactions instead of traditional line-by-line coding.
+}
+
+{
+    Modern web application stacks are chacterized by a wide range of choices at each layer, from infrastructure and backend services to frontend 
+    frameworks and development workflows. In the backend, developers must choose between fully managed \gls{BaaS}
+    platforms \cite{acropolium-baas-2024} and 
+    custom backends that offer fine-grained control over domain logic, performance, and governance . On the frontend, single-page applications and 
+    component-based frameworks (such as React, Angular, or Vue) are commonly combined with RESTful or GraphQL \glsxtrshortpl{API}, enabling decoupled 
+    client-server architectures and iterative delivery of new features.
+}
+
+{
+    Beyond classical architecutres, \glsxtrshort{AI}-assisted developlment tools and practices are reshaping how software is desiged and implemented. Under the “Vibe Coding” 
+    paradigm, developers describe desired functionality to an \glsxtrshort{LLM}, which generates and refines code iteratively, prioritizng rapid expermientation and high-level 
+    intent over manual code authoring. This approach align with agile or small teams to assemble complex prototypes quickly, though it raises questions about 
+    maintainability, security, and auditability in production systems. \cite{devto-vibe-coding-2025}
+}
+
+\section{Backend Architectures and \glsxtrshort{BaaS}}
 \label{sec:sota_backend}
 \ntindex[Template]{}
+    {
+        The choice of backend architecutre directly influences development speed, scalability, operational complexity, and the ability to encode complex business 
+        rules such as student seriation and multi-role access control. For this project, two main paradigms are considered: \glsxtrlong{BaaS} solutions, 
+        which offer ready-made infrastructure and managed services, and custom backends built with mature frameworks such as Spring Boot and Express.js, 
+        which provide full control over domain modeling, integration patterns, and deployment environments. \cite{merixstudio-baas-vs-custom-be-2019}
+    }
+
+    {
+        \glsxtrshort{BaaS} platforms typically optimize for rapid time-to-market by abstracting away server provisioning, database management, and authentication, making them well-suited 
+        for early-stage prototyping and small teams. In contrast, custom backends allow tailoring of data models, ownerships of the entire codebase, and fine-grained observability, 
+        which becomes critical for institutional applications that must satisfy compliance, long-term maintainability, and integration with existing academic processes.
+    }
+
+    \subsection{Supabase (Backend-as-a-Service)}
+        {
+            Supabase is an open-souce \glsxtrshort{BaaS} stack that builds on PostgreSQL and exposes automatically generated REST \glsxtrshortpl{API} through PostgREST, significantly reducing 
+            boilerplate \glsxtrshort{CRUD} implementation effort. By providing an integrated suite of tools - including database, authentication, storage, and real-time capabilities - 
+            Supabase enables rapid development cycles while leveraging a relational data model that is compatible with established \glsxtrshort{SQL} tooling and practices.
+        }
+
+        {
+            A central feature of Supabase is its built-in authentication system, which supports user registration, password-based login, magic links, and role-based access 
+            control, simplifying the enforcement of different permission profiles for students, companies, professors and administrators. \gls{RLS}
+            policies can be defined directly at the database level, ensuring that authorization rules are enforced close to the data and cannot be bypassed by misconfigured 
+            \glsxtrshort{API} clients. For logic that goes beyond standard \glsxtrshort{CRUD} operations - such as orchestrating notification workflows or managing student seriation - Supabase offers 
+            serverless “Edge Functions”, typically written in TypeScript or JavaScript, which run in a managed environment near end users to minimize latency.
+        }
+
+    \subsection{Custom Backend: Spring Boot}
+        {
+            Spring Boot is a widely adopted framework for building production-grade Java or Kotlin backends and is especially suitable for complex, domain-driven systems 
+            that require strict typing, layered architectures, and extensive integration capabilities. Its opinionated configuration model and extensive ecosystem 
+            (Spring Data, Spring Security, Spring Cloud) allow developers to structure applications into controllers, services, and repositories, facilitating clear 
+            separation of concerns and maintanable domain models.
+        }
+
+        {
+            For academic workflows that must support student ranking algorithms, complex eligibility rules, and auditable decision-making processes, the type safety and 
+            testability provided by Spring Boot are particularly advantageous. The framework integrates with \glsxtrshort{JPA} and tools like Hibernate Envers to support automatic 
+            auditing of entity changes, which helps track user actions, state transitions, and login-related events - capabilities that are often required for administrative 
+            oversight and internal compliance in university environments.
+        }
+
+    \subsection{Custom Backend: Express.js (Node.js)}
+        {
+            Express.js is a minimalist web framework for Node.js that offers a lightweight and flexible foundation for building HTTP \glsxtrshortpl{API} using JavaScript or TypeScript. 
+            Its event-driven, non-blocking \glsxtrshort{I/O} model allows a single process to handle many concurrent connections efficiently, making it well-suited for notification-heavy 
+            workloads such as broadcasting “Call for Proposals” or status updates to large groups of students.
+        }
+
+        {
+            The Node.js ecosystem provides a rich set of libraries for templated email generation and delivery, including tools such as Handlebars or \glsxtrshort{EJS} to render dynamic 
+            \glsxtrshort{HTML} email bodies for coordinators and administrators. Combined with tasks schedulers or message queues, Express-based backends can orchestrate asynchronous 
+            communications and background jobs, helping address a key functional gap of legacy systems that rely on manual email workflows and ad hoc templates.
+        }
 
 \section{Data Persitence: SQL vs. NoSQL}
 \label{sec:sota_data_persitance}
