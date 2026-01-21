@@ -83,20 +83,102 @@
 
     \subsection{Custom Backend: Express.js (Node.js)}
         {
-            Express.js is a minimalist web framework for Node.js that offers a lightweight and flexible foundation for building HTTP \glsxtrshortpl{API} using JavaScript or TypeScript.\cite{express-js} 
+            Express.js is a minimalist web framework for Node.js that offers a lightweight and flexible foundation for building HTTP \glsxtrshortpl{API} using JavaScript or TypeScript \cite{express-js} .
             Its event-driven, non-blocking \glsxtrshort{I/O} model allows a single process to handle many concurrent connections efficiently, making it well-suited for notification-heavy 
-            workloads such\cite{node-js} as broadcasting “Call for Proposals” or status updates to large groups of students.
+            workloads \cite{node-js} such as broadcasting “Call for Proposals” or status updates to large groups of students.
         }
 
         {
             The Node.js ecosystem provides a rich set of libraries for templated email generation and delivery, including tools such as Handlebars or \glsxtrshort{EJS} to render dynamic 
             \glsxtrshort{HTML} email bodies \cite{handlebars-js, ejs-js} for coordinators and administrators. Combined with tasks schedulers or message queues, Express-based backends can orchestrate asynchronous 
-            communications and background jobs\cite{node-js}, helping address a key functional gap of legacy systems that rely on manual email workflows and ad hoc templates.
+            communications and background jobs \cite{node-js}, helping address a key functional gap of legacy systems that rely on manual email workflows and ad hoc templates.
         }
 
-\section{Data Persistence: SQL vs. NoSQL}
+\section{Data Persistence: \glsxtrshort{SQL} vs. \glsxtrshort{NoSQL}}
 \label{sec:sota_data_persitance}
 \ntindex[Template]{}
+    {
+        The selection of a data persitance model is a fundamental architectural decision that dictates how the system ensures data integrity, scalability, and retrieval efficiency.
+        Given the complex ecosystem of the thesis and interships management, which involves multiple stakeholders (Students, Professors, Companies, Secretariat, etc..) and multi-stage
+        lifecycle workflows for academic projects, this section evaluates the trade-offs between Relational (\glsxtrshort{SQL}) and Non-Relational (\glsxtrshort{NoSQL}) databases.
+    }
+
+    {
+        The choice between \glsxtrshort{SQL} and \glsxtrshort{NoSQL} has complex implications for institutional systems.
+        Relational databases prioritize data integrity and consistency through \gls{ACID} compliance, while Non-Relational systems typically follow the 
+        \gls{BASE} model, trading immediate consistency for horizontal scalability and schema flexibility. For academic management platforms where ata accuracy are indispensable, 
+        this distinction is critical. 
+    }
+
+    \subsection{The Relational Model (\glsxtrshort{SQL})}
+        {
+            Relational databases structure data into tables with predifined schemas, utilizing Foreign Keys to establish strcit realtionships between entities. 
+            This approach provides fundamental guarantes about data quality and consistency that are essential for institutional systems.
+        }
+
+        \begin{itemize}
+            \item {
+                Structured Data and Integrity: The academic context requires rigorous data consistency.
+                For instance, a Candidacy must strictly link to an existing Student and a valid Proposal.
+                The relationa model enforces referentials integrity through primary and foregin key constraints, preventing "orphaned" records - 
+                a situtation where a child record references a non-existent parent record. This is particularty critical in the DI management platform, 
+                where deleted Companies should not retain active Proposals, and Students cannot be assigned to non-existent projects.
+            }
+            \item {
+                Referential integrity mechanism ensure that every foreign key in a child table corresponds to a valid primary key in the parent table,
+                maintaining logical consistency across the entire database. Beyond preventing data anomalies, referential integrity supports cascading
+                updates and deletions, ensuring that changes propagate correctly across related entities.
+            }
+            \item {
+                Complex Querying: The platform requires complex join operations to generate views - for examploe, listing all proposals for a specific edition
+                filtered by a company's validation status, or retrieveing all students that are candidates to a particular internship. SQL excels at these complex 
+                relationships through its mature and optimzed query language, which can efficiently traverse multiple table relationships in a single query.
+            }
+            \item{
+                PostgreSQL: This project will initially utilize PostgreSQL (via Supabase for rapid prototyping). Beyond standard SQL features, PostgreSQL offers support for
+                complex data types (JSON/JSONB, arrays, enums) and Stored Procedures. This allows the system to handle semi-structured data - such as
+                like flexible feedback forms or email tempalte configurations - while maintaining the benefits of a relational schema for academic entities.
+            }
+        \end{itemize}
+
+    \subsection{The Non-Relational Model (\glsxtrshort{NoSQL})}
+        {
+            NoSQL databases (e.g., document stores like MongoDB or key-value systems like Redis) offer schema flexibility and horizontal scalability, often at the cost
+            of immediate consistency (ACID properties)
+        }
+        \begin{itemize}
+            \item {
+                Flexibility vs Structure: While NoSQL allows for rapid iteration of data models without schema migrations,
+                the academic domain is highly structured. 
+                Entities such as Users, Editions, Proposals, Companies and Students have well-defined attributes that rarely change dynamically or unexpectedly.
+                The governance requirements of an academic instution demand clear, predictable data structures rather than evolving, loosely-typed records.
+            }
+            \item {
+                Consistency Challenges: In workflows like Student Seriation, data consistency is essential. 
+                A NoSQL appraoch, which often relies on eventual consistency, could introduce race conditions where a student is assigned to a project that is no longer available or where multiple simulataneous requests lead to conflicting state changes.
+                The BASE model prioritises availability and partition tolerance over strict consistency, which is acceptable for read-heavy analytics systems but unsuitable for transactional workloads that require immediate correctness.
+            }
+        \end{itemize}
+
+    \subsection{Justification for the Chosen Approach (PostgreSQL)}
+        {
+            The deicsion to utilize PostgreSQL is driven by the specific requirements and constraints of the DI management platform:
+        }
+        \begin{enumerate}
+            \item {
+
+            }
+            \item {
+                
+            }
+            \item {
+                
+            }
+            \item {
+                
+            }
+        \end{enumerate}
+
 
 \section{Frontend Frameworks and User Experience}
 \label{sec:sota_frontend}
