@@ -16,7 +16,7 @@
     {
         The current internship management platform at \glsxtrshort{DI} @ \glsxtrshort{NOVA} \glsxtrshort{FCT} is a web-based solution built on a deprecated technology stack. 
         Although it supports the undergraduate internship life cycle, it presents critical limitations regarding security, architecture, and functionality. 
-        The section provides a systematic analysis of the current system’s components and deficiencies, informed by direct exploration of the platform.
+        The section provides a systematic analysis of the current system's components and deficiencies, informed by direct exploration of the platform.
     }
 
     \subsection{Infrastructure and Tech Debt}
@@ -24,18 +24,18 @@
             The system is hosted on a virtual machine and operates on an obsolete version of PHP dating back to approximately 2010, 
             but since the platform was made even before that maybe there are some modules that are way older. 
             This legacy codebase entails high maintenance risks and incompatibilities with modern libraries. 
-            Specifically, older PHP versions no longer receive security updates, leaving the platform vulnerable to known explots that malicious actors routinely target \cite{fastcomet-legacy-php-vulnerable}.
+            Specifically, older PHP versions no longer receive security updates, leaving the platform vulnerable to known exploits that malicious actors routinely target \cite{fastcomet-legacy-php-vulnerable}.
         }
 
         {
-            A more critical vulnerability lies in the platform’s network architecture: 
+            A more critical vulnerability lies in the platform's network architecture: 
             the system communicates exclusively over \glsxtrshort{HTTP} (without \glsxtrshort{SSL}/\glsxtrshort{TLS} encryption), 
             representing a severe risk for transmitting sensitive student data and access credentials. 
-            Data transmited over unencrypted \glsxtrshort{HTTP} is exposed to interception and eavesdropping, allowing attackers to read login credentials, personal information, and institutional data in plaintext \cite{geeks4geeks-difference-http-https}.
+            Data transmitted over unencrypted \glsxtrshort{HTTP} is exposed to interception and eavesdropping, allowing attackers to read login credentials, personal information, and institutional data in plaintext \cite{geeks4geeks-difference-http-https}.
         }
 
         {
-            Email Deliverability Crisis: A particularly severem technical deficiency resides in the email infrastructure. 
+            Email Deliverability Crisis: A particularly severe technical deficiency resides in the email infrastructure. 
             Due to the pack of modern authentication and deliverability configurations, transactional emails sent by the platform - intended for registration notifications, deadline reminders, call for proposals - are systematically flagged as spam by email providers \cite{smtp-improve-deliverability-transactional-mails}. 
             This breakdown in communication disrupts the workflow between the department, students, and companies, reducing the operational effectiveness of the platform regardless of other functionality.
         }
@@ -44,52 +44,133 @@
         {
             Administration and Coordination: The administrator profile provides a global overview of entities and proposals, allowing actions such as bulk student imports via CSV and basic permission management. 
             A “superuser” feature exists, allowing administrators to access any user account without credentials for troubleshooting purposes. However, a critical gap exists in audit logging: 
-            while the system logs normal and superuser’s logins and logouts, it lacks comprehensive action loggin that tracks what users do during their sessions. 
-            For compliance and accountability, the paltform should record specific administrative actions such as proposal status changes, student data modifications, permissions adjustments, and bulk import operations.
+            while the system logs normal and superuser's logins and logouts, it lacks comprehensive action login that tracks what users do during their sessions. 
+            For compliance and accountability, the platform should record specific administrative actions such as proposal status changes, student data modifications, permissions adjustments, and bulk import operations.
         }
 
         {
             Content management relies on outdated, inflexible in-browser \glsxtrshort{WYSIWYG} editors for maintaining FAQs, Regulations, and Edition-specific information. 
-            Mass communication is rigid: the system offers no configurable tempaltes for different stages of the workflow, relying instead on a single standard message for inviting companies.
+            Mass communication is rigid: the system offers no configurable templates for different stages of the workflow, relying instead on a single standard message for inviting companies.
         }
 
         {
             Proposal Management and the Master thesis Gap: 
             The platform includes interfaces for companies or professors to submit internship proposals and Master’s dissertation themes. 
-            However, these disseration theme submission and management workflows are completely inoperative - they exist as “dead data” in the system, 
+            However, these dissertation theme submission and management workflows are completely inoperative - they exist as “dead data” in the system, 
             forcing the department to manage dissertation assignments, publication and monitoring via external tools, negating the value of having collected this data in the platform.
         }
 
         {
-            For undergraduate interships, the “Project Classification” workflow allows coordinators to accept, reject, or request clarifications by annotating proposals. 
+            For undergraduate internships, the “Project Classification” workflow allows coordinators to accept, reject, or request clarifications by annotating proposals. 
             However, interaction remains limited: coordinators can toggle whether a proposal awaits company response, but the feedback mechanism lacks fluid integration for iterative proposal refinement.
         }
 
         {
             Students and Companies: The student interface allows ranking of internship preferences and the consultation of imported academic records. 
             For companies, human resources management is inefficient: there is no clear hierarchy or efficient mechanisms for managing multiple employees within a single company entity. 
-            The overall \gls{UI} is outdated, hindering navigation and making it diffuclt for users to perceive current applicaton status.
+            The overall \gls{UI} is outdated, hindering navigation and making it difficult for users to perceive current application status.
         }
 
     \subsection{Data and Reports}
         {
             The current system suffers from a critical lack of interoperability. 
             There are no native features to export complex data (student lists, proposals, results of attributions) into open, standard format such as \glsxtrshort{CSV} or \glsxtrshort{JSON}, which complicates operations that the coordinators might need to make with the data outside of the platform. 
-            Furthermore, company information is often outdated, as there are no periodic revalidation mechanisms to refresh company profiles and contact details (”Stale Company Data”).
+            Furthermore, company information is often outdated, as there are no periodic revalidation mechanisms to refresh company profiles and contact details (” Stale Company Data”).
         }
 
-\section{Requirementes Gathering}
+\section{Requirements Gathering}
 \label{sec:reqs_gathering}
 \ntindex[Template]{}
     {
-        TODO: both functional requirements and non-functional requirements
+        Following the systematic analysis of the legacy platform and the identification of its critical failures, a comprehensive set of requirements was elicited for the new integrated platform.
+        The elicitation process focused on addressing the needs of the diverse stakeholders involved in the academic lifecycle (students, companies, coordinators, secretariat, and administrators),
+        with the goal of transitioning from fragmented spreadsheet-based management to a unified digital ecosystem supporting both undergraduate internships and master's dissertations.
+        The resulting requirements were prioritized and refined in collaboration with the thesis advisers to ensure alignment with institutional constraints regarding data protection, interoperability, 
+        and operation feasibility.
     }
 
-\section{Use Cases and Stakeholders}
+    \subsection{Elicitation Methods}
+        {
+            To ensure the new platform addresses real operational pain points and does not introduce new barriers to existing workflows, 
+            requirements were gathered through a multi-faceted approach:
+        }
+        \begin{itemize}
+                \item {
+                    Legacy System Analysis: Direct exploration and reverse-engineering of the existing platform to identify functional gaps (e.g. non-functional Master's modules) and technical debt (e.g. email deliverability issues).
+                    This analysis, presented in Section 3.1., served as the foundation for identifying core functional requirements.
+                }
+                \item {
+                    Document Analysis: Review of current regulations, current internship rules, and manual processes currently used to manage Master's dissertations and feedback tracking. 
+                    This provided insight into established business logic that must be preserved and systematized in the new platform.
+                }
+                \item {
+                    Workflow Modeling: Mapping of the "as-is" manual processes and system workflows against desired "to-be" automated and digitized workflow, 
+                    Specifically for proposal submission and validation, student seriation algorithms, registrations workflows, company hierarchies, and feedback management.
+                    Process models were documented to clarify state transitions, decision points, and inter-stakeholder communication patterns.
+                }
+                \item {
+                    Stakeholder Consultations: Informal discussions with thesis advisers and the current coordinator responsible for the platform administration provided critical insights into administrative pain points,
+                    compliance requirements, and feature priorities.
+                    These discussions informed the prioritization of features and validated the proposed solution direction.
+                }
+        \end{itemize}
+
+    \subsection{Stakeholders}
+        {
+            The system must support multiple distinct user groups. 
+            However, the role hierarchy reflects the institutional structure where coordinators are designed professors with expanded administrative responsibilities,
+            rather than a separate administrative role. 
+        }
+        \begin{itemize}
+            \item{
+                Students: Seek to consult and review available internship and dissertation/project proposals within their enrolled edition, 
+                rank proposals according to their preferences, track the status of their candidacies and assignments, access their assigned supervisor's contact information, and, 
+                if required by the coordinators, submit documentation (CV, motivation letter, or recommendations) for specific proposals.
+            }
+            \item{
+                Company Representatives: Aim to register company information and manage organizational hierarchy (parent companies and sub-entities or departments),
+                submit internship and Master's dissertations proposals during open call periods, receive and respond to feedback from coordinators regarding proposal clarifications, 
+                manage company employees and designate contacts responsible for specific proposals, schedule and present their proposals during coordinator provided time slots, 
+                and track interview progress and student candidacies through a dashboard. 
+            }
+            \item{
+                Professors: Intent to proposed scientific dissertation themes for the Master's degree, supervise students assigned to their dissertation topics,
+                provide feedback on dissertation progress.
+            }
+            \item{
+                Edition Coordinators (Professor variant, Head Coordinator): Is a professor with comprehensive administrative responsibilities for the system. 
+                Their responsibilities include configuring and managing editions (setting edition type - undergraduate internship or Master's dissertations, defining proposals' deadlines, 
+                configuring available time slots for company presentations, creating edition-specific information pages such as FAQs and contact pages), 
+                validate submitted proposals through a feedback-and-clarification workflow, control the attributions process (being able to manually add a student to an internship outside seriation),
+                generating and customizing email templates for all communications stages, publish news and announcements targeting different user groups, managing user pre-registration and bulk imports via CSV,
+                and overseeing the finalization of internship/dissertation protocols. 
+                The head coordinator also maintains comprehensive audit logs and manages permissions assignments for sub-coordinators and other edition-specific administrative tasks.
+            }
+            \item{
+                Sub-Coordinators (Professor variant): Professors designed by the head coordinator to assist with proposals validation and feedback workflows for specific edition, 
+                but without access to system-wide configuration. 
+                They inherit permissions from the Professor's role but with additional privileges limited to proposal evaluation and validation, configuration of edition-specific resources (FAQs, contact pages, email templates) within their assigned edition.
+            }
+            \item{
+                Secretariat/Administrative Staff: Manage financial and legal formalization of internships and dissertations, specifically verifying payments from companies for protocol signing and managing storage and archival of signed agreements.
+                They require a view-only access to status dashboards showing active internships and their completion status.
+            }
+            \item{
+                Administrators: Handle the infrastructure-level operations that fall outside the coordinator's scope, such as system backups, database maintenance, server updates, monitoring system health,
+                managing SSL certificates and security configurations, responding to critical technical incidents, and consulting detailed audit logs for technical troubleshooting and compliance verification.
+                They do not manage user accounts, permissions, or edition-specific configurations - those remain the responsibility of the head coordinator. This role is typically filled by dedicated IT staff rather than a professor.
+            }
+        \end{itemize}
+
+    \subsection{Functional Requirements}
+
+    \subsection{Non-Functional Requirements}
+
+\section{Use Cases}
 \label{sec:reqs_use_cases}
 \ntindex[Template]{}
     {
-        TODO: identify the stakeholders (students, professors, companies, secretariat, coordinators, admins etc) and their interactions
+        TODO: identify the stakeholders (students, professors, companies, secretariat, coordinators, admins etc.) and their interactions
     }
 
 

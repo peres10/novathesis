@@ -25,13 +25,13 @@
 
   The transition of students from academic life to the professional 
   market or advanced research is a centerpiece of the university experience, 
-  essentially enabled through three diferent distinct paths at the 
+  essentially enabled through three different distinct paths at the 
   \gls{DI} of \gls{FCT}:
 
   \begin{itemize}
-    \item {Undergraduate Internships: Primarly offered by external companies to provide students with their first professional experience.}
+    \item {Undergraduate Internships: Primarily offered by external companies to provide students with their first professional experience.}
     \item {Master’s Dissertations: Scientific thesis typically conducted within the university, focusing on academic research under the supervision of professors.}
-    \item {Engineering Projects: Practical projects proposed by external companies or the Department of Informatics itself, allowing Master’s students to apply advanced engineering priciples to real-world projects.}
+    \item {Engineering Projects: Practical projects proposed by external companies or the Department of Informatics itself, allowing Master’s students to apply advanced engineering principles to real-world projects.}
   \end{itemize}
 
   Managing those processes involves a complex coordination of multiple stakeholders: 
@@ -45,44 +45,44 @@
 
   \ntindex[Template]{}
   At \glsxtrshort{DI} @\glsxtrshort{NOVA} \glsxtrshort{FCT}, the management of internships, dissertations and engineering projects 
-  involves a multi-stage lifecycle that inculdes proposal submission, clarification and approval processes, 
+  involves a multi-stage lifecycle that includes proposal submission, clarification and approval processes, 
   making proposals available to students, report/dissertation submission, and providing documentation to juries.
-  Currently the department relies on a legacy platform to support some of these activities, however this system 
-  presents several critical issues that hinder the efficienty of the department.
+  Currently, the department relies on a legacy platform to support some of these activities, however this system 
+  presents several critical issues that hinder the efficiency of the department.
   \\
   The most significant limitation is that the current platform is not being utilized for the Master’s degree 
   processes - including both scientific dissertations and engineering projects. 
   At the moment it is exclusively used to manage undergraduate internships, 
   meaning that the more complex workflows associated with Master’s students are handled through manual, 
   or non-standardized methods. This creates a lack of centralized data an increases the administrative 
-  burden on coordinators, professors and the secretatriat.
+  burden on coordinators, professors and the secretariat.
   \\
   Furthermore, even within its current scope, the legacy system suffers from several functional and technological gaps:
 
   \begin{itemize}
     \item {Communication Gaps and Reliability: The current method for “Call for Proposals” is manual, 
-      requiring coordinators to send individual emails to companies, advertisting the opportunity send proposals, 
+      requiring coordinators to send individual emails to companies, advertising the opportunity send proposals, 
       for each edition. There are no safeguards to ensure that these emails follow specific deliverability rules, 
       often resulting in messages being flagged as spam. Additionally, the system lacks the flexibility to 
       create and edit email templates, preventing coordinators from customizing communication for different 
       editions or context.}
-    \item {Inneficient Feedback Loops: Although companies can submit proposals, there is no integrated mechanism 
+    \item {Inefficient Feedback Loops: Although companies can submit proposals, there is no integrated mechanism 
       for coordinators to provide direct feedback on those proposals for clarification. 
       This forces corrections to be handled outside the platform, whereas a centralized system would allow companies 
-      to correct and resbumit proposals based on coordinator comments.}
-    \item {Stale Company Data: The existing repository contains a large amout of outdated information, 
+      to correct and resubmit proposals based on coordinator comments.}
+    \item {Stale Company Data: The existing repository contains a large amount of outdated information, 
       including companies that no longer exist or have changed their contacts or other information. 
       There is a lack of a “validation” status to ensure only active and verified companies can send proposals.}
     \item {Manual Protocol Management: For new companies that have never participated in previous editions, 
-      the process of signing the required protocols is still enteriely manual. The platform should automate 
-      delivery and tracking of these legal documents as soon as a new comapny registers.}
+      the process of signing the required protocols is still entirely manual. The platform should automate 
+      delivery and tracking of these legal documents as soon as a new company registers.}
     \item {Outdated \gls{UX}: The interface is not intuitive for external stakeholders, 
-      making it difficult for comapnies to register, manage their employees accounts, or monitor the 
+      making it difficult for companies to register, manage their employees accounts, or monitor the 
       status of their proposals in real-time.}
   \end{itemize}
 
   In conclusion, the necessity for a new platform arises from the need to unify all academic degrees under a 
-  single digital infrastrcture, replacing manual tracking with a secure, automated system that ensures data 
+  single digital infrastructure, replacing manual tracking with a secure, automated system that ensures data 
   integrity and seamless experience for all stakeholders.
 
 \section{Objectives}
@@ -90,15 +90,15 @@
 
   \ntindex[Template]{}
   The primary objective of this dissertation is to design and develop a modernized web-based platform that 
-  unifies and automates the management and entire lifecycle of undergraduate internships, Master’s dissertations, 
-  and engineering projects for \glsxtrshort{DI}@\glsxtrshort{NOVA} \glsxtrshort{FCT}. The projects aims to transition from a fragmented, manual system 
+  unifies and automates the management and entire lifecycle of undergraduate internships, Master's dissertations, 
+  and engineering projects for \glsxtrshort{DI}@\glsxtrshort{NOVA} \glsxtrshort{FCT}. The projects aim to transition from a fragmented, manual system 
   to a centralized digital ecosystem.
   \\
   To achieve this goal, the following specific objectives have been defined for the initial version:
   
   \begin{itemize}
-    \item {Process Unification: Integrate the lifecycles of undergraduate internships and Master’s degree pathways (both scientific and engineering-focused) into a single platform, replacing the current manual methods.}
-    \item {Workflow Automation: Implement automated procedures for the “Call for Proposals student seriation (ranking), and the validation of proposals.}
+    \item {Process Unification: Integrate the lifecycles of undergraduate internships and Master's degree pathways (both scientific and engineering-focused) into a single platform, replacing the current manual methods.}
+    \item {Workflow Automation: Implement automated procedures for the "Call for Proposals", student seriation (ranking), and the validation of proposals.}
     \item {Enhanced Communication and Feedback: Establish direct feedback loops within the platform, allowing coordinators to request clarifications on proposals and ensuring companies can resubmit corrected versions.}
     \item {Document and Protocol Management: Automate the delivery, tracking, and storage of legal protocols, student CVs, and recommendation letters.}
     \item {Administrative Oversight: Develop advanced administrative tools, including “superuser” access for student support, detailed system logs for auditing, and validation workflow for new company registrations.}
@@ -114,13 +114,13 @@
   To achieve this goal, the following specific objectives have been defined for the initial version:
   
   \begin{enumerate}
-    \item{Requirement Gathering and Analysis: A through analysis of the legacy system and current manual processes was conducted to identify functional and non-functional requirements. This phase includes the definition of user roles (Admin, Coordinator, Student, Professor, Company, Secretariat) and their respective use cases.}
+    \item{Requirement Gathering and Analysis: A thorough analysis of the legacy system and current manual processes was conducted to identify functional and non-functional requirements. This phase includes the definition of user roles (Admin, Coordinator, Student, Professor, Company, Secretariat) and their respective use cases.}
     \item{System Modeling and Design: Utilizing \gls{BPMN} to map complex workflows \cite{omg-bpmn-2011} and \gls{ERD} to design the database schema \cite{Chen1976ERModel}. This phase also involves planning the system architecture.}
     \item{\glsxtrshort{AI}-Assisted Prototyping (Vibe Coding): The initial implementation phase will leverage Vibe Coding tools, such as Lovable, Figma Make or Google AI Studio, to rapidly generate the frontend and core functional interfaces \cite{vibecoding2025}. These tools excel at creating React-based user interfaces through iterative natural language prompting. During this stage, Supabase will be utilized as \gls{BaaS} to provide an immediate infrastructure for authentication, database management, and initial data structures via \glsxtrshort{SQL}\cite{supabase-2019}. This approach allows for the rapid fulfillment of most functional requirements while maintaining a live, testable version of the platform.}
-    \item{Architectural Transition and Manual Development: Once the prototype reaches a stable state and meets the primary functional requirements, the project will transition from \glsxtrshort{AI}-generated code to manual developlment. This move is essential to refine the \glsxtrlong{UX}, optimize performance, and implement custom features that go beyond the limitations of \glsxtrshort{AI}-driven boilerplate.}
-    \item{Custom Backend Implementation: To support the department’s more complex business logic - such as the specialized student seriation (ranking) algorithms and robust administrative auditing - the system will transition to a dedicated custom backend, likely using Spring Boot \cite{springboot-docs-3x}. While Supabase is effective for rapid prototyping, a Spring Boot architecture offers superior domain modeling, type safety and maintanability through its layered structure (Controller, Service, Repository). This transition ensures that the platform is not only fast to develop intially but also scalable and reliable for long-term university use.}
-    \item{Verification and Validation: The platform will be tested against the initial requirements, ensuring that automated emails follow specific deliverability rules avoiding being flagged as spam.Additionally, the seriation logic will be rigourously validated to ensure it correctly handles student placements and matching according to pre-defined criteria.}
-    \item{Documentation and Evaluation: There will be a continuous documentation of the architecture decisions, providing detailed justications for technical choices such as the preference for \glsxtrshort{SQL} over \glsxtrshort{NoSQL} for structured academic data, and other technical choices. }
+    \item{Architectural Transition and Manual Development: Once the prototype reaches a stable state and meets the primary functional requirements, the project will transition from \glsxtrshort{AI}-generated code to manual development. This move is essential to refine the \glsxtrlong{UX}, optimize performance, and implement custom features that go beyond the limitations of \glsxtrshort{AI}-driven boilerplate.}
+    \item{Custom Backend Implementation: To support the department’s more complex business logic - such as the specialized student seriation (ranking) algorithms and robust administrative auditing - the system will transition to a dedicated custom backend, likely using Spring Boot \cite{springboot-docs-3x}. While Supabase is effective for rapid prototyping, a Spring Boot architecture offers superior domain modeling, type safety and maintainability through its layered structure (Controller, Service, Repository). This transition ensures that the platform is not only fast to develop initially but also scalable and reliable for long-term university use.}
+    \item{Verification and Validation: The platform will be tested against the initial requirements, ensuring that automated emails follow specific deliverability rules avoiding being flagged as spam. Additionally, the seriation logic will be rigorously validated to ensure it correctly handles student placements and matching according to pre-defined criteria.}
+    \item{Documentation and Evaluation: There will be a continuous documentation of the architecture decisions, providing detailed justifications for technical choices such as the preference for \glsxtrshort{SQL} over \glsxtrshort{NoSQL} for structured academic data, and other technical choices. }
   \end{enumerate}
 
 

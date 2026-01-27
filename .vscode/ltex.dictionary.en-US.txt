@@ -1,0 +1,14 @@
+seriation
+BaaS
+Supabase
+PostgREST
+Envers
+templated
+EJS
+referentials
+JSONB
+enums
+Redis
+Seriation
+ProposalCards
+Vercel
