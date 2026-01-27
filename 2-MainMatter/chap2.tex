@@ -14,7 +14,7 @@
     This chapter examines the current state of software engineering practices and technologies relevant to building 
     a modern platform for the \gls{DI} at \glsxtrshort{NOVA} \gls{FCT}. The goal is to overcome limitations of the legacy system - 
     such as fragmented data, manual workflows, and inefficient comunication - by systematically evaluating contemporary approaches to backend 
-    architecutres, data persitence, frontend frameworks, and \glsxtrshort{AI}-assisted devleopment workflows. Particular attention is given to the emerging 
+    architecutres, data persitence, frontend frameworks, and \glsxtrshort{AI}-assisted development workflows. Particular attention is given to the emerging 
     paradigm of \glsxtrshort{AI}-assisted software development, often described as “Vibe Coding” \cite{figma-vibecoding-2025} which supports rapid prototyping by allowing developers to 
     steer \glspl{LLM} through natural-language interactions instead of traditional line-by-line coding.
 }
@@ -29,8 +29,8 @@
 }
 
 {
-    Beyond classical architecutres, \glsxtrshort{AI}-assisted developlment tools and practices are reshaping how software is desiged and implemented. Under the “Vibe Coding” 
-    paradigm, developers describe desired functionality to an \glsxtrshort{LLM}, which generates and refines code iteratively, prioritizng rapid expermientation and high-level 
+    Beyond classical architecutres, \glsxtrshort{AI}-assisted developlment tools and practices are reshaping how software is designed and implemented. Under the “Vibe Coding” 
+    paradigm, developers describe desired functionalities to an \glsxtrshort{LLM}, which generates and refines code iteratively, prioritizing rapid expermentation and high-level 
     intent over manual code authoring. This approach align with agile or small teams to assemble complex prototypes quickly, though it raises questions about 
     maintainability, security, and auditability in production systems. \cite{devto-vibe-coding-2025}
 }
@@ -70,7 +70,7 @@
         {
             Spring Boot is a widely adopted framework for building production-grade Java or Kotlin backends and is especially suitable for complex, domain-driven systems 
             that require strict typing, layered architectures, and extensive integration capabilities. Its opinionated configuration model and extensive ecosystem 
-            (Spring Data, Spring Security, Spring Cloud) allow developers to structure applications into controllers, services, and repositories, facilitating clear 
+            (Spring Data, Spring Security, Spring Cloud) allows developers to structure applications into controllers, services, and repositories, facilitating clear 
             separation of concerns and maintanable domain models. \cite{springboot-docs-3x}
         }
 
@@ -99,21 +99,21 @@
 \ntindex[Template]{}
     {
         The selection of a data persitance model is a fundamental architectural decision that dictates how the system ensures data integrity, scalability, and retrieval efficiency \cite{aws-res-vs-no-rel-2026, geeks4geeks-sql-vs-nosql-2025}.
-        Given the complex ecosystem of the thesis and interships management, which involves multiple stakeholders (Students, Professors, Companies, Secretariat, etc..) and multi-stage
+        Given the complex ecosystem of the thesis and internships management, which involves multiple stakeholders (Students, Professors, Companies, Secretariat, etc..) and multi-stage
         lifecycle workflows for academic projects, this section evaluates the trade-offs between Relational (\glsxtrshort{SQL}) and Non-Relational (\glsxtrshort{NoSQL}) databases.
     }
 
     {
         The choice between \glsxtrshort{SQL} and \glsxtrshort{NoSQL} has complex implications for institutional systems.
         Relational databases prioritize data integrity and consistency through \gls{ACID} compliance \cite{datacamp-acid-2025}, while Non-Relational systems typically follow the 
-        \gls{BASE} model, trading immediate consistency for horizontal scalability and schema flexibility \cite{aws-acid-vs-base-2026}. For academic management platforms where ata accuracy are indispensable, 
+        \gls{BASE} model, trading immediate consistency for horizontal scalability and schema flexibility \cite{aws-acid-vs-base-2026}. For academic management platforms where data accuracy are indispensable, 
         this distinction is critical. 
     }
 
     \subsection{The Relational Model (\glsxtrshort{SQL})}
         {
-            Relational databases structure data into tables with predifined schemas, utilizing Foreign Keys to establish strict realtionships between entities \cite{ibm-db2-foreignkey-121}. 
-            This approach provides fundamental guarantes about data quality and consistency that are essential for institutional systems.
+            Relational databases structure data into tables with predefined schemas, utilizing Foreign Keys to establish strict realtionships between entities \cite{ibm-db2-foreignkey-121}. 
+            This approach provides fundamental guarantees about data quality and consistency that are essential for institutional systems.
         }
 
         \begin{itemize}
@@ -121,7 +121,7 @@
                 Structured Data and Integrity: The academic context requires rigorous data consistency.
                 For instance, a Candidacy must strictly link to an existing Student and a valid Proposal.
                 The relational model enforces referentials integrity through primary and foregin key constraints, preventing "orphaned" records - 
-                a situtation where a child record references a non-existent parent record \cite{acceldata-referential-integrity}. This is particularty critical in the \glsxtrshort{DI} management platform, 
+                a situtation where a child record references a non-existent parent record \cite{acceldata-referential-integrity}. This is particularly critical in the \glsxtrshort{DI} management platform, 
                 where deleted Companies should not retain active Proposals, and Students cannot be assigned to non-existent projects.
             }
             \item {
@@ -137,7 +137,7 @@
             \item{
                 PostgreSQL: This project will initially utilize PostgreSQL (via Supabase for rapid prototyping). Beyond standard SQL features, PostgreSQL offers support for
                 complex data types (\glsxtrshort{JSON}/\glsxtrshort{JSONB}, arrays, enums) and Stored Procedures \cite{architecture-weekly-postgresql-jsonb, postgresql-json-18}. This allows the system to handle semi-structured data - such as
-                like flexible feedback forms or email tempalte configurations - while maintaining the benefits of a relational schema for academic entities.
+                like flexible feedback forms or email template configurations - while maintaining the benefits of a relational schema for academic entities.
             }
         \end{itemize}
 
@@ -167,7 +167,7 @@
         \begin{enumerate}
             \item {
                 Data Integrity and Referential Consistency: The need to enforce relationships between Companies, Proposals, Editions, and Students needs a relational schema with foreign key constraints.
-                For examplple, the system ust prevent a inactive or deleted company from having active proposals, and it must prevent logically impossible states such as student being assigned to multiple conflicting projects in the same edition.
+                For examplple, the system must prevent an inactive or deleted company from having active proposals, and it must prevent logically impossible states such as student being assigned to multiple conflicting projects in the same edition.
                 These constraints are best expressed and enforced at the database level through relational integrity mechanisms rather than dispersed throughout the platforms's code \cite{acceldata-referential-integrity, ibm-db2-foreignkey-121}. 
             }
             \item {
@@ -178,7 +178,7 @@
             }
             \item {
                 Hybrid Capabilities and Schema Evolution: PostgreSQL provides the strict structure required for academic records while support \glsxtrshort{JSON} types, effectively making the for using a \glsxtrshort{NoSQL} solution unnecessary.
-                The hybrid approach gives the paltform the best of both worlds: schema enforcement where it matters (core academic entities and relationships) and flexibility where needed (dynamic form configurations, email tamplates, audit logs).
+                The hybrid approach gives the platform the best of both worlds: schema enforcement where it matters (core academic entities and relationships) and flexibility where needed (dynamic form configurations, email templates, audit logs).
                 This design reduces operational complexity by consolidating storage into a single database system while maintaining both consistency guarantees and the agility to evolve data models as requirements change. \cite{architecture-weekly-postgresql-jsonb}
             }
             \item {
@@ -218,7 +218,7 @@
                 }
                 \item {
                     Synergy with \glsxtrshort{AI}-Assisted Development: The project methodology relies on Vibe Coding tools for rapid prototyping.
-                    Tools such as Lovable, Bolt.new, Figma Make and Firebase Studio are optimized to generate code specifically for the React ecosystem.
+                    Tools such as Lovable, Bolt.new, Figma Make and Google AI Studio are optimized to generate code specifically for the React ecosystem.
                     Using React ensures  that the code generated during the prototyping phase is immediately usable and extensible, eliminating the need for
                     time-consuming library migrations.
                 }
@@ -230,7 +230,7 @@
                 data fetching, server-side rendering, and infrastructure - all without complex configuration. 
                 While React is a library focused solely on the \glsxtrshort{UI} layer and requires additional libraries for routing and server-side concerns, Next.js provides 
                 an integrated toolkit that handles both frontend rendering and backend API logic in a single project \cite{next-js}.
-                Next.js supports multiple rendering strategies: \gls{SSR} for dynamic content rendered on-demand, \gls{SSG} for pre-rendering at build time, and \gls{ISR} for updating static content withouh full rebuilds \cite{strapi-ssr-vs-ssg-next-js}.
+                Next.js supports multiple rendering strategies: \gls{SSR} for dynamic content rendered on-demand, \gls{SSG} for pre-rendering at build time, and \gls{ISR} for updating static content without full rebuilds \cite{strapi-ssr-vs-ssg-next-js}.
             }
 
             {
@@ -238,7 +238,7 @@
             }
             \begin{itemize}
                 \item {
-                    Routing and Performance: Next.js offers a fyle-system based router (App Router) \cite{nextjs-app-router} and rendering strategies such as \gls{SSR} and \gls{SSG}.
+                    Routing and Performance: Next.js offers a file-system based router (App Router) \cite{nextjs-app-router} and rendering strategies such as \gls{SSR} and \gls{SSG}.
                     \gls{SSR} renders pages on demand for dynamic content, while \gls{SSG} pre-renders static pages at build time, reducing server load times 
                     and enabling fast initial page loads \cite{strapi-ssr-vs-ssg-next-js}, which is crucial for retaining the engagement of external company users.
                     This flexibility allows different sections of the platform to use the optimal rendering strategy based on content volatility.
@@ -256,22 +256,23 @@
                 Tailwind CSS is a utility-first \glsxtrshort{CSS} framework that provides a comprehensive set of low-level, single-purpose utility classes
                 (such as \verb|p-4| for padding, \verb|text-center| for text alignment, or \verb|bg-blue-600| for background color) that can be composed directly in \glsxtrshort{HTML} markup
                 without writing custom \glsxtrshort{CSS}. 
-                Unlike traditional \glsxtrshort{CSS} frameworks (such as Bootstrap) that provide pre-built \glsxtrshort{UI} components, Tailwinds CSS empowers develpers to build custom designs by combining
+                Unlike traditional \glsxtrshort{CSS} frameworks (such as Bootstrap) that provide pre-built \glsxtrshort{UI} components, Tailwind CSS empowers develpers to build custom designs by combining
                 small utility classes, giving them complete design control while maintaining consistency \cite{geeks4geeks-tailwind}. 
             }
+
             {
                 Tailwind CSS is selected for styling the platform for two key reasons:
             }
             \begin{itemize}
                 \item{
                     Rapid UI Development: Tailwind utility-first approach enables developers to style elements directly in
-                    \glsxtrshort{HTML} markup without writing custom \glsxtrshort{CSS}. This significantly acceelerates the conversion of "mental models" or Figma designs into working code,
+                    \glsxtrshort{HTML} markup without writing custom \glsxtrshort{CSS}. This significantly accelerates the conversion of "mental models" or Figma designs into working code,
                     reducing the time spent switching between markup/code and style files \cite{geeks4geeks-tailwind}.
                 }
                 \item{
-                    \glsxtrshort{AI} Integration: Most \glsxtrshort{AI} coding assistants (specifically v0 by Vercel) default to generating Tailwind \glsxtrshort{CSS} code.
+                    \glsxtrshort{AI} Integration: Most \glsxtrshort{AI} coding assistants (specifically Lovable) default to generating Tailwind \glsxtrshort{CSS} code.
                     This ensures that the aesthetic output from the Vibe Coding process is modern, responsive, and easy to maintain without the complexity
-                    of manaing large external \glsxtrshort{CSS} files.
+                    of managing large external \glsxtrshort{CSS} files.
                 }
             \end{itemize}
 
@@ -297,12 +298,12 @@
                             }
                             \item {
                                 Spring Boot Listener: A background thread in Spring Boot continuously listens on the PostgreSQL notification channel using
-                                \glsxtrshort{JDBC}'s PostgreSQL driver extensions \cite{dzone-postgres-listen-notify}: When a notification is received, it triggers an event in the applciation.
+                                \glsxtrshort{JDBC}'s PostgreSQL driver extensions \cite{dzone-postgres-listen-notify}: When a notification is received, it triggers an event in the application.
                             }
                             \item {
                                 WebSocket Broadcast: Spring Boot WebSocket infrastructure (optionally using \gls{STOMP} for advanced message routing) \cite{toptal-springboot-webscocket-stomp,springboot-docs-3x}
-                                broadcasts the update to all contected frontend clients subscribed to relevant topics. For instance, all students viewing proposals
-                                from a specific company receive live updates whem that company changes a proposal's status.
+                                broadcasts the update to all conecteed frontend clients subscribed to relevant topics. For instance, all students viewing proposals
+                                from a specific company receive live updates when that company changes a proposal's status.
                             }
                         \end{enumerate}
                     }
