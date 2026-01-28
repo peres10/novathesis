@@ -1,0 +1,239 @@
+\typeout{NT FILE annex_fr_nfr.tex}%
+
+\chapter{Annex 1 - Functional and Non-Function Requirements}
+\label{ann:fr_nfr_annex}
+
+%%%% Functional Requirements
+\section*{Functional Requirements}
+{
+    \begin{table}[H]
+        \centering
+        \caption{Functional Requirements - Edition and Configuration Management}
+        \begin{tabular}{|l|p{12cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            FR-11 & The system shall allow Edition Coordinators to create new academic editions, specifying edition type (Undergraduate Internship vs Master’s Dissertation) and defining key timelines (proposal submissions deadline, interview periods, finalization deadline). \\ \hline
+            FR-12 & The system shall allow Edition Coordinators to define and manage time slots for company proposal presentations, which companies can subsequently view and book during available windows \\ \hline
+            FR-13 & The system shall enable Edition Coordinators to create and edit reusable email templates within the platform's interface, supporting dynamic variables (student names, company names, deadlines) and content-specific formatting for different communication stages. \\ \hline
+            FR-14 & The system shall allow Edition Coordinators to create and maintain edition-specific informational pages (FAQs, Regulations, Contact Information, Important Dates) using a modern WYSIWYG editor. \\ \hline
+            FR-15 & The system shall allow Edition Coordinators to publish news and announcements target at specific user roles (e.g., news visible only to Students, Companies, or Professors) within a given edition or platform-wide \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+    {
+    \begin{table}[H]
+        \centering
+        \caption{Functional Requirements - Proposal Submission and Classification}
+        \begin{tabular}{|l|p{12cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            FR-21 & The system shall allow Companies and Professors to submit detailed proposals or dissertation themes, including attributes such as title, objectives, technical requirements, location, benefits, and supervisor information. \\ \hline
+            FR-22 & The system shall implement a feedback loop allowing Edition Coordinators to request clarifications on specific aspects of proposals without full rejection, triggering email notifications to the author for editing and resubmission. \\ \hline
+            FR-23 & The system shall allow Edition Coordinators to accept, conditionally accept, or reject proposals with detailed feedback comments. \\ \hline
+            FR-24 & The system shall allow Companies to import or duplicate proposals from previous editions into the current edition, with the option to modify details before resubmission. \\ \hline
+            FR-25 & The system shall allow Companies to indicate their intent to give oral presentations of their proposals and select available time slots directly within the platform. \\ \hline
+            FR-26 & The system shall notify Companies of important deadlines (proposal submission closure, feedback response deadline, presentation scheduling deadline) via email and in-app notifications. \\ \hline
+            FR-27 & The system shall notify Companies when a new edition opens in which they are eligible to submit proposals (Call for Proposals). \\ \hline
+        \end{tabular}  
+    \end{table}    
+    }
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Functional Requirements - Student Candidacies and Seriation}
+        \begin{tabular}{|l|p{12cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            FR-31 & The system shall allow Students to view all available propsals for their enrolled edition and rank a specified numbre of preferred proposals in preference order. \\ \hline
+            FR-32 & The system shall allow Students to submit supporting documentation (CV, motivation letter, recommendation letter) when registering interest in specific proposals, if required by the coordinator. \\ \hline
+            FR-33 & The system shall execute an automated ranking algorithm based on pre-define criteria (e.g. ECTS completed, grade average, coordinator-defined weights) to produce a seriation list of candidates for each proposal. \\ \hline
+            FR-34 & The system shall notify Students of important timeline events via email and in-app notifications (registration opening, ranking deadline, seriation results, attribution confirmation) \\ \hline
+            FR-35 & The system shall allow Companies to view the list of serialized (ranked) students for their proposals and manage candidate selections throughout the interview and confirmation phases. \\ \hline
+            FR-36 & The system shall allow Companies to exclude or deselect candidates from their proposal’s ranked list if needed. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Functional Requirements - Company and User Management}
+        \begin{tabular}{|l|p{12cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            FR-41 & The system shall allow Edition Coordinators to validate new company registrations, ensuring they sign the necessary legal protocols before submitting proposals \\ \hline
+            FR-42 & The system shall Company Representatives to manage their organizational hierarchy, icluding parent company designation and sub-entities/departaments, and to update company contact  details and registration information \\ \hline
+            FR-43 & The system shall allow Company Representatives to manage company employee accounts (add, remove, update) and designate which employees are responsible for specific proposals or serve as mentors. \\ \hline
+            FR-44 & The system shall provide “Superuser” functionality, allowing Edition Coordinators to temporarly access other user accounts using only the their user’s identifier (student number or username) for support and troubleshooting purposes, with full audit logging of such acccess. \\ \hline
+            FR-45 & The system shall allow Edition Coordinators to pre-register users (Students via CSV bulk import or manual entry, Professors, Secretariat staff) with role-based permissions. \\ \hline
+            FR-46 & The system shall allow Edition Coordinators to assign or revoke the Sub-Coordinators role to Professors for specific reasons. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Functional Requirements - Communication and Notifications}
+        \begin{tabular}{|l|p{12cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            FR-51 & The system shall automate the “Call for Proposals” process, sending notificatons to all registered companies (that have an active status) at the start of each edition, specifying submission deadlines and edition type. \\ \hline
+            FR-52 & The system shall allow the publication of news and annoucements targeted at specific user roles (e.g., news visible only to Students) \\ \hline
+            FR-53 & The system shall enforce email deliverability best practices to minimize the likelihood of notifications being flagged as spam. \\ \hline
+            FR-54 & The system shall support both email and in-app notifications for critical events (new proposals, feedback requests, deadline remiders, seriation results) \\ \hline
+            FR-55 & The system shall allow Edition Coordinators to send targeted email communications to specific user groups (e.g., all enrolled Students, all registered Companies) with customizable subject and body content. \\ \hline
+        \end{tabular}   
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Functional Requirements - Reporting and Data Export}
+        \begin{tabular}{|l|p{12cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            FR-61 & The system shall allow Edition Coordinators and Adminitrators to export lists of students, proposals, candidacies, and final assignemnts in open standard formats (CSV, JSON). \\ \hline
+            FR-62 & The system shall maintain detailed audit logs of critical system actions (user logins/logouts, proposal status changes, superuser access, permission modifications, bulk imports), with timestamps and user attribution. \\ \hline
+            FR-63 & The system shall provide audiatable records of all proposal feedback exchanges (coordinator feedback, company responses, timestamp of modications) for compliance and dispute resolution. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Functional Requirements - Master's Dissertation Lifecycle Support}
+        \begin{tabular}{|l|p{12cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            FR-71 & The system shall support specific workflows for Master’s degrees, including the distinction between scientific dissertations and engineering proejcts. \\ \hline
+            FR-72 & The system shall allow Professors to propose scientific dissertation themes for Master’s programs and manage their list of proposed themes and assigned students. \\ \hline
+            FR-73 & The system shall enable tracking of dissertation progress and completing status, including milestones such as topic approval, and final submission/defense. \\ \hline
+            FR-74 & The system should have edition for the Master’s degree scientific dissertation and engineering projects that work the same way as the undergraduate internships, with just some chages. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+%%%% Non-Functional Requirements
+\newpage
+\section*{Non-Functional Requirements}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Non-Functional Requirements - Security}
+        \begin{tabular}{|l|p{11cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            NFR-SEC-1 & The system shall implement Row-Level Security at the database level to enforce strict data isolation, ensuring users can only access data they are authorized to view (e.g., companies see only  their own proposals and candidates) \\ \hline
+            NFR-SEC-2 & All data in transit shall be encrypted uting HTTPS/TLS, preventing interception of sensitive information during transmission. \\ \hline
+            NFR-SEC-3 & Password and sensitive credentials shall be hashed using industry-standard alogirthms (bcrypt, PBKDF2, or Argon2) and shall never be stored in plaintext. \\ \hline
+            NFR-SEC-4 & The system shall enforce role-based access control (RBAC) with granular permission assignment, ensuring users can only perform actions consistent with their assigned role. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Non-Functional Requirements - Auditability \& Compliance}
+        \begin{tabular}{|l|p{11cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            NFR-AUD-1 & The system shall record an immutable, tamper-evident audit log of all critical actions (user logins/logouts, data modifications, status changes, permission assignments, superuser access) with precise timestamps and user attribution. \\ \hline
+            NFR-AUD-2 & Audit logs shall be retained for long time to satisfy institutional compliance and legal hold requirements. \\ \hline
+            NFR-AUD-3 & The system shall provide auditable records of all proposals feedback exchanges (coordinator feedback, company responses, timestamp of submission/modification) enabling dispute resolution and quality review. \\ \hline
+            NFR-AUD-4 & Superuser access shall be logged in detail, including the identity of the accessing administrator, the target user account, timestamp, and duration of the session. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Non-Functional Requirements - Reliability \& Availability}
+        \begin{tabular}{|l|p{11cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            NFR-REL-1 & The transaction email service shall guarantee a good deliverability rate to ensure time-sensitive notifications (eg,. proposals deadlines, seriation results) reach intented recipients reliably \\ \hline
+            NFR-REL-2 & The system shall implement automated backups of all critical data (database, uploaded documents, configuration) with off-site replication to enable recovery in case of data loss. \\ \hline
+            NFR-REL-3 & The system shall implement health monitoring and automated alerts for critical failures (database unavailability, backup failures, email service degradation), enabling rapid response by adminstrative staff. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Non-Functional Requirements - Performance \& Scalability}
+        \begin{tabular}{|l|p{11cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            NFR-PERF-1 & All user-facing pages (dashboards, proposal lists, candidacy tracking) shall load within 3 seconds under normal load conditions. \\ \hline
+            NFR-PERF-2 & Critical dashboards (Coordinator Edition Dashboard, Company Proposal Tracker, Student Status View) shall support real-time updates using WebSocket subscriptions or server-sent events, reflecting database changes without manual page refresh. \\ \hline
+            NFR-PERF-3 & API endpoints shall respond withing 500 ms for 95\% of requests under typical load, and within 2 secods for 99\% of requests. \\ \hline
+            NFR-PERF-4 & The system shall implement API rate limiting to protect against denial-of-service attacks and ensure fair resource allocation, limiting each user/API client to reasonable thresholds (e.g. 100 requests/minute for standard users, 300 requests/minute for bulk operations). \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Non-Functional Requirements - Usability \& Accessibility}
+        \begin{tabular}{|l|p{11cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            NFR-USAB-1 & The user interface shall be responsive and mobile-friendly, providing an optimal viewing experience on desktop (1920x1080) and mobile devices (320x568). \\ \hline
+            NFR-USAB-2 & All interactive elements shall provide clear visual feedback (hover states, focus indicators, loading states) enabling users to understand the current application state. \\ \hline
+            NFR-USAB-3 & New user workflows (registration, proposal submission, candidacy ranking) shall be completable without raining or external documentation, with clear inline guidance and error messages. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Non-Functional Requirements - Interoperability \& Data Exchange}
+        \begin{tabular}{|l|p{11cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            NFR-INTER-1 & The system shall facilitate bulk import of users (Students, Professors, Secretariat) via CSV files with validation, error reporting, and rollback capabilities. \\ \hline
+            NFR-INTER-2 & The system shall support export reporting data (student lists, proposals, seriation results, internship assignments) in standard formats (CSV, JSON) for use in external tools \\ \hline
+            NFR-INTER-3 & The system shall provide a documented REST API for institutional integration, enabling third-party systems to query limited, read-only data. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Non-Functional Requirements - Maintainability \& Extensibility}
+        \begin{tabular}{|l|p{11cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            NFR-MAINT-1 & The system architecture shall be modular and layered (presentation, business logic, data access), enabling independent updates to the frontend, backend, or database without cascading failures. \\ \hline
+            NFR-MAINT-2 & The codebase shall be documented with README files, API documentation (Swagger/OpenAPI), and inline comments for complex business logic, enabling new developers to understand and modify the system. \\ \hline
+            NFR-MAINT-3 & The system shall support semantic versioning and use Git-based version control with meaningful commit messages and branch-based workflows for traceability. \\ \hline
+            NFR-MAINT-4 & Configuration (database URLs, email credentials, feature flags) shall be externalized using environemnt variables or configuration files, not hardcoded, to enable deployment across development, staging and production environments. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
+
+{
+    \begin{table}[H]
+        \centering
+        \caption{Non-Functional Requirements - Email Deliverability (Critical Legacy Fix)}
+        \begin{tabular}{|l|p{11cm}|} % 'l' for ID, 'p' for wrapped text
+            \hline
+            \textbf{ID} & \textbf{Description} \\ \hline
+            NFR-EMAIL-1 & All outbount emails shall implement sender authentication protocols to minimize spam flagging \\ \hline
+            NFR-EMAIL-2 & The system shall integrate with a professional transaction email service with built-in deliverability monitoring and bounce handling. \\ \hline
+            NFR-EMAIL-3 & Email templates shall be tested and validate before deployment to ensure correct rendering across major email clients (Gmail, Outlook, Apple Mail) and responsive display on mobile. \\ \hline
+        \end{tabular}
+    \end{table}    
+}
