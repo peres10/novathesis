@@ -163,6 +163,54 @@
         \end{itemize}
 
     \subsection{Functional Requirements}
+        {
+            The functional requirements are categorized by feature set to ensure modular development, testing and clear traceability of stakeholder needs.
+        }
+        \subsubsection{FR-1x: Edition and Configuration Management}
+            {
+                \begin{table}[h]
+                    \centering
+                    \begin{tabular}{|l|p{10cm}|} % 'l' for ID, 'p' for wrapped text
+                        \hline
+                        \textbf{ID} & \textbf{Description} \\ \hline
+                        FR-11 & The system shall allow Edition Coordinators to create new academic editions, specifying edition type (Undergraduate Internship vs Master’s Dissertation) and defining key timelines (proposal submissions deadline, interview periods, finalization deadline). \\ \hline
+                        FR-12 & The system shall allow Edition Coordinators to define and manage time slots for company proposal presentations, which companies can subsequently view and book during available windows \\ \hline
+                        FR-13 & The system shall enable Edition Coordinators to create and edit reusable email templates within the platform's interface, supporting dynamic variables (student names, company names, deadlines) and content-specific formatting for different communication stages. \\ \hline
+                        FR-14 & The system shall allow Edition Coordinators to create and maintain edition-specific informational pages (FAQs, Regulations, Contact Information, Important Dates) using a modern WYSIWYG editor. \\ \hline
+                        FR-15 & The system shall allow Edition Coordinators to publish news and announcements target at specific user roles (e.g., news visible only to Students, Companies, or Professors) within a given edition or platform-wide \\ \hline
+                    \end{tabular}
+                    \caption{Functional Requirements - Edition and Configuration Management}
+                \end{table}    
+            }
+
+        \subsubsection{FR-2x: Proposal Submission and Classification}
+            {
+                \begin{table}[h]
+                    \centering
+                    \begin{tabular}{|l|p{10cm}|} % 'l' for ID, 'p' for wrapped text
+                        \hline
+                        \textbf{ID} & \textbf{Description} \\ \hline
+                        FR-21 & The system shall allow Companies and Professors to submit detailed proposals or dissertation themes, including attributes such as title, objectives, technical requirements, location, benefits, and supervisor information. \\ \hline
+                        FR-22 & The system shall implement a feedback loop allowing Edition Coordinators to request clarifications on specific aspects of proposals without full rejection, triggering email notifications to the author for editing and resubmission. \\ \hline
+                        FR-23 & The system shall allow Edition Coordinators to accept, conditionally accept, or reject proposals with detailed feedback comments. \\ \hline
+                        FR-24 & The system shall allow Companies to import or duplicate proposals from previous editions into the current edition, with the option to modify details before resubmission. \\ \hline
+                        FR-25 & The system shall allow Companies to indicate their intent to give oral presentations of their proposals and select available time slots directly within the platform. \\ \hline
+                        FR-26 & The system shall notify Companies of important deadlines (proposal submission closure, feedback response deadline, presentation scheduling deadline) via email and in-app notifications. \\ \hline
+                        FR-27 & The system shall notify Companies when a new edition opens in which they are eligible to submit proposals (Call for Proposals). \\ \hline
+                    \end{tabular}
+                    \caption{Functional Requirements - Proposal Submission and Classification}
+                \end{table}    
+            }
+            
+            \subsubsection{FR-3x: Student Candidacies and Seriation}
+            \subsubsection{FR-4x: Company and User Management}
+            \subsubsection{FR-5x: Communication and Notifications}
+            \subsubsection{FR-6x: Reporting and Data Export}
+            \subsubsection{FR-7x: Master’s Dissertation Lifecycle Support}
+
+
+
+
 
     \subsection{Non-Functional Requirements}
 
