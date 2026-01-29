@@ -74,8 +74,8 @@
     \subsection{Data and Reports}
         {
             The current system suffers from a critical lack of interoperability. 
-            There are no native features to export complex data (student lists, proposals, results of attributions) into open, standard format such as \glsxtrshort{CSV} or \glsxtrshort{JSON}, which complicates operations that the coordinators might need to make with the data outside of the platform. 
-            Furthermore, company information is often outdated, as there are no periodic revalidation mechanisms to refresh company profiles and contact details (” Stale Company Data”).
+            There are no native features to export complex data (student lists, proposals, results of attributions) into open, standard format such as \glsxtrshort{CSV} or \glsxtrshort{JSON}, which complicates operations that the coordinators might need to make with the data outside the platform. 
+            Furthermore, company information is often outdated, as there are no periodic revalidation mechanisms to refresh company profiles and contact details ("Stale Company Data").
         }
 
 \section{Requirements Gathering}
@@ -173,18 +173,18 @@
                 This category contains the administrative infrastructure required for coordinators to establish and manage academic editions.
                 Edition coordinators must be able to create new editions, specifying whether the edition targets undergraduate internships or Master's dissertations,
                 and define critical timelines (proposal submission deadlines, interview periods and finalization deadlines).
-                The system must provide tools for scheduling company presentation time slots, designing resusable email templates with dynamic variable substitution (student names, company names, deadlines),
+                The system must provide tools for scheduling company presentation time slots, designing reusable email templates with dynamic variable substitution (student names, company names, deadlines),
                 creating and maintaining edition-specific informational content (FAQs, regulations, contact information), and publishing targeted announcements to specific user roles.
-                These capabilities replace the legacy system's outdated, inflexible appraoch to edition configuration and enable coordinators to adapt communcation and workflows to each edition's unique needs.
+                These capabilities replace the legacy system's outdated, inflexible approach to edition configuration and enable coordinators to adapt communication and workflows to each edition's unique needs.
             }
             
         \subsubsection{FR-2x: Proposal Submission and Classification}
             {
-                This category defines the workflows for companies and professors to propose intership opportunities and dissertation themes.
+                This category defines the workflows for companies and professors to propose internship opportunities and dissertation themes.
                 The system support detailed proposal submission with attributes such as objectives, technical requirements, location, and benefits. 
                 A critical feature is the feedback loop: coordinators can request clarifications on proposals without rejecting them outright, triggering automatic notifications to the author for editing and resubmission, enabling a collaborative refinement process.
                 Coordinators also retain the ability to accept, conditionally accept, or reject proposals with detailed comments. 
-                The system shall allow companies to reuse and adpat proposals from previous editons, streamlining the proposal process for returning partners, and to schedule and manage oral presentations of their 
+                The system shall allow companies to reuse and adapt proposals from previous editions, streamlining the proposal process for returning partners, and to schedule and manage oral presentations of their 
                 proposals using the coordinator-defined time slots. Deadline notifications ensure companies remain informed of submission closures and feedback response windows.
             }
             
@@ -192,17 +192,17 @@
             {
                 This category automates the student ranking and assignment process, addressing a core business requirement of the platform.
                 Students must be able to view available proposals for their enrolled edition and rank a specified number of preferences in priority order. 
-                If required by coordinators, students can submit supporting  documentation (CV, motivation letter, recommendation letters) to strenthen their candidacy for specific proposals.
+                If required by coordinators, students can submit supporting  documentation (CV, motivation letter, recommendation letters) to strengthen their candidacy for specific proposals.
                 The system implements an automated seriation algorithm that ranks candidates for each proposal based on pre-defined criteria (ECTS completed, grade average, coordinator-weighted factors), 
-                producing a ranked list of canidates for company review. 
+                producing a ranked list of candidates for company review. 
                 The system notifies students of key timeline events (registration opening, ranking deadline, seriation results, confirmation) via email and in-app notifications. 
-                Companies then view the serialized candidate lists and manage candidate selection through interview and final confirmation phases, with the ability to exlude candidates if needed. 
+                Companies then view the serialized candidate lists and manage candidate selection through interview and final confirmation phases, with the ability to exclude candidates if needed. 
             }
             
         \subsubsection{FR-4x: Company and User Management}
             {
                 This category establishes user and organizational management capabilities, supporting diverse the diverse stakeholder ecosystem.
-                Edition cooridnators validate new company registrations and ensure legal protocol compliance before companies submit proposals. 
+                Edition coordinators validate new company registrations and ensure legal protocol compliance before companies submit proposals. 
                 Company representatives manage their organizational hierarchy (designating parent companies, sub-entities, departments), maintain current contact information,
                 and administer employee accounts (adding, removing, updating mentors and proposal-responsible personnel). 
                 The system provides superuser functionality, allowing coordinators temporary access to other user accounts using only a user identifier for support purposes, with full audit logging.
@@ -212,53 +212,171 @@
             
         \subsubsection{FR-5x: Communication and Notifications}
             {
-                This category addresses the legacy system's critical email communication failures by implemeting reliable, templated, multi-channel notification workflows.
-                The system automates the "Call for Prpososals" process, notifying all registered companies at the start of each edition with submission deadlines and edition type.
-                Coordinators can publish news and annoucements targeted at specific user roles (students-only news, company-only alters, etc.). 
-                The system enforces email deliverability best practices (discussed in Section 3.2.4.8) to ensure notifications reach intented recipients reliably, replacing the legacy system's spam-flagging problem.
-                Both email and in-app notifications are suuported for critical events (new proposals, feedback requests, deadline reminders, seriation results). 
-                Coordinators can send targeted email campaings to specific user gruops with customizable subject and body content, enabling flexible mass communication without the rigidy of the legacy system. 
+                This category addresses the legacy system's critical email communication failures by implementing reliable, templated, multichannel notification workflows.
+                The system automates the "Call for Proposals" process, notifying all registered companies at the start of each edition with submission deadlines and edition type.
+                Coordinators can publish news and announcements targeted at specific user roles (students-only news, company-only alters, etc.). 
+                The system enforces email deliverability best practices (discussed in Section 3.2.4.8) to ensure notifications reach intended recipients reliably, replacing the legacy system's spam-flagging problem.
+                Both email and in-app notifications are supported for critical events (new proposals, feedback requests, deadline reminders, seriation results). 
+                Coordinators can send targeted email campaigns to specific user groups with customizable subject and body content, enabling flexible mass communication without the rigidity of the legacy system. 
             }
             
         \subsubsection{FR-6x: Reporting and Data Export}
             {
-                This categoriy enables coordinators and administrators to extrat and analyze system data for institutional reporting and decision-making. 
+                This category enables coordinators and administrators to extract and analyze system data for institutional reporting and decision-making. 
                 The system allows comprehensive export of student lists, proposals, candidacies, and final assignments in open standard formats (CSV, JSON),
                 addressing the legacy system's lack of interoperability. 
                 Detailed audit logs record all critical system actions (logins/logouts, proposal status changes, superuser access, permission modifications, bulk imports) with timestamps and user attribution,
                 enabling accountability and compliance verification. 
-                Auditable records of proposal feedback exchanges (coordinator feedback, company responses, timestamps) are maintaned for dispute resolution and quality assurance.
+                Auditable records of proposal feedback exchanges (coordinator feedback, company responses, timestamps) are maintained for dispute resolution and quality assurance.
             }
             
         \subsubsection{FR-7x: Master's Dissertation Lifecycle Support}
             {
                 This category operationalizes Master's degree workflows, addressing the legacy system's "dead data" problem where dissertation themes were submitted but never managed within the platform.
-                The system distinguishes between scientific dissertations (academically-focused) and engineering projects (industry-focused), supporting tailored workflows and evalluation criteria for each type.
+                The system distinguishes between scientific dissertations (academically-focused) and engineering projects (industry-focused), supporting tailored workflows and evaluation criteria for each type.
                 Professors can propose scientific dissertation themes, managing their proposed themes and assigned students. 
                 The system enables progress tracking and completion status management, including key milestones (topic approval, final submission/defense).
-                Master's editions operate similarly to undergraduate intership editions but with workflow and attribute modifications tailored to the distinct requirements of Master's level supervision and evaluation.
+                Master's editions operate similarly to undergraduate internship editions but with workflow and attribute modifications tailored to the distinct requirements of Master's level supervision and evaluation.
              }
 
     \subsection{Non-Functional Requirements}
         {
-            To address the technical debt of the legacy system and ensure the platform meets institutional and user expectations the new system
-            must adhere top the following quality attributes, organized according to ISO/IEC 25010 standards:
+            To address the technical debt of the legacy system and ensure the platform meets institutional and user expectations, 
+            the new system must adhere to the following quality attributes, organized according to ISO/IEC 25010 standards. 
+            Detailed specifications for all-non functional requirements are presented in Annex 1, Tables I.8-I.15. 
+            The following subsections provide a summary of each category:
         }
 
         \subsubsection{Security}
+            {
+                Security controls ensure the platform protects sensitive institutional and personal data from unauthorized access and breaches.
+                The system implements \gls{RLS} at the database level to enforce strict data isolation, ensuring users can only access data appropriate to their role and organization context
+                (e.g., companies see only their own proposals and candidates). 
+                All communications must be encrypted using HTTPS/TLS to prevent interception of credentials and sensitive information during transmission, 
+                directly addressing the legacy system's unencrypted HTTP vulnerability \cite{geeks4geeks-difference-http-https}.  
+                Passwords and sensitive credentials must be hashed using industry-standard algorithms and never stored in plaintext.
+                \gls{RBAC} with granular permission assignment ensures users can only perform actions consistent with their assigned role \cite{pathlock-rbac-guide}.  
+            }
         \subsubsection{Auditability \& Compliance}
+            {
+                Comprehensive audit logging enables institutional accountability, compliance verification, and dispute resolution.
+                The system records an immutable, tamper-evident audit log of all critical actions (logins/logouts, data modifications, status changes, permission assignments, superuser access)
+                with precise timestamps and user attribution \cite{fortra-audit-log-best-practices}. %% 
+                Audit logs are retained for extended periods to satisfy institutional compliance and legal hold requirements.
+                Auditable records of proposal feedback exchanges (coordinator feedback, company responses timestamps) are maintained to enable dispute resolution and quality review.
+                Superuser access is logged in detail, including the accessing administrator's identify, target user account, session timestamp, and duration, providing complete transparency into administrative actions.
+            }
         \subsubsection{Reliability \& Availability}
+            {
+                Reliability requirements ensure the platform remains operation during critical periods (e.g., proposal submissions, seriation execution).
+                The transactional email service must guarantee high deliverability rates to ensure time-sensitive notifications (proposal deadlines, seriation results) reach intended recipients reliably, addressing the legacy 
+                system's chronic email delivery failure. 
+                The system implements automated backups of all critical data (database, uploaded documents, configuration) with off-site replication to enable recovery in case of data loss or system failure.
+                Health monitoring and automated alerting enable rapid detection and response to critical failure (database unavailability, backup failures, email service degradation), reducing mean time to recovery.
+            }
         \subsubsection{Performance \& Scalability}
+            {
+                Performance requirements ensure the platform provides a responsive, interactive user experience even under peak load conditions.
+                All-user facing pages (dashboards, proposal lists, candidacy tracking) must load within 3 seconds under normal load conditions. 
+                Critical dashboards (Coordinator Edition dashboard, Company Proposal Tracker, Student Status View) must support real-time updates using WebSocket subscriptions of server-sent events, reflecting 
+                database changes without manual page refresh - a significant improvement over the legacy system's static, manual-refresh interface. 
+                API endpoints must respond within 500 ms for 95\% of requests under typical load, and within 2 seconds for 99\% requests, ensuring seamless client-side responsiveness. 
+                The system implements API rate limiting to protect against denial-of-service attacks and ensure fair resource allocation, limit each user to reasonable thresholds 
+                (100 requests/minute for standard operations, 300 requests/minute for bulk operations).
+            }
         \subsubsection{Usability \& Accessibility}
+            {
+                Usability requirements ensure the platform is accessible to all users, including those with disabilities, and provide an intuitive, modern user experience that addresses the legacy
+                system's "Outdated User Experience" limitation. 
+                The user interface must be responsive and mobile-friendly, providing optimal view experience both on desktop and mobile devices. 
+                All interactive elements must provide clear visual feedback (hover states, focus indicators, loading states) to enable users to understand the current application state and response appropriately.
+                New user workflows (registration, proposal submission, candidacy ranking) must be completable without training or external documentation, with clear inline guidance and error messages, reflecting modern web application standards.
+            }
         \subsubsection{Interoperability \& Data Exchange}
+            {
+                Interoperability requirements enable seamless data integration with institutional systems and export of data for analysis and use in external tools, 
+                addressing the legacy system's fragmentation. 
+                The system facilitates bulk import of users (students via CSV or manual entry, professors, secretariat staff) with validation, error reporting and rollback capabilities, streamlining user provisioning.
+                The system supports export of reporting data (student lists, proposals, seriation results, internship assignments) in standard formats (CSV, JSON) for use in external tools. 
+                A documented REST API enables third-party systems to query limited, read-only data, supporting institutional integration without compromising data security.
+            }
         \subsubsection{Maintainability \& Extensibility}
+            {
+                Maintainability requirements ensure the platform can be sustained, debugged, and evolved over time without accumulating technical debt.
+                The system architecture must be modular and layered (presentation layer, business logic, data access layer), 
+                enabling independent updates to frontend, backend, or database without cascading failures. 
+                The codebase must be documented with README files, API documentation, and inline comments for complex business logic, enabling future developers to understand and modify the system effectively.
+                The system supports semantic versioning and uses Git-based version control with meaningful commit message and branch-based workflows for traceability and change management.
+                Configuration (database URLs, email credentials, feature flags) must be externalized using environment variables or configuration files,
+                not hardcoded, to enable deployment across development, staging, and production environments.
+            }
         \subsubsection{Email Deliverability (Critical Legacy Fix)}
+            {
+                Email deliverability is elevated to a dedicated non-functional requirement category because the legacy system's email failures represent one of the most critical operational problems identified in Section 3.1.
+                All outbound emails must implement sender authentication protocols to minimize spam flagging and maximize delivery to user inboxes.
+                The system must integrate with a professional transactional email service with built-in deliverability monitoring and bounce handling, enabling real-time visibility into email delivery status and rapid troubleshooting of delivery issues.
+                Email templates must be tested and validated before deployment to ensure correct rendering across major email clients (Gmail, Outlook, Apple Mail) and responsive display on mobile devices.
+            }
 
 \section{Use Cases}
 \label{sec:reqs_use_cases}
 \ntindex[Template]{}
     {
-        TODO: identify the stakeholders (students, professors, companies, secretariat, coordinators, admins etc.) and their interactions
+        Use case modeling is a requirements engineering technique that describes interactions between actors (stakeholders) and the system to achieve specific goals.
+        This section documents key use cases for the dissertation/internship management platform, representing critical workflows identified in the requirements analysis. 
+        Each use case follows a standardized format including actors, preconditions, postconditions, main flow, and alternative flows.
     }
+
+    \subsection{Actors and Their Goals}
+        {
+            Bases on the stakeholder analysis in Section 3.2.2, the platform involves the following actors:
+        }
+
+        {
+            Primary Actors (initiate use cases to achieve their own goals):
+        }
+        {
+            \begin{itemize}
+                \item {Student - Seeks to discover proposals, rank preferences, and track candidacy status}
+                \item {Company Representative - Aims to submit proposals and manage company participation}
+                \item {Professor - Intends to propose dissertation themes and supervise students}
+                \item {Edition Coordinator - Responsible for configuring  editions and overseeing workflows}
+            \end{itemize}
+        }
+
+        {
+            Secondary Actors (support the system but do not initiate the primary goal):
+        }
+        {
+            \begin{itemize}
+                \item {Secretariat - Manage financial and legal documentation}
+                \item {System Administrator - Maintains infrastructure and system health}
+            \end{itemize}
+        }
+
+    \subsection{High-Level Use Case Diagram}
+        {
+            
+        }
+
+    \subsection{Detailed Use Case Specifications}
+        {
+            
+        }
+        \subsubsection{UC-01: Student Ranks Internship Preferences}
+        \subsubsection{UC-02: Coordinator Validates and Provides Feedback on Proposal}
+        \subsubsection{UC-03: System Executes Student Seriation Algorithm}
+        \subsubsection{UC-04: Company Responds to Coordinator Feedback and Resubmits Proposal}
+
+    \subsection{Use Case Relationships and Extensions}
+        {
+            
+        }
+
+    \subsection{Summary of Use Cases}
+        {
+            
+        }
+    
 
 
