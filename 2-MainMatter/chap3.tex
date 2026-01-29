@@ -164,22 +164,80 @@
 
     \subsection{Functional Requirements}
         {
-            The functional requirements are categorized by feature set to ensure modular development, testing and clear traceability of stakeholder needs.
-1        \subsubsection{FR-1x: Edition and Configuration Management}
+            The functional requirements are categorized by feature set to ensure modular development, 
+            testing and clear traceability of stakeholder needs. Detailed specification for all functional requirements are presented in Annex 1, Tables I.1-I.7. 
+            The following subsections provide a summary of each category:
+        }
+        \subsubsection{FR-1x: Edition and Configuration Management}
+            {
+                This category contains the administrative infrastructure required for coordinators to establish and manage academic editions.
+                Edition coordinators must be able to create new editions, specifying whether the edition targets undergraduate internships or Master's dissertations,
+                and define critical timelines (proposal submission deadlines, interview periods and finalization deadlines).
+                The system must provide tools for scheduling company presentation time slots, designing resusable email templates with dynamic variable substitution (student names, company names, deadlines),
+                creating and maintaining edition-specific informational content (FAQs, regulations, contact information), and publishing targeted announcements to specific user roles.
+                These capabilities replace the legacy system's outdated, inflexible appraoch to edition configuration and enable coordinators to adapt communcation and workflows to each edition's unique needs.
+            }
             
         \subsubsection{FR-2x: Proposal Submission and Classification}
-            
+            {
+                This category defines the workflows for companies and professors to propose intership opportunities and dissertation themes.
+                The system support detailed proposal submission with attributes such as objectives, technical requirements, location, and benefits. 
+                A critical feature is the feedback loop: coordinators can request clarifications on proposals without rejecting them outright, triggering automatic notifications to the author for editing and resubmission, enabling a collaborative refinement process.
+                Coordinators also retain the ability to accept, conditionally accept, or reject proposals with detailed comments. 
+                The system shall allow companies to reuse and adpat proposals from previous editons, streamlining the proposal process for returning partners, and to schedule and manage oral presentations of their 
+                proposals using the coordinator-defined time slots. Deadline notifications ensure companies remain informed of submission closures and feedback response windows.
+            }
             
         \subsubsection{FR-3x: Student Candidacies and Seriation}
+            {
+                This category automates the student ranking and assignment process, addressing a core business requirement of the platform.
+                Students must be able to view available proposals for their enrolled edition and rank a specified number of preferences in priority order. 
+                If required by coordinators, students can submit supporting  documentation (CV, motivation letter, recommendation letters) to strenthen their candidacy for specific proposals.
+                The system implements an automated seriation algorithm that ranks candidates for each proposal based on pre-defined criteria (ECTS completed, grade average, coordinator-weighted factors), 
+                producing a ranked list of canidates for company review. 
+                The system notifies students of key timeline events (registration opening, ranking deadline, seriation results, confirmation) via email and in-app notifications. 
+                Companies then view the serialized candidate lists and manage candidate selection through interview and final confirmation phases, with the ability to exlude candidates if needed. 
+            }
             
         \subsubsection{FR-4x: Company and User Management}
+            {
+                This category establishes user and organizational management capabilities, supporting diverse the diverse stakeholder ecosystem.
+                Edition cooridnators validate new company registrations and ensure legal protocol compliance before companies submit proposals. 
+                Company representatives manage their organizational hierarchy (designating parent companies, sub-entities, departments), maintain current contact information,
+                and administer employee accounts (adding, removing, updating mentors and proposal-responsible personnel). 
+                The system provides superuser functionality, allowing coordinators temporary access to other user accounts using only a user identifier for support purposes, with full audit logging.
+                Coordinators can pre-register users in bulk (students via CSV import or manual entry, professors, secretariat staff) with role-based permissions. 
+                Additionally, coordinators can assign and revoke sub-coordinator roles to professors for specific editions, enabling delegation of proposal validation and feedback responsibilities.   
+            }
             
         \subsubsection{FR-5x: Communication and Notifications}
+            {
+                This category addresses the legacy system's critical email communication failures by implemeting reliable, templated, multi-channel notification workflows.
+                The system automates the "Call for Prpososals" process, notifying all registered companies at the start of each edition with submission deadlines and edition type.
+                Coordinators can publish news and annoucements targeted at specific user roles (students-only news, company-only alters, etc.). 
+                The system enforces email deliverability best practices (discussed in Section 3.2.4.8) to ensure notifications reach intented recipients reliably, replacing the legacy system's spam-flagging problem.
+                Both email and in-app notifications are suuported for critical events (new proposals, feedback requests, deadline reminders, seriation results). 
+                Coordinators can send targeted email campaings to specific user gruops with customizable subject and body content, enabling flexible mass communication without the rigidy of the legacy system. 
+            }
             
         \subsubsection{FR-6x: Reporting and Data Export}
+            {
+                This categoriy enables coordinators and administrators to extrat and analyze system data for institutional reporting and decision-making. 
+                The system allows comprehensive export of student lists, proposals, candidacies, and final assignments in open standard formats (CSV, JSON),
+                addressing the legacy system's lack of interoperability. 
+                Detailed audit logs record all critical system actions (logins/logouts, proposal status changes, superuser access, permission modifications, bulk imports) with timestamps and user attribution,
+                enabling accountability and compliance verification. 
+                Auditable records of proposal feedback exchanges (coordinator feedback, company responses, timestamps) are maintaned for dispute resolution and quality assurance.
+            }
             
         \subsubsection{FR-7x: Master's Dissertation Lifecycle Support}
-            
+            {
+                This category operationalizes Master's degree workflows, addressing the legacy system's "dead data" problem where dissertation themes were submitted but never managed within the platform.
+                The system distinguishes between scientific dissertations (academically-focused) and engineering projects (industry-focused), supporting tailored workflows and evalluation criteria for each type.
+                Professors can propose scientific dissertation themes, managing their proposed themes and assigned students. 
+                The system enables progress tracking and completion status management, including key milestones (topic approval, final submission/defense).
+                Master's editions operate similarly to undergraduate intership editions but with workflow and attribute modifications tailored to the distinct requirements of Master's level supervision and evaluation.
+             }
 
     \subsection{Non-Functional Requirements}
         {
