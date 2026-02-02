@@ -14,7 +14,34 @@
 \label{sec:sol_architecture}
 \ntindex[Template]{}
     {
-        TODO: high-level diagram of the system (interaction frontend, backend, db etc)
+        The proposed platform follows a three-layer architecture that separates presentation, application logic and data persistence, while integrating technologies justified in Chapter 2.
+    }
+
+    {
+        At the presentation layer, a React/Next.js single-page application provides role-specific dashboards for students, company representatives, professors, edition coordinators, secretariat staff
+        and system administrators. Next.js handles routing and page rendering (SSR/SSG), while React components implement reusable views such as proposal lists, candidacy tables and configuration forms.
+    }
+
+    {
+        The application layer is implemented as a set of backend services that expose a REST API consumed by the frontend. 
+        In the prototyping phase, these services are backed by Supabase (authentication, simple CRUD operations, real-time subscriptions), which allows rapid validation of core workflows. 
+        In the target architecture, a Spring Boot backend takes over the main business logic: proposal validation and feedback, student seriation, user and company management, protocol verification, notification
+        orchestration and audit logging. 
+        Cross-cutting concerns such as authentication/authorization, email delivery and WebSocket-based real-time updates are handled centrally in this layer.
+    }
+
+    {
+        The data layer is built on PostgreSQL, using the relational schema that is described in Section 4.3. Core entities (Edition, User, Student, Company, Proposal, Candidacy, etc.) are linked through foreign keys to guarantee consistency, while \gls{RLS} enforces
+        fine-grained access control. \glsxtrshort{JSON}/\glsxtrshort{JSONB} columns are used for semi-structured data such as email templates and feedback metadata.
+    }
+
+    {
+        External services complete the architecture: a transactional email provider is responsible for reliable message delivery; object storage is used for uploaded documents (CVs, protocols, reports). 
+        This structure allows the initial AI-assisted prototypes to evolve into a maintainable, secure platform without discarding early work.
+    }
+
+    {
+        TODO: diagram maybe vai para os anexos
     }
 
 

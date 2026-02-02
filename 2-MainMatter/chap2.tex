@@ -30,8 +30,8 @@
 }
 
 {
-    While "\textit{Vibe Coding}" and other AI-assisted practices promise faster experimentation and reduced
-    boilerplate, they also introduce new trade-offs regarding maintainability, security, and auditability in production systems. \cite{devto-vibe-coding-2025}
+    While "\textit{Vibe Coding}" and other \glsxtrshort{AI}-assisted practices promise faster experimentation and reduced
+    boilerplate, they also introduce new trade-offs regarding maintainability, security, and auditability in production systems \cite{devto-vibe-coding-2025}. 
 }
 
 {
@@ -203,32 +203,7 @@
                 The \glsxtrshort{BASE} model prioritizes availability and partition tolerance over strict consistency, which is acceptable for read-heavy analytics systems but unsuitable for transactional workloads that require immediate correctness.
             }
         \end{itemize}
-        {
-            The decision to utilize PostgreSQL is driven by the specific requirements and constraints of the \glsxtrshort{DI} management platform:
-        }
-        \begin{enumerate}
-            \item {
-                Data Integrity and Referential Consistency: The need to enforce relationships between Companies, Proposals, Editions, and Students needs a relational schema with foreign key constraints.
-                For example, the system must prevent an inactive or deleted company from having active proposals, and it must prevent logically impossible states such as student being assigned to multiple conflicting projects in the same edition.
-                These constraints are best expressed and enforced at the database level through relational integrity mechanisms rather than dispersed throughout the platform's code \cite{acceldata-referential-integrity, ibm-db2-foreignkey-121}. 
-            }
-            \item {
-                \glsxtrfull{RLS} and Multi-Tenancy: Using PostgreSQL enables the implementation of \gls{RLS}, a database-level access control mechanism.
-                \glsxtrshort{RLS} policies allow fine-grained permissions to be defined directly in the database layer, ensuring that access rules (e.g. "a company can only see the candidates to its own proposals", "a student can only see the applications they've made") 
-                are enforced uniformly regardless of how the \glsxtrshort{API} is accessed. This provides a security layer that cannot be bypassed by the application logic, addressing a critical requirement for institutional data protection,
-                By using PostgreSQL's \glsxtrshort{RLS} policies with role-based contexts, the platform achieves secure multi-tenancy at the database level, without relying solely on application-level permission checks. \cite{shiftasia-devblog-rls}
-            }
-            \item {
-                Hybrid Capabilities and Schema Evolution: PostgreSQL provides the strict structure required for academic records while support \glsxtrshort{JSON} types, effectively making the for using a \glsxtrshort{NoSQL} solution unnecessary.
-                The hybrid approach gives the platform the best of both worlds: schema enforcement where it matters (core academic entities and relationships) and flexibility where needed (dynamic form configurations, email templates, audit logs).
-                This design reduces operational complexity by consolidating storage into a single database system while maintaining both consistency guarantees and the agility to evolve data models as requirements change. \cite{architecture-weekly-postgresql-jsonb}
-            }
-            \item {
-                Compatibility and Technology Continuity: Both the rapid prototyping tools (Supabase \cite{supabase-database}) and the target production framework (Spring Boot with \glsxtrshort{JPA}/Hibernate \cite{springdata-jpa-ref-2026}) are optimized for relational databases,
-                ensuring a smooth transition between development phases. This alignment minimizes architectural friction and ensures that the knowledge base and tooling remains consistent 
-                as the system evolves from prototype to production.
-            }
-        \end{enumerate}
+        
 
 \section{Frontend Frameworks and User Experience}
 \label{sec:sota_frontend}
@@ -305,7 +280,7 @@
                 \item {
                     Routing and Performance: Next.js offers a file-system based router (App Router) \cite{nextjs-app-router} and rendering strategies such as \gls{SSR} and \gls{SSG}.
                     \gls{SSR} renders pages on demand for dynamic content, while \gls{SSG} pre-renders static pages at build time, reducing server load times 
-                    and enabling fast initial page loads \cite{strapi-ssr-vs-ssg-next-js}, which is crucial for retaining the engagement of external company users.
+                    and enabling fast initial page loads \cite{strapi-ssr-vs-ssg-next-js}, which is crucial for retaining the engagement of users.
                     This flexibility allows different sections of the platform to use the optimal rendering strategy based on content volatility.
                 }
                 \item {
@@ -410,30 +385,107 @@
         }
             
     \subsection{Analysis of Vibe Coding Tools}
+        {
+            For this dissertation, four representative \textit{Vibe Coding} tools were considered and explored: \textbf{Lovable, Bolt.new, } and \textbf{Figma Make}.
+            They differ in scope (full-stack vs. frontend-centric), integration with existing workflows, and the amount of control they give developers over the generated code. 
+        }
+
+        \begin{table}[H]
+            \centering
+            \renewcommand{\arraystretch}{1.5} 
+            \begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+                \hline
+                \textbf{Criterion} & \textbf{Lovable} & \textbf{Bolt.new} & \textbf{Figma Make} \\ \hline
+                \textbf{Primary focus} & End-to-end web apps & Full‑stack code generation & Design‑first interactive prototypes \\ \hline
+                \textbf{Typical stack / output} & React + Supabase & React, Angular, Vue, React Native, etc. & React + Supabase \\ \hline
+                \textbf{Backend / DB support} & Supabase backend \& DB & Supabase backend \& DB & Supabase backend \& DB \\ \hline
+                \textbf{Git / integration} & Bi‑directional GitHub sync & Bi‑directional GitHub sync & One direction GitHub sync \\ \hline
+                \textbf{Strengths} & Complete environment, scaffolding, debugging, team‑friendly & Framework flexibility, closer to “real” code & High visual fidelity, great for designers \\ \hline
+                \textbf{Limitations} & Mainly web/React; still evolving for large, complex domains & Rougher UX, more bugs and manual debugging & Generated code hard to reuse/maintain; more bugs; less suited to production
+                \\ \hline
+            \end{tabularx}
+            \caption{Comparison of Vibe Coding Tools}
+            \label{tab:vibe_coding_tools__comparison}
+        \end{table}
+
+        \subsubsection*{Lovable}
+            { 
+                    focuses on providing an end-to-end environment for building web applications with minimal friction. 
+                    From a single interface, it can generate React-based \glsxtrshortpl{UI}, configure Supabase-backed database and backend,
+                    and deploy the resulting application.
+                    When requirements are underspecified, Lovable scaffolds the missing pieces on both frontend and backend, and offers automatic debugging
+                    and safety checks that make it forgiving for users with limited programming experience. A distinctive advantage is bidirectional GitHub
+                    synchronization: projects can be edited in an external \glsxtrshortpl{IDE} and then synced back to Lovable.
+                    Although it started as a prototyping tool, its feature set and collaboration capabilities make it a suitable for production-adjacent \glsxtrshortpl{MVP}, internal tools and small applications \cite{medioum-choosing-ai-tools}.
+                }
+        \subsubsection*{Bolt.new}
             {
-                TODO - need to check the tools better because since I was researching they got updated and some new tools appeared too
+                    targets developers who want "prompt-to-full-stack" generation while retaining framework flexibility. 
+                    It can scaffold applications across multiple stacks (React, Angular, Vue, React Native, etc.) and is backed by Supabase
+                    for backend and database support, similar to Lovable.
+                    Compared to Lovable, Bolt places more emphasis on exposing the underlying code and project structure, which provides greater control but also 
+                    demands more debugging and configuration effort. 
+                    It also supports working with real repositories and two-way GitHub sync. 
+                    For teams that must target specific frameworks (for example, Angular or React Native), Bolt is a more natural fit than tools that assume React only, but its
+                    \glsxtrshort{UX} is less polished for non-experts \cite{medioum-choosing-ai-tools}.
+                }
+        \subsubsection*{Figma Make}
+            {
+                    is tightly integrated into the Figma ecosystem and is therefore particularly attractive to designers.
+                    It starts from high-fidelity UI layouts and turns them into interactive prototypes that closely match the original design.
+                    This design-first approach is powerful for validating user flows and visual details with stakeholders. 
+                    However, the generated code is harder to reuse outside Figma, and complexity grows quickly once custom logic and structure are layered on top.
+                    Although Figma Make supports backend integration (e.g., via Supabase), its current strength lies in rich prototypes rather than production-ready application code.
+                    For teams already working with Figma, its cost overhead is low, but they must be prepared  to deal with frequent minor bugs and inconsistencies \cite{medioum-choosing-ai-tools}.
             }
+
 
     \subsection{Limitations and Architectural Implications}
             {
-                TODO - waiting for the subsection before
+                Although \textit{Vibe Coding} tools are powerful accelerators, they also raise several architectural concerns for an institutional platform.
+            }
+
+            {
+                First, they optimize for speed over structure. Generated code often prioritizes quick results rather than long-term maintainability, with oversize
+                components and domain logic mixed into UI code.
+                For a system that must be maintained across many years, this requires a deliberate refactoring step to align the code with a layered architecture (presentation, business logic, data access).
+            }
+
+            {
+                Second, these tools assume opinionated defaults for stack and infrastructure (for example, React + Supabase in Lovable, or specific project layouts in Bolt), which may conflict with
+                institutional choices such as Spring Boot backend or stricter security and auditing policies. 
+                In this dissertation, Vibe-generated code is treated as a starting point that is progressively integrated into a more controlled environment, not as the final deployment artifact.
+            }
+
+            {
+                Third, there are governance, security and vendor-lock-in risks. Code generation and debugging typically run in external cloud environments with their own
+                access and retention policies, and tight integrations (e.g., Figma Make + Figma) can couple parts of the system to specific providers. 
+                These risks are mitigated by limiting sensitive data in external tools and encapsulating AI-related features behind backend interfaces so that underlying providers
+                can be swapped without rewriting the application.
+            }
+
+            {
+                Lastly, \textit{Vibe Coding} does not remove the need for engineering skills and debugging. 
+                Generated applications may appear correct until they hit edge cases or scale, at which point conventional testing, tracing and refactoring
+                are still required. Consequently, \glsxtrshort{AI}-assisted generation is used here to explore and accelerate, while critical data models, security controls and
+                business logic are consolidated in a stable, hand-curated codebase that remains under developer control.
             }
 
 \section{Summary and Justification of Technological Choices}
     {
-        The preceding sections surveyed alternative technologies for the backend, data persistence layer, frontend frameworks, and AI-assisted development.
+        The preceding sections surveyed alternative technologies for the backend, data persistence layer, frontend frameworks, and \glsxtrshort{AI}-assisted development.
         This subsection summarizes and justifies the concrete choices adopted for the platform, in light of the requirements and constraints identified in Chapter 3.
     }
 
     \subsection{Backend Architecture}
         {
-            Chapter 2.1 compared \gls{BaaS} solutions with custom backend built with mature frameworks such as Spring Boot and Express.js. 
+            Section 2.1 compared \gls{BaaS} solutions with custom backend built with mature frameworks such as Spring Boot and Express.js. 
             \gls{BaaS} platforms like Supabase are particularly attractive for early-stage projects because they provide read-made infrastructure
             for authentication, storage, and real-time APIs, enabling rapid prototyping with small teams.
         }
 
         {
-            For this project, Supabase is used in the initial phase to support  AI-assisted, Vibe Coding-driven prototyping of the core workflows.
+            For this project, Supabase is used in the initial phase to support \glsxtrshort{AI}-assisted, Vibe Coding-driven prototyping of the core workflows.
             However, the long-term target architecture is a custom backend implemented with Spring Boot. 
             This choice is justified by:
         }
@@ -446,9 +498,9 @@
             In practice, the prototype built on Supabase is evolved rather than discarded: the data model and API contracts defined during
             prototyping are reused by the Spring Boot backend, minimizing migration effort.
         }
-    \section{Data Persistence}
+    \subsection{Data Persistence}
         {
-            Chapter 2.2 contrasted relational (SQL) and non-relational (NoSQL) database models. 
+            Section 2.2 contrasted relational (SQL) and non-relational (NoSQL) database models. 
             Relational database prioritize integrity and consistency through \glsxtrshort{ACID} guarantees and referential constraints, while
             NoSQL systems offer schema flexibility and horizontal scalability at the cost of weaker consistency.
         }
@@ -476,7 +528,7 @@
             }
         \end{itemize}
 
-    \section{Frontend Frameworks and Styling}
+    \subsection{Frontend Frameworks and Styling}
         {
             Section 2.3 discussed React and Angular as representative frontend technologies. Angular offers an opinionated, full-stack 
             framework, while React focuses on the view layer and relies on external libraries for routing and state. In this project React 
@@ -506,7 +558,45 @@
                 }
             \end{itemize}
         }
-    \section{AI-Assisted Development (Vibe Coding)}
+    \subsection{AI-Assisted Development (Vibe Coding)}
+        {
+            Section 2.4 introduced Vibe Coding tools such as Lovable, Bolt.new and Figma Make. These tools are not part of the runtime 
+            architecture of the platform, but they strongly influence the development workflow.
+        }
+        
+        {
+            For this project, AI-assisted tools are used in a complementary way:
+        }
+        \begin{itemize}
+            \item {
+                A tool like Lovable or Bolt.new can bootstrap full-stack React/Supabase applications and generate much of the initial 
+                \glsxtrshort{UI} and \glsxtrshort{CRUD} logic for core workflows.
+            }
+            \item {
+                Figma Make can be used selectively to convert high-fidelity Figma designs into React components for visually complex views, 
+                which are then integrated into the main codebase.
+            }
+        \end{itemize}
+        {
+            However, these tools are treated as accelerators for prototyping, not as the final source of truth for the production system. 
+            The architectural implications are:
+        }
+        \begin{itemize}
+            \item {
+                Generated code is used as a starting point and then refactored into the layered architecture, ensuring clean separation between
+                presentation, business logic and data access.
+            }
+            \item {
+                Critical concerns - data model, security, seriation logic, auditing are implemented and reviewed in the main codebase 
+                (Spring Boot + PostgreSQL, React/Next.js) rather than being left hidden inside tool-specific projects.
+            }
+        \end{itemize}
+        {
+            In summary, Vibe Coding tools are justified as a way to reduce time-to-prototype and explore design alternatives while
+            still converging on a conventional, maintainable architecture for the long-term institutional platform.
+        }
+
+
     
 \label{sec:sota_vibe_coding}
 \ntindex[Template]{}

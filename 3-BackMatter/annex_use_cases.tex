@@ -6,33 +6,33 @@
 %%%% Functional Requirements
 \section*{Use Cases}
 
-\begin{table}[H]
-    \centering
-    \renewcommand{\arraystretch}{1.5} % Adds a bit of breathing room
-    \begin{tabularx}{\textwidth}{|l|X|c|}
-        \hline
-        \textbf{ID} & \textbf{Use Case Name} & \textbf{Page} \\ \hline
-        UC-01 & Student Ranks Internship Preferences & \pageref{tab:UC-01} \\ \hline
-        UC-02 & Coordinator Validates and Provides Feedback on Proposal & \pageref{tab:UC-02} \\ \hline
-        %\rowcolor[HTML]{F9F9F9}
-        %\multicolumn{3}{|l|}{\textit{Add further use cases as needed...}} \\ \hline
-    \end{tabularx}
-    \caption{Index of Use Case Specifications}
-\end{table}
+%\begin{table}[H]
+%    \centering
+%    \renewcommand{\arraystretch}{1.5} % Adds a bit of breathing room
+%    \begin{tabularx}{\textwidth}{|l|X|c|}
+%        \hline
+%        \textbf{ID} & \textbf{Use Case Name} & \textbf{Page} \\ \hline
+%        UC-01 & Student Ranks Internship Preferences & \pageref{tab:UC-01} \\ \hline
+%        UC-02 & Coordinator Validates and Provides Feedback on Proposal & \pageref{tab:UC-02} \\ \hline
+%        %\rowcolor[HTML]{F9F9F9}
+%        %\multicolumn{3}{|l|}{\textit{Add further use cases as needed...}} \\ \hline
+%    \end{tabularx}
+%    \caption{Index of Use Case Specifications}
+%\end{table}
 
 \newpage
 \renewcommand{\arraystretch}{1.5} 
 \begin{xltabular}{\textwidth}{|l|X|}
-    \caption{Use Case Specification: Proposal Ranking and Submission} \label{tab:UC-01} \\
+    \caption{Use Case Specification: Proposal Ranking} \label{tab:UC-01} \\
     
     \hline
     \textbf{Use Case ID} & UC-01 \\ \hline
-    \textbf{Use Case Name} & Student Ranks Internship Preferences \\ \hline
+    \textbf{Use Case Name} & Student Ranks Internship/Dissertation Preferences \\ \hline
     \textbf{Primary Actor} & Student \\ \hline
     \textbf{Secondary Actors} & Edition Coordinator, System \\ \hline
     \textbf{Preconditions} &
         - Student is enrolled in current edition [FR-31]. \newline
-        - Proposal ranking period is open (not before start date, not after deadline). \newline
+        - Proposal preference ranking period is open (not before start date, not after deadline). \newline
         - At least one proposal is available for the edition.
         \\ \hline
     \textbf{Postconditions} &
@@ -149,7 +149,7 @@
         9. System displays "Seriation Complete" confirmation to coordinator \newline
         10. Audit log records: seriation execution time, number of students processed, algorithm parameters used [FR-62]  \\ \hline
     \textbf{Alternative Flows} &
-        \textbf{Algorithm detects data inconsistency (e.g., student has invalid Average Grade)} \newline
+        \textbf{A1. Algorithm detects data inconsistency (e.g., student has invalid Average Grade)} \newline
         1. System logs error and notifies coordinator \newline
         2. Seriation halts; coordinator must resolve data issue and retry \newline
         \textbf{A2. No students ranked a particular proposal} \newline
@@ -497,10 +497,9 @@
         1. Administrator opens the “Support / Superuser Access” area. \newline
         2. System lists open support tickets or allows searching by user, edition, or proposal. \newline
         3. Administrator selects a case and views context (user roles, assignments, logs). \newline
-        4. Administrator chooses an appropriate superuser action (e.g., impersonate user session, correct role, adjust a single record). \newline
-        5. System prompts for a mandatory justification note. \newline
-        6. Administrator confirms the action. \newline
-        7. System executes the action, logs all details (who, what, when, why), and informs the affected user via notification. \\ \hline
+        4. Based on the case the administrator logs in the Superuser with the other user's login. \newline
+        5. Administrators troubleshoots the problems. \newline
+        6. Logs out of the accounts being accessed. [A2] \\ \hline
     \textbf{Alternative Flows} &
         \textbf{A1. Action not allowed by policy:} \newline
         1. The requested operation violates locked-data policy. \newline
