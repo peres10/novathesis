@@ -365,92 +365,195 @@
 
     \subsection{Detailed Use Case Specifications}
         {
-            This subsection documents key use cases using standard template: Use Case Name, Actors, Preconditions, Postconditions, Main Flow, and Alternative Flows.
+            This subsection documents the detailed specification of key use cases using the standard Cockburn template format:
+            Use Case Name, Primary Actor(s), Secondary Actor(s), Preconditions, Postconditions, Main Flow, Alternative Flows \cite{visual-pardigm-uml-use-case-modeling}.
+            The complete specifications for all use cases identified in this section are presented in Annex 2, Tables II.1-II.12.
         }
-        \subsubsection{UC-01: Student Ranks Internship Preferences}
-            \begin{table}[H]
-                \centering
-                \begin{tabularx}{\textwidth}{|l|X|}
-                    \hline
-                    \textbf{Use Case ID} & UC-01 \\ \hline
-                    \textbf{Use Case Name} & Student Ranks Internship Preferences \\ \hline
-                    \textbf{Primary Actor} & Student \\ \hline
-                    \textbf{Secondary Actors} & Edition Coordinator, System \\ \hline
-                    \textbf{Preconditions} &
-                        \begin{itemize}
-                            \item Student is enrolled in current edition [FR-31].
-                            \item Proposal ranking period is open (not before start date, not after deadline).
-                            \item At least one proposal is available for the edition.
-                        \end{itemize} \\ \hline
-                    \textbf{Postconditions} &
-                        \begin{itemize}
-                            \item Student's preference ranking is saved in the system.
-                            \item Confirmation message is displayed to the student.
-                            \item Coordinator can retrieve data for seriation.
-                        \end{itemize} \\ \hline
-                    \textbf{Main Flow} &
-                        1. Student logs in and navigates to the edition they are enrolled in. \newline
-                        2. System displays all available proposals for the edition. \newline
-                        3. Student views details of each proposal (objectives, requirements, company, benefits, etc.). \newline
-                        4. Student selects and ranks a specified number of proposals in priority order. \newline
-                        5. System validates the number of proposals does not exceed the limit. \newline
-                        6. Student submits the ranking. \newline
-                        7. System confirms successful submission and displays a confirmation message. \newline
-                        8. System stores the ranking with timestamp [NFR-AUD-1]. \\ \hline
-                    \textbf{Alternative Flows} &
-                        \textbf{A1. Post-Deadline Attempt:} \newline
-                        1. System prevents submission; displays "Choosing period has closed". \newline
-                        2. Use case terminates. \newline
-                        \textbf{A2. System Failure:} \newline
-                        1. System displays error, prompts user to try again. \newline
-                        2. Student's previous preference ranking remains unchanged (rollback). \\ \hline
-                \end{tabularx}
-                \caption{Use Case Specification: Proposal Ranking and Submission}
-            \end{table}
 
+        {
+            The following describes the scope and organization of documented use cases:
+        }
 
-
-
-        \subsubsection{UC-02: Coordinator Validates and Provides Feedback on Proposal}
-            {
-                TODO
+        {
+            Core Workflow Use Cases:
+        }
+        \begin{itemize}
+            \item {
+                UC-01: Student Ranks Internship Preferences - Central to the student candidacy phase;
+                demonstrates the core functionality of the platform for students
             }
-        \subsubsection{UC-03: System Executes Student Seriation Algorithm}
-            {
-                TODO
+            \item {
+                UC-02: Coordinator Validates and Provides Feedback on Proposal - Critical workflow; illustrates the 
+                iterative refinement loop between coordinator and company
             }
-        \subsubsection{UC-04: Company Responds to Coordinator Feedback and Resubmits Proposal}
-            {
-                TODO
+            \item {
+                UC-03: System Executes Student Seriation Algorithm - Core business logic; represents the automated 
+                ranking that differentiates this platform form manual processes.
             }
+            \item {
+                UC-04: Company Responds to Coordinator Feedback and Resubmits Proposal - Demonstrates bidirectional
+                communication; shows how feedback loops improve proposal quality 
+            }
+            \item {
+                UC-05: Edition Coordinator Creates New Edition - Administrative setup; establishes the foundation for
+                almost all the other workflows.
+            }
+            \item {
+                UC-06: Company Representatives Registers and Submits Initial Proposal - Entry point for external stakeholders;
+                illustrates onboarding and validation workflows. 
+            }
+            \item {
+                UC-07: Student Submits Support Documentation - Optional workflow, triggered when a coordinator requires CV or recommendation letters 
+            }
+        \end{itemize}
+        
+        {
+            Secondary Workflow Use Cases:
+        }
+        \begin{itemize}
+            \item {
+                UC-08: Company Views Assigned Candidates List and Schedule Interviews - 
+                Post seriation activities; enables company participation in selection
+            }
+            \item {
+                UC-09: Professor Proposes Dissertation Theme - Master's degree specific; 
+                operationalizes previously non-functional dissertation workflow 
+            }
+            \item {
+                UC-10: Secretariat Verifies Payment and Finalizes Protocol - Post-assignment; ensures legal and 
+                financial closure
+            }
+            \item {
+                UC-11: Edition Coordinator Publishes Call for Proposals - Communication workflow; 
+                ensures all companies receive the invite to send proposals to the edition
+            }
+            \item {
+                UC-12: Administrator Performs Superuser Access for Student Support - Administrative support;
+                includes detailed audit logging requirements
+            }
+        \end{itemize}
+
+        {
+            Each use case specification includes:
+        }
+        \begin{itemize}
+            \item {Actors - Primary (initiates the goal) and secondary (supports the goal) participants}
+            \item {Preconditions - System state and permissions required before the use case can begin}
+            \item {Postconditions - Guaranteed system state after the use case completes (success of failure)}
+            \item {Main Flow - The primary, "happy path" sequence of steps}
+            \item {Alternative Flows - Exception handling, edge cases, and variant paths 
+                (numbered A1, A2, A3, etc.) describing specific conditions where the main flow diverges.
+            }
+        \end{itemize}
+        {
+            Traceability to Requirements: Steps in the use case flows explicitly reference, when they have one, the corresponding Functional Requirement or Non-Functional Requirement (NFR-XX), 
+            ensuring complete traceability between user interactions and system capabilities.
+        }
 
     \subsection{Use Case Relationships and Extensions}
         {
-            Include Relationships (one use case always includes another):
+            The use case model also captures a small set of relationships that express shared or conditional behavior between use cases.
         }
+
         {
-            TODO
+            First, there is one extend relationship:
         }
+            \begin{itemize}
+                \item {
+                    Respond to Feedback extends Submit Proposals when the coordinator has requested clarifications. In this situation, the company follows an additional flow
+                    where it edits and resubmits the proposal instead of creating a completely new one.
+                }
+            \end{itemize}
+        
         {
-            Extend Relationships (conditional behavior):
+            Then, there are several include relationships, where one use case always performs another pas part of its normal execution:
         }
-        {
-            TODO
-        }
+            \begin{itemize}
+                \item {
+                    Validate Proposals includes Send Feedback to Company, because every validation ends with the coordinator communicating 
+                    an acceptance, rejection, or clarification request.
+                }
+                \item {
+                    Execute Seriation includes System Generate Audit Log, since each seriation run must be recorded with its parameters and results
+                    for auditability.
+                }
+                \item {
+                    Publish Call for Proposals, Execute Seriation, and Validate Proposals each include System Notifies Company, reflecting that companies
+                    are automatically informed when a new edition is open for proposals, when seriation results are available, or when their proposals change status.
+                }
+
+            \end{itemize}
 
     \subsection{Summary of Use Cases}
         {
-            This use case model covers the core workflows of the platform.
+            The use case model encompasses 12 primary use cases organized by the four main actors: 
+            Students, Companies, Coordinators, and supporting roles (Professors, Secretariat)
         }
-        \begin{itemize}
-            \item Student-centric activities (browsing, ranking, tracking)
-            \item Company centric activities (proposals submission, feedback response, presentation scheduling)
-            \item Coordinator-centric activities (edition configuration, proposal validation, seriation execution)
-            \item Cross-functional activities (notifications, audit logging, payment verification)
-        \end{itemize}
+
         {
-            Complete detailed specifications for all additional use cases (e.g, UC-05: Register New Company, UC-06: Create Edition, UC-07: Export Reporting Data) can be referenced from the use cases in Annex 2 (TODO write numbers of tables) and will be further detailed in the architectural design phase.
+            Student-Centric activities
         }
+            {
+                Students interact with the platform to browse and rank proposals, submit supporting documents if required,
+                and track their candidacy status:
+            }
+            \begin{itemize}
+                \item {UC-01: Rank Internship Preferences [FR-31]}
+                \item {UC-07: Submit Supporting Documentation [FR-32]}
+                \item {Track candidacy status after seriation [FR-34]}
+            \end{itemize}
+        
+        {
+            Company-Centric Activities
+        }
+            {
+                Companies register, submit proposals, respond to coordinator feedback, and view ranked candidates:
+            }
+            \begin{itemize}
+                \item {UC-06: Register and Submit Initial Proposal [FR-21, FR-41]}
+                \item {UC-04: Respond to Coordinator Feedback and Resubmit Proposal [FR-22, FR-24]}
+                \item {UC-08: View Ranked Candidates and Schedule Interviews [FR-35, FR-36]}
+            \end{itemize}
+        
+        {
+            Coordinator-Centric Activities
+        }
+            {
+                Coordinators manage editions, validate proposals, publish calls for proposals, and execute seriation:
+            }
+            \begin{itemize}
+                \item {UC-05: Create New Edition [FR-11, FR-12]}
+                \item {UC-02: Validate Proposals [FR-22, FR-23]}
+                \item {UC-03: Execute Seriation Algorithm [FR-33]}
+            \end{itemize}
     
+        {
+            Professor-Centric Activities
+        }
+            {
+                Professors primarily propose dissertation themes and supervise students.
+            }
+            \begin{itemize}
+                \item {UC-09: Propose Dissertation Theme [FR-71, FR-72]}
+            \end{itemize}
 
+        {
+            Cross-Functional Activities
+        }
+            {
+                Supporting workflows for academic supervision, financial closure, and administrative support:
+            }
+            \begin{itemize}
+                \item {UC-10: Verify Payments and Finalize Protocol [FR-41]}
+                \item {UC-12: Superuser Access for Student Support [FR-44, NFR-AUD-4]}
+            \end{itemize}
 
+        {
+            Conclusion
+        }
+        
+        {
+            Complete detailed specifications for all 12 use cases - including preconditions, postconditions, main flows, 
+            and alternative flows - are documented in Annex 2, Tables II.1-II.12. 
+            These specifications will serve as input for the system architecture design and form the basis for implementation and testing.
+        }

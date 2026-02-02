@@ -13,26 +13,30 @@
 {
     This chapter examines the current state of software engineering practices and technologies relevant to building 
     a modern platform for the \gls{DI} at \glsxtrshort{NOVA} \gls{FCT}. The goal is to overcome limitations of the legacy system - 
-    such as fragmented data, manual workflows, and inefficient communication - by systematically evaluating contemporary approaches to backend 
+    such as fragmented data, manual workflows, and inefficient communication - by evaluating contemporary approaches to backend 
     architectures, data persistence, frontend frameworks, and \glsxtrshort{AI}-assisted development workflows. Particular attention is given to the emerging 
-    paradigm of \glsxtrshort{AI}-assisted software development, often described as “Vibe Coding” \cite{figma-vibecoding-2025} which supports rapid prototyping by allowing developers to 
+    paradigm of \glsxtrshort{AI}-assisted software development, often described as “\textit{Vibe Coding}” \cite{figma-vibecoding-2025} which supports rapid prototyping by allowing developers to 
     steer \glspl{LLM} through natural-language interactions instead of traditional line-by-line coding.
 }
 
 {
     Modern web application stacks are characterized by a wide range of choices at each layer, from infrastructure and backend services to frontend 
-    frameworks and development workflows. In the backend, developers must choose between fully managed \gls{BaaS}
+    frameworks and development workflows. On the backend, developers must choose between fully managed \gls{BaaS}
     platforms \cite{acropolium-baas-2024} and 
-    custom backends that offer fine-grained control over domain logic, performance, and governance. On the frontend, single-page applications and 
+    custom backends that offer fine-grained control over domain logic, performance, and governance. 
+    On the frontend, single-page web applications and 
     component-based frameworks (such as React, Angular, or Vue) are commonly combined with RESTful or GraphQL \glsxtrshortpl{API}, enabling decoupled 
     client-server architectures and iterative delivery of new features.
 }
 
 {
-    Beyond classical architectures, \glsxtrshort{AI}-assisted development tools and practices are reshaping how software is designed and implemented. Under the “Vibe Coding” 
-    paradigm, developers describe desired functionalities to an \glsxtrshort{LLM}, which generates and refines code iteratively, prioritizing rapid experimentation and high-level 
-    intent over manual code authoring. This approach align with agile or small teams to assemble complex prototypes quickly, though it raises questions about 
-    maintainability, security, and auditability in production systems. \cite{devto-vibe-coding-2025}
+    While "\textit{Vibe Coding}" and other AI-assisted practices promise faster experimentation and reduced
+    boilerplate, they also introduce new trade-offs regarding maintainability, security, and auditability in production systems. \cite{devto-vibe-coding-2025}
+}
+
+{
+    The remainder of this chapter critically reviews these technologies and architecture choices in light of the requirements
+    identified for the new platform.
 }
 
 \section{Backend Architectures and \glsxtrshort{BaaS}}
@@ -51,6 +55,22 @@
         which becomes critical for institutional applications that must satisfy compliance, long-term maintainability, and integration with existing academic processes.
     }
 
+    \begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.5} 
+    \begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+        \hline
+        \textbf{Feature} & \textbf{Supabase (BaaS)} & \textbf{Spring Boot} & \textbf{Node.js (Express)} \\ \hline
+        \textbf{Architectural Pattern} & Managed Infrastructure & Layered / Monolithic & Middleware-based \\ \hline
+        \textbf{Development Velocity} & Accelerated (Managed) & Moderate (Boilerplate) & High (Minimalist) \\ \hline
+        \textbf{Domain Control} & Ecosystem-dependent & High (Type-safe) & High (Flexible) \\ \hline
+        \textbf{Integrations} & Webhooks \& Extensions & Extensive / Enterprise & Package-rich (NPM) \\ \hline
+        \textbf{Security Model} & Row-Level Security (RLS) & Spring Security (OIDC/JWT) & Custom Middleware \\ \hline
+    \end{tabularx}
+    \caption{Comparison of Backend Frameworks and Platforms}
+    \label{tab:backend_framework_comparison}
+    \end{table}
+
     \subsection{Supabase (Backend-as-a-Service)}
         {
             Supabase is an open-source \glsxtrshort{BaaS} stack that builds on PostgreSQL and exposes automatically generated REST \glsxtrshortpl{API} through PostgREST \cite{supabase-rest-api-overview}, significantly reducing 
@@ -66,7 +86,7 @@
             serverless “Edge Functions”, typically written in TypeScript or JavaScript, which run in a managed environment near end users to minimize latency. \cite{supabase-edge-functions}
         }
 
-    \subsection{Custom Backend: Spring Boot}
+    \subsection{Spring Boot (Custom Backend)}
         {
             Spring Boot is a widely adopted framework for building production-grade Java or Kotlin backends and is especially suitable for complex, domain-driven systems 
             that require strict typing, layered architectures, and extensive integration capabilities. Its opinionated configuration model and extensive ecosystem 
@@ -81,11 +101,11 @@
             oversight and internal compliance in university environments. 
         }
 
-    \subsection{Custom Backend: Express.js (Node.js)}
+    \subsection{Node.js and Express (Custom Backend)}
         {
             Express.js is a minimalist web framework for Node.js that offers a lightweight and flexible foundation for building HTTP \glsxtrshortpl{API} using JavaScript or TypeScript \cite{express-js}.
             Its event-driven, non-blocking \glsxtrshort{I/O} model allows a single process to handle many concurrent connections efficiently, making it well-suited for notification-heavy 
-            workloads \cite{node-js} such as broadcasting “Call for Proposals” or status updates to large groups of students.
+            workloads \cite{node-js}.
         }
 
         {
@@ -106,9 +126,25 @@
     {
         The choice between \glsxtrshort{SQL} and \glsxtrshort{NoSQL} has complex implications for institutional systems.
         Relational databases prioritize data integrity and consistency through \gls{ACID} compliance \cite{datacamp-acid-2025}, while Non-Relational systems typically follow the 
-        \gls{BASE} model, trading immediate consistency for horizontal scalability and schema flexibility \cite{aws-acid-vs-base-2026}. For academic management platforms where data accuracy are indispensable, 
-        this distinction is critical. 
+        \gls{BASE} model, trading immediate consistency for horizontal scalability and schema flexibility \cite{aws-acid-vs-base-2026}.
     }
+
+    \begin{table}[H]
+        \centering
+        \renewcommand{\arraystretch}{1.5} % Matches the breathing room of your other tables
+        \label{tab:data_persitance_comparison}
+        \begin{tabularx}{\textwidth}{|l|X|X|}
+            \hline
+            \textbf{Criterion} & \textbf{Relational (SQL)} & \textbf{Non-Relational (NoSQL)}  \\ \hline
+            \textbf{Schema Definition} & Rigid/Predefined & Schema-less/Dynamic \\ \hline
+            \textbf{Consistency Model} & ACID Compliance & BASE (Eventual) \\ \hline
+            \textbf{Data Integrity} & Enforced (Foreign Keys) & Application-level logic \\ \hline
+            \textbf{Query Complexity} & Native Relational Joins & Aggregation Pipelines \\ \hline
+            \textbf{Scaling Strategy} & Vertical Scaling & Horizontal Partitioning \\ \hline
+            \textbf{Institutional Fit} & High (Structured Records) & Low (Consistency Risks) \\ \hline
+        \end{tabularx}
+        \caption{Comparison of Data Persistence Models}
+    \end{table}
 
     \subsection{The Relational Model (\glsxtrshort{SQL})}
         {
@@ -154,13 +190,19 @@
                 The governance requirements of an academic institution demand clear, predictable data structures rather than evolving, loosely-typed records.
             }
             \item {
+                Horizontal Scalability: A key advantage of many \glsxtrshort{NoSQL} systems is the ability to easily scale horizontally across multiple nodes,
+                distributing data and load to handle very high traffic volumes or massive datasets.
+                This is attractive for large, globally distributed consumer applications, but less critical for an institutional platform whose 
+                workload is bounded by the number of students, companies and editions.
+                In this context, the added operational complexity of managing a distributed \glsxtrshort{NoSQL} cluster is not justified by the expected scale,
+                especially when a single relational database can already handle the anticipated load with proper indexing and tuning.
+            }
+            \item {
                 Consistency Challenges: In workflows like Student Seriation, data consistency is essential. 
                 A \glsxtrshort{NoSQL} approach, which often relies on eventual consistency, could introduce race conditions where a student is assigned to a project that is no longer available or where multiple simultaneous requests lead to conflicting state changes.
                 The \glsxtrshort{BASE} model prioritizes availability and partition tolerance over strict consistency, which is acceptable for read-heavy analytics systems but unsuitable for transactional workloads that require immediate correctness.
             }
         \end{itemize}
-
-    \subsection{Justification for the Chosen Approach (PostgreSQL)}
         {
             The decision to utilize PostgreSQL is driven by the specific requirements and constraints of the \glsxtrshort{DI} management platform:
         }
@@ -188,7 +230,6 @@
             }
         \end{enumerate}
 
-
 \section{Frontend Frameworks and User Experience}
 \label{sec:sota_frontend}
 \ntindex[Template]{}
@@ -198,7 +239,7 @@
             a modern, reacting \gls{SPA} or hybrid architecture that enables faster navigation, richer interactivity \cite{react-docs-2026}, and consistent interfaces across distinct user roles.
         }
 
-        \subsection{React.js: The Foundation for Vibe Coding}
+        \subsection{React.js}
             {
                 React is a free, open-source JavaScript library maintained by Meta that specializes in building interactive user interfaces through component-based architecture \cite{react-docs-2026, react-meta-opensource-2026}.
                 Unlike traditional web development where the entire page must be reloaded on data changes, React efficiently re-renders only the components that have actually changed, 
@@ -224,7 +265,31 @@
                 }
             \end{enumerate}
 
-        \subsection{Next.js: Production-Grade Framework}
+        \subsection{Angular}
+            {
+                Angular is a full-featured, opinionated frontend framework maintained by Google that provides an integrated solution for components,
+                routing, forms, and state management in a single toolkit. 
+                Unlike React, which focuses on the view layer and relies on additional libraries for concerns such as routing, Angular ships with a more
+                prescriptive structure (modules, services, dependency injection), which can be advantageous for large teams that value strong convetions.
+            }
+
+            {
+                Angular was considered as a viable alternative because if offers:
+            }
+            \begin{itemize}
+                \item {Strong typing when used with TypeScript by default}
+                \item {Built-in patterns for modularization and dependency injection}
+                \item {Mature tooling for forms, validation, and reactive programming}
+            \end{itemize}
+
+            {
+                However, given the project's emphasis on \glsxtrshort{AI}-assisted prototyping and the tight integration between
+                \textit{Vibe Coding} tools and the React ecosystem, React was preferred. 
+                Angular remains a valid choice for institutional systems, but in this context it would add friction to \glsxtrshort{AI}-assisted
+                workflows and reduce reuse of generated components.            
+            }
+
+        \subsection{Next.js}
             {
                 Next.js is a full-stack React framework created and maintained by Vercel that extends React's capabilities \cite{next-js} by providing built-in solutions for routing,
                 data fetching, server-side rendering, and infrastructure - all without complex configuration. 
@@ -246,39 +311,12 @@
                 \item {
                     Scalability and Full-Stack Capabilities: As the platform transitions from a prototype to a long-term solution, 
                     Next.js provides the architectural structure needed to manage complex \glsxtrshort{API} integrations, and full-stack workflows.
-                    In initial phases, Next.js \glsxtrshort{API} routes can serve as lightweight backend layer \cite{nextjs-api-routes} before the full transition to Spring Boot, 
-                    reducing deployment complexity during the transition period.
-                }
-            \end{itemize}
-        
-        \subsection{Tailwind CSS: Utility-First Styling}
-            {
-                Tailwind CSS is a utility-first \glsxtrshort{CSS} framework that provides a comprehensive set of low-level, single-purpose utility classes
-                (such as \verb|p-4| for padding, \verb|text-center| for text alignment, or \verb|bg-blue-600| for background color) that can be composed directly in \glsxtrshort{HTML} markup
-                without writing custom \glsxtrshort{CSS}. 
-                Unlike traditional \glsxtrshort{CSS} frameworks (such as Bootstrap) that provide pre-built \glsxtrshort{UI} components, Tailwind CSS empowers developers to build custom designs by combining
-                small utility classes, giving them complete design control while maintaining consistency \cite{geeks4geeks-tailwind}. 
-            }
-
-            {
-                Tailwind CSS is selected for styling the platform for two key reasons:
-            }
-            \begin{itemize}
-                \item{
-                    Rapid UI Development: Tailwind utility-first approach enables developers to style elements directly in
-                    \glsxtrshort{HTML} markup without writing custom \glsxtrshort{CSS}. This significantly accelerates the conversion of "mental models" or Figma designs into working code,
-                    reducing the time spent switching between markup/code and style files \cite{geeks4geeks-tailwind}.
-                }
-                \item{
-                    \glsxtrshort{AI} Integration: Most \glsxtrshort{AI} coding assistants (specifically Lovable) default to generating Tailwind \glsxtrshort{CSS} code.
-                    This ensures that the aesthetic output from the Vibe Coding process is modern, responsive, and easy to maintain without the complexity
-                    of managing large external \glsxtrshort{CSS} files.
                 }
             \end{itemize}
 
         \subsection{Real-Time Feedback and Interactivity}
             {
-                The legacy system suffers from "Inefficient Feedback Loops" where users must constantly refresh or wait for emails to know the status of a proposal.
+                The legacy system suffers from "Inefficient Feedback Loops" where users must constantly refresh the web page or wait for emails to know the status of a proposal.
                 \begin{itemize}
                     \item {
                         Supabase Realtime (Prototyping Phase): During rapid prototyping with Supabase, Real-time subscriptions powered by WebSockets, 
@@ -310,9 +348,15 @@
                 \end{itemize}
             }
 
-        \subsection{Communication Experience (Email UX)}
+        \subsection{Communication Experience (Email and In-App Notifications)}
             {
-                A major pain point is the lack of flexibility in creating email templates and the issue of emails being flagged as spam.
+                A major pain point of the legacy platform is the lack of structured, reliable communication. Coordinators have limited control over the deliverability of the emails, they are 
+                frequently flagged as spam, and users receive little feedback inside the system when proposals statuses or candidacies change.
+            }
+
+            {
+                To address this, the new platform combines configurable email templates with in-app notifications, ensuring that critical events are communicated
+                both inside and outside the application.
             }
             \begin{itemize}
                 \item {
@@ -324,7 +368,33 @@
                     rather than relying on the error-prone, manual email workflows of the legacy system \cite{mailtrap-7-best-transactional-mail-services}. These services provide authentication protocols, monitoring, and detailed analytics 
                     to maintain sender reputation and maximize inbox placement \cite{smtp-improve-deliverability-transactional-mails}.
                 }
+                \item {
+                    In-App Notifications: In parallel with email, the platform will generate in-app notifications for key events along the proposal and candidacy lifecycle,
+                    such as "clarification requested", "proposal validated", "seriation completed". Users see these notifications immediately when logged in, 
+                    and they are linked to the relevant screen (proposal detail, candidacy view), improving the overall interaction flow and making feedback loops more transparent.
+                }
             \end{itemize}
+
+            {
+                Together, these mechanisms provide a coherent communication experience that replaces manual, unreliable emailing with configurable, trackable messages and immediate feedback
+                inside the platform.
+            }
+        
+        \begin{table}[H]
+            \centering
+            \renewcommand{\arraystretch}{1.5} 
+            \begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+                \hline
+                \textbf{Feature} & \textbf{React.js} & \textbf{Angular} & \textbf{Next.js} \\ \hline
+                \textbf{Core Paradigm} & Component-based Library & Opinionated Framework & Meta-framework (Full-stack) \\ \hline
+                \textbf{State Management} & External (Redux) & Built-in (Services/RxJS) & Integrated (Server/Client) \\ \hline
+                \textbf{Rendering Strategy} & Client-Side (CSR) & Client-Side (CSR) & Hybrid (SSR, SSG, ISR) \\ \hline
+                \textbf{Typed Support} & Optional (TypeScript) & Native (TypeScript) & Native (TypeScript) \\ \hline
+                \textbf{Prototyping Synergy} & High (Vibe Coding tools) & Moderate & High (Deployment-ready) \\ \hline
+            \end{tabularx}
+            \caption{Comparison of Frontend Technologies}
+            \label{tab:frontend_framework_comparison}
+        \end{table}
 
 \section{AI-Assisted Development (Vibe Coding)}
     {
@@ -349,6 +419,94 @@
                 TODO - waiting for the subsection before
             }
 
+\section{Summary and Justification of Technological Choices}
+    {
+        The preceding sections surveyed alternative technologies for the backend, data persistence layer, frontend frameworks, and AI-assisted development.
+        This subsection summarizes and justifies the concrete choices adopted for the platform, in light of the requirements and constraints identified in Chapter 3.
+    }
+
+    \subsection{Backend Architecture}
+        {
+            Chapter 2.1 compared \gls{BaaS} solutions with custom backend built with mature frameworks such as Spring Boot and Express.js. 
+            \gls{BaaS} platforms like Supabase are particularly attractive for early-stage projects because they provide read-made infrastructure
+            for authentication, storage, and real-time APIs, enabling rapid prototyping with small teams.
+        }
+
+        {
+            For this project, Supabase is used in the initial phase to support  AI-assisted, Vibe Coding-driven prototyping of the core workflows.
+            However, the long-term target architecture is a custom backend implemented with Spring Boot. 
+            This choice is justified by:
+        }
+        \begin{itemize}
+            \item {the need to code complex domain logic (student seriation rules, audit policies) with strong typing and explicit layering;}
+            \item {the importance of testability and maintainability for an institutional system that is expected to evolve over multiple editions;}
+            \item {the need to integrate cleanly with PostgreSQL features such as \gls{RLS} and LISTEN/NOTIFY}
+        \end{itemize}
+        {
+            In practice, the prototype built on Supabase is evolved rather than discarded: the data model and API contracts defined during
+            prototyping are reused by the Spring Boot backend, minimizing migration effort.
+        }
+    \section{Data Persistence}
+        {
+            Chapter 2.2 contrasted relational (SQL) and non-relational (NoSQL) database models. 
+            Relational database prioritize integrity and consistency through \glsxtrshort{ACID} guarantees and referential constraints, while
+            NoSQL systems offer schema flexibility and horizontal scalability at the cost of weaker consistency.
+        }
+        
+        {
+            Given the structured nature of the problem domain-editions, students, companies, proposals, candidacies, and protocols - and the critical
+            importance of correctness in operations such as seriation and assignments, a relational model is more appropriate. \\
+            The expected scale (bounded by the number of students and companies in the department) does not require the extreme horizontal
+            scalability that motivates most NoSQL deployments.
+        }
+        
+        {
+            PostgreSQL is therefore adopted as the primary data store because it:
+        }
+        \begin{itemize}
+            \item {enforces referential integrity between core entities, preventing impossible states such
+                as assignments to non-existent proposals or inactive companies
+            ;}
+            \item {
+                supports \gls{RLS}, which is essential for enforcing multi-tenant access rules directly at the database layer;
+            }
+            \item {
+                provides JSON/JSONB columns for semi-structured data (\textit{e.g.,} email templates, feedback metadata), allowing 
+                limited schema flexibility without introducing a separate NoSQL system.
+            }
+        \end{itemize}
+
+    \section{Frontend Frameworks and Styling}
+        {
+            Section 2.3 discussed React and Angular as representative frontend technologies. Angular offers an opinionated, full-stack 
+            framework, while React focuses on the view layer and relies on external libraries for routing and state. In this project React 
+            is chosen as the primary \glsxtrshort{UI} technology for two reasons:
+        }
+        \begin{itemize}
+            \item {its component-based model fits well with the platform's need to offer multiple role-specific dashboards built from reusable components;}
+            \item {
+                most \textit{Vibe Coding} tools use (Lovable, Bolt.new, Figma Make, Google AI Studio) target React as their default output,
+                allowing \glsxtrshort{AI}-generated prototypes to be refined instead of rewritten.
+            }
+        \end{itemize}
+
+        {
+            Next.js is adopted as the framework around React because it simplifies routing and provides flexible rendering strategies
+            (\glsxtrshort{SSR}, \glsxtrshort{SSG}, \glsxtrshort{ISR}) that can be matched to different views - for example,
+            static generation for informational pages and server-side rendering for dashboards that require up-to-date data. 
+        }
+
+        {
+            For styling, the platform can use a utility-first framework such as Tailwind CSS \cite{geeks4geeks-tailwind}, which many 
+            \glsxtrshort{AI} coding assistants already target, enabling rapid conversion form designs to responsive layouts.
+            However, the architecture does not depend on Tailwind specifically:
+            \begin{itemize}
+                \item {it can be combined with or replaced by other styling approaches (CSS modules, design systems).
+                    The key requirement is that styling remains modular and consistent with the component-based frontend.
+                }
+            \end{itemize}
+        }
+    \section{AI-Assisted Development (Vibe Coding)}
     
 \label{sec:sota_vibe_coding}
 \ntindex[Template]{}
