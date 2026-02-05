@@ -157,65 +157,38 @@
         \begin{description}
             \item[FR-1x - Edition and Configuration Management:] 
                 {
-                    This category covers the administrative features coordinators need to create and manage academic editions.
-                    It includes creating editions for undergraduate internships or Master's dissertations, configuring key timelines
-                    (proposal submission, interviews, finalization), and managing edition-specific content such as FAQs, regulations and contact
-                    information. 
-                    Coordinators can also schedule company presentation slots and publish targeted announcements using reusable email templates,
-                    replacing the legacy platform's rigid configuration mechanisms and enabling each edition to be tailored to its specific needs.
-
+                    Features for coordinators to create and configure editions (type, key dates) and maintain edition-specific content such as FAQs,
+                    regulations, contact information, and company presentation slots.
                 }
             \item[FR-2x - Proposal Submission and Classification:] 
                 {
-                    This category groups the workflows through which companies and professors submit and refine internship or dissertation proposals.
-                    The system supports detailed proposal submission, iterative clarification and feedback (rather than simple accept/reject), and final Classification
-                    by coordinators. 
-                    Companies can reuse proposals from previous editions, adapt them to new contexts, and schedule oral presentations in coordinator-defined time slots.
-                    Automated notifications keep proposers informed about submission deadlines and feedback windows.
+                    Workflows for companies and professors to submit and refine proposals through an iterative feedback process, including reuse
+                    of proposals across editions and optional presentation scheduling.
                 }
             \item[FR-3x - Student Candidacies and Seriation:] 
                 {
-                    This category automates the process by which students apply to proposals and are ranked for assignment.
-                    Students can browse available proposals for their edition, rank a limited number of preferences, and, when required,
-                    attach supporting documents such as CVs or motivation letters.
-                    The system executes a seriation algorithm based on predefined criteria (\textit{e.g.}, \glsxtrshort{ECTS}, average grade, coordinator-defined weights)
-                    to produce ranked candidate lists for each proposal, notifies students of key milestones (ranking window, seriation results, confirmations), 
-                    and allows companies to review and refine candidate selections, including excluding unsuitable candidates.
+                    Support for students to browse proposals, rank preferences, upload optional supporting documents, and for the system to run a seriation
+                    algorithm and notify students and companies about ranking and assignment results.
                 }
             \item[FR-4x - Company and User Management:] 
                 {
-                    This category encompasses user and organizational management across all roles. 
-                    Coordinators validate new company registrations and associated legal protocols before proposals can be submitted.
-                    Company representatives manage their organization structure and employee accounts, keeping contacts and mentors for proposals up to date.
-                    The system also supports bulk user pre-registering (\textit{e.g.}, student imports via CSV, manual registrations of professors and secretariat staff)
-                    and a controlled "\textit{superuser}" capability, which allows coordinators to access user accounts for support purposes with full audit logging. 
-                    Sub-coordinator roles can be assigned and revoked for specific editions to delegate proposal validation and feedback tasks.
+                    Capabilities to validate companies and protocols, manage company structure and employee accounts, pre-register users in bulk, assign
+                    sub-coordinators, and offer controller \textit{superuser} access with full audit logging.
                 }
             \item[FR-5x - Communication and Notifications:] 
                 {
-                    This category covers the communication mechanisms that replace the legacy system's unreliable email workflows.
-                    The platform automates the "\textit{Call for Proposals}", sending active companies edition-specific information 
-                    (deadline, edition type) and allows coordinators to publish news and announcements targeted at specific user roles.
-                    Critical events - such as new proposals, feedback requests, ranking deadlines and seriation results - generate both email
-                    and in-app notifications, using configurable templates and a dedicated transactional email service to improve deliverability.
-                    Coordinators can also send targeted email campaigns to selected user groups, with customizable subject and content.
+                    Automation of the "\textit{Call for Proposals}", news and announcement publishing, and generation of email and in-app notifications for key events
+                    using configurable templates and a transactional email service.
                 }
             \item[FR-6x - Reporting and Data Export:] 
                 {
-                    This category provides the reporting and audit capabilities required for institutional oversight.
-                    Coordinators and administrator can export student lists, proposals, candidacies and final assignments in open formats (CSV, JSON),
-                    overcoming the legacy platform's interoperability limitations.
-                    The system maintains detailed audit log of critical actions (logins, proposal status, changes, permission updates, superuser access, bulk imports)
-                    with timestamps and user attribution, as well as a trace of proposal feedback exchanges between coordinators and companies. 
-                    These records support accountability, compliance checks and dispute resolution.
+                    Export of students, proposals, candidacies, and final assignments in open formats (CSV, JSON), plus detailed audit logs of critical actions and proposal 
+                    feedback exchanges for accountability and compliance.
                 }
             \item[FR-7x - Master's Dissertation Lifecycle Support:] 
                 {
-                    This category addresses the specific needs of Master's dissertations and engineering projects, turning previously unused "dead data" into fully supported workflows.
-                    The system distinguishes between scientific dissertation and industry-oriented engineering projects, allowing professors and companies to propose themes, manage assigned students and
-                    track progress.
-                    Master's editions follow a lifecycle similar to undergraduate internships but include additional milestones such as topic approval and final submission/defense dates, reflecting the supervision
-                    and evaluation requirements of Master's programmes
+                    Additional workflows for Master's dissertations and engineering projects, distinguishing between scientific and industry-oriented themes
+                    and tracking progress through milestones such as topic approval and final submission.
                 }
         \end{description}
 
@@ -305,7 +278,6 @@
             \end{itemize}
         }
 
-    \newpage
     \subsection{High-Level Use Case Diagram}
         \begin{figure}[htbp]
             \centering
