@@ -117,48 +117,33 @@
 
     \subsection{Stakeholders}
         {
-            The system must support multiple distinct user groups. 
-            However, the role hierarchy reflects the institutional structure where coordinators are designed professors with expanded administrative responsibilities,
-            rather than a separate administrative role. 
+            The system must support multiple distinct user groups, with a role hierarchy that reflects the institutional structure in which Coordinators
+            are Professors with administrative responsibilities for a given edition/s.
         }
         \begin{itemize}
             \item{
-                \textbf{Students}: Seek to consult and review available internship and dissertation/project proposals within their enrolled edition, 
-                rank proposals according to their preferences, track the status of their candidacies and assignments, access their assigned supervisor's contact information, and, 
-                if required by the coordinators, submit documentation (CV, motivation letter, or recommendations) for specific proposals.
+                \textbf{Students}: Consult internship and dissertation/project proposals for their edition, rank preferences on those proposals, track their candidacies
+                and get assigned to one of them, access supervisor contacts, and, when required, submit supporting documents such as CVs or motivation letters.
             }
             \item{
-                \textbf{Company Representatives}: Aim to register company information and manage organizational hierarchy (parent companies and sub-entities or departments),
-                submit internship and Master's dissertations proposals during open call periods, receive and respond to feedback from coordinators regarding proposal clarifications, 
-                manage company employees and designate contacts responsible for specific proposals, schedule and present their proposals during coordinator provided time slots, 
-                and track interview progress and student candidacies through a dashboard. 
+                \textbf{Company Representatives}: Register and maintain company and department data, submit internship and Master's proposals during open calls for editions, respond 
+                to coordinator feedback, manage employee accounts linked to proposals, and monitor student candidacies for their proposals.
             }
             \item{
-                \textbf{Professors}: Intent to propose scientific dissertation themes for the Master's degree, supervise students assigned to their dissertation topics,
-                provide feedback on dissertation progress.
+                \textbf{Professors}: Propose scientific dissertation themes for Master's students, supervise assigned students, and provide feedback on dissertation progress. 
             }
             \item{
-                \textbf{Edition Coordinators (Professor variant, Head Coordinator)}: Is a professor with comprehensive administrative responsibilities for the system. 
-                Their responsibilities include configuring and managing editions (setting edition type - undergraduate internship or Master's dissertations, defining proposals' deadlines, 
-                configuring available time slots for company presentations, creating edition-specific information pages such as FAQs and contact pages), 
-                validate submitted proposals through a feedback-and-clarification workflow, control the attributions process (being able to manually add a student to an internship outside seriation),
-                generating and customizing email templates for all communications stages, publish news and announcements targeting different user groups, managing user pre-registration and bulk imports via  \glsxtrshort{CSV},
-                and overseeing the finalization of internship/dissertation protocols. 
-                The head coordinator also maintains comprehensive audit logs and manages permissions assignments for sub-coordinators and other edition-specific administrative tasks.
+                \textbf{Edition Coordinators (Professor variant, Head Coordinator)}: Professors who configure and manage editions (type, deadlines, presentation slots, information pages),
+                validate proposals through a feedback workflow, control attributions (including exceptional manual assignments), manage communication templates and bulk imports,
+                and oversee protocols and audit logs, including permissions for sub-coordinators.
             }
             \item{
-                \textbf{Sub-Coordinators (Professor variant)}: Professors designed by the head coordinator to assist with proposals validation and feedback workflows for specific edition, 
-                but without access to system-wide configuration. 
-                They inherit permissions from the Professor's role but with additional privileges limited to proposal evaluation and validation, configuration of edition-specific resources (FAQs, contact pages, email templates) within their assigned edition.
+                \textbf{Sub-Coordinators (Professor variant)}: Professors delegated by the head coordinator to help validate and give feedback to proposals and manage edition-specific resources
+                (FAQs, contact pages, email templates) within a given edition, without system-wide configuration permissions. 
             }
             \item{
-                \textbf{Secretariat/Administrative Staff}: Manage financial and legal formalization of internships and dissertations, specifically verifying payments from companies for protocol signing and managing storage and archival of signed agreements.
-                They require a view-only access to status dashboards showing active internships and their completion status.
-            }
-            \item{
-                \textbf{Administrators}: Handle the infrastructure-level operations that fall outside the coordinator's scope, such as system backups, database maintenance, server updates, monitoring system health,
-                managing  \glsxtrshort{SSL} certificates and security configurations, responding to critical technical incidents, and consulting detailed audit logs for technical troubleshooting and compliance verification.
-                They do not manage user accounts, permissions, or edition-specific configurations - those remain the responsibility of the head coordinator. This role is typically filled by dedicated IT staff rather than a professor.
+                \textbf{Secretariat/Administrative Staff}: Handle financial and legal formalization of internships and dissertations, including payment verification and protocol management, with
+                read-only access to dashboards showing active internships and their status. 
             }
         \end{itemize}
 
@@ -166,11 +151,11 @@
         {
             The functional requirements are categorized by feature set to ensure modular development, 
             testing and clear traceability of stakeholder needs. Detailed specification for all functional requirements are presented in Annex \ref{ann:fr_nfr_annex}, Tables \ref{tab:freq-edition-config}-\ref{tab:freq-masters}. 
-            The following subsections provide a summary of each category:
+            An overview of each category is provided here:
         }
 
         \begin{description}
-            \item[FR-1x: Edition and Configuration Management:] 
+            \item[FR-1x - Edition and Configuration Management:] 
                 {
                     This category covers the administrative features coordinators need to create and manage academic editions.
                     It includes creating editions for undergraduate internships or Master's dissertations, configuring key timelines
@@ -180,7 +165,7 @@
                     replacing the legacy platform's rigid configuration mechanisms and enabling each edition to be tailored to its specific needs.
 
                 }
-            \item[FR-2x: Proposal Submission and Classification:] 
+            \item[FR-2x - Proposal Submission and Classification:] 
                 {
                     This category groups the workflows through which companies and professors submit and refine internship or dissertation proposals.
                     The system supports detailed proposal submission, iterative clarification and feedback (rather than simple accept/reject), and final Classification
@@ -188,7 +173,7 @@
                     Companies can reuse proposals from previous editions, adapt them to new contexts, and schedule oral presentations in coordinator-defined time slots.
                     Automated notifications keep proposers informed about submission deadlines and feedback windows.
                 }
-            \item[FR-3x: Student Candidacies and Seriation:] 
+            \item[FR-3x - Student Candidacies and Seriation:] 
                 {
                     This category automates the process by which students apply to proposals and are ranked for assignment.
                     Students can browse available proposals for their edition, rank a limited number of preferences, and, when required,
@@ -197,7 +182,7 @@
                     to produce ranked candidate lists for each proposal, notifies students of key milestones (ranking window, seriation results, confirmations), 
                     and allows companies to review and refine candidate selections, including excluding unsuitable candidates.
                 }
-            \item[FR-4x: Company and User Management:] 
+            \item[FR-4x - Company and User Management:] 
                 {
                     This category encompasses user and organizational management across all roles. 
                     Coordinators validate new company registrations and associated legal protocols before proposals can be submitted.
@@ -206,7 +191,7 @@
                     and a controlled "\textit{superuser}" capability, which allows coordinators to access user accounts for support purposes with full audit logging. 
                     Sub-coordinator roles can be assigned and revoked for specific editions to delegate proposal validation and feedback tasks.
                 }
-            \item[FR-5x: Communication and Notifications:] 
+            \item[FR-5x - Communication and Notifications:] 
                 {
                     This category covers the communication mechanisms that replace the legacy system's unreliable email workflows.
                     The platform automates the "\textit{Call for Proposals}", sending active companies edition-specific information 
@@ -215,7 +200,7 @@
                     and in-app notifications, using configurable templates and a dedicated transactional email service to improve deliverability.
                     Coordinators can also send targeted email campaigns to selected user groups, with customizable subject and content.
                 }
-            \item[FR-6x: Reporting and Data Export:] 
+            \item[FR-6x - Reporting and Data Export:] 
                 {
                     This category provides the reporting and audit capabilities required for institutional oversight.
                     Coordinators and administrator can export student lists, proposals, candidacies and final assignments in open formats (CSV, JSON),
@@ -224,7 +209,7 @@
                     with timestamps and user attribution, as well as a trace of proposal feedback exchanges between coordinators and companies. 
                     These records support accountability, compliance checks and dispute resolution.
                 }
-            \item[FR-7x: Master's Dissertation Lifecycle Support:] 
+            \item[FR-7x - Master's Dissertation Lifecycle Support:] 
                 {
                     This category addresses the specific needs of Master's dissertations and engineering projects, turning previously unused "dead data" into fully supported workflows.
                     The system distinguishes between scientific dissertation and industry-oriented engineering projects, allowing professors and companies to propose themes, manage assigned students and
@@ -239,71 +224,48 @@
             To address the technical debt of the legacy system and ensure the platform meets institutional and user expectations, 
             the new system must adhere to the following quality attributes, organized according to ISO/IEC 25010 standards. 
             Detailed specifications for all-non functional requirements are presented in Annex \ref{ann:fr_nfr_annex}, Tables \ref{tab:nfreq-security}-\ref{tab:nfreq-email-deliver}. 
-            The following subsections provide a summary of each category:
+            An overview of each category is provided here:
         }
         \begin{description}
-            \item[Security:] 
+            \item[NFR-SEC-x - Security:] 
                 {
-                    Security requirements ensure that sensitive institutional and personal data is protected against unauthorized access.
-                    The platform enforces \gls{RLS} at the database layer, so users only see data appropriate to their role and organization context,
-                    and all communication is encrypted over \glsxtrshort{HTTPS}/\glsxtrshort{TLS} to avoid the legacy system's unencrypted \glsxtrshort{HTTP} risk \cite{geeks4geeks-difference-http-https}.
-                    Passwords and credentials are stored using industry-standard hashing, and \gls{RBAC} with granular permissions limitations each
-                    user to actions consistent with their assigned role \cite{pathlock-rbac-guide}. 
+                    Protects institutional and personal data via \gls{RLS}, \glsxtrshort{HTTPS}/\glsxtrshort{TLS} encryption, secure password hashing,
+                    and \gls{RBAC} with granular permissions.
                 }
-            \item[Auditability \& Compliance:] 
+            \item[NFR-AUD-x - Auditability \& Compliance:] 
                 {
-                   Auditability requirements guarantee that all critical actions can be traced for accountability, compliance and dispute resolution.
-                   The system records a tamper-evident audit log of key events - such as logins, data changes, status updates, permission assignments and superuser sessions -
-                   with precise timestamps and user attributions \cite{fortra-audit-log-best-practices}. 
-                   Proposal feedback exchanges between coordinators are also logged, and superuser activity is recorded in detail (who accessed whom, when and for how long),
-                   providing transparency over administrative interventions.
+                    Ensures all critical actions (including proposal feedback and superuser sessions) are captured in tamper-evident audit logs
+                    with timestamps and user attribution, retained for compliance and dispute resolution \cite{fortra-audit-log-best-practices}.
                 }
-            \item[Reliability \& Availability:] 
+            \item[NFR-REL-x - Reliability \& Availability:] 
                 {
-                    This category ensures the platform remains operational during critical periods like proposal submission or seriation.
-                    A transactional email service is used to deliver time-sensitive notifications reliably, addressing the legacy system's chronic email failures.
-                    Automated backups of database, documents and configuration, combined with off-site replication, support recovery from data loss.
-                    Health monitoring and alerting for components such as the database, backup jobs and email service enable fast detection and response to incidents, reducing downtime.    
+                    Maintains availability during critical periods through a reliable transactional email service and replicated backups, and health
+                    monitoring with alerts for key components.
                 }
-            \item[Performance \& Scalability:] 
+            \item[NFR-PERF-x - Performance \& Scalability:] 
                 {
-                    Performance requirements guarantee a responsive experience for users, even under peak load. 
-                    User-facing pages such as dashboards, proposal lists and candidacy views are expected to load within a few seconds under normal conditions,
-                    while key dashboards support real-time updates via WebSockets or server-sent events, so changes appear without manual refresh.
-                    \glsxtrshort{API} endpoints must respond within defined latency targets for most requests, and rate limiting is applied to protect the system from abuse
-                    and ensure fair use of resources across standard and bulk operations.
+                    Targets responsive page loads, and \glsxtrshort{API} latencies and peak load, supports real-time updates on key dashboards,
+                    and applies rate limiting to prevent abuse and protect shared resources.
                 }
-            \item[Usability \& Accessibility:] 
+            \item[NFR-USAB-x - Usability \& Accessibility:] 
                 {
-                    This category ensures the platform is easy to use and accessible, addressing the legacy system's poor and outdated user experience. 
-                    The interface must be responsive on both desktop and mobile, with clear visual feedback on interactive elements (focus, hover, loading) so users understand the current state.
-                    Core workflows - such as registration, proposal submission and candidacy preference ranking - should be completable without prior training, supported by concise inline
-                    guidance and meaningful error messages.
+                    Requires a responsive interface on desktop and mobile, clear visual feedback on interactions, and self-explanatory workflows 
+                    (registration, proposal submission, ranking) supported by concise inline guidance.
                 }
-            \item[Interoperability \& Data Exchange:] 
+            \item[NFR-INTER-x - Interoperability \& Data Exchange:] 
                 {
-                    Interoperability requirements guarantee that data can flow reliably between the platform and other institutional tools.
-                    The system supports bulk user imports (\textit{e.g.}, students via CSV, professors and secretariat staff) with validation, error reporting and rollback.
-                    Coordinators and administrators can export key datasets - students, proposals, seriation results, assignments - in standard formats like
-                    \glsxtrshort{CSV} or \glsxtrshort{JSON}, and a documented REST \glsxtrshort{API} allows third-party systems to query selected read-only data
-                    without compromising security.
+                    Provides bulk imports with validation and rollback, exports of key datasets in standard formats, and a documented REST 
+                    \glsxtrshort{API} for secure, read-only integration with external institutional systems.
                 }
-            \item[Maintainability \& Extensibility:] 
+            \item[NFR-MAINT-x - Maintainability \& Extensibility:] 
                 {
-                    This category ensures the platform can be evolved and maintained without excessive technical debt.
-                    The architecture is modular and layered (presentation, business logic, data access), allowing frontend, backend and database
-                    concerns to be updated independently. 
-                    The codebase is supported by appropriate documentation (README, API docs, comments for complex logic) and by disciplined Git workflows
-                    with semantic versioning and meaningful commit history.
-                    Configuration is externalized via environment variables or configuration files, rather than hardcoded, enabling consistent deployment across development,
-                    staging and production environments.
+                    Promotes a modular, layered architecture with externalized configuration, adequate documentation, and disciplined version control
+                    so that frontend, backend, and database can evolve independently.
                 }
-            \item[Email Deliverability (Critical Legacy Fix):] 
+            \item[NFR-EMAIL-x - Email Deliverability (Critical Legacy Fix):] 
                 {
-                    Given that unreliable email was one of the most severe issues in the legacy system, email deliverability is treated as a separate non-functional requirement.
-                    All outbound messages must use proper sender authentication to reduce spam classification and improve inbox placement.
-                    The platform integrates with a professional transactional email service that offers monitoring and bounce handling, providing real-time insight into delivery status.
-                    Email templates are tested before deployment to ensure correct rendering across common clients (Gmail, Outlook, Apple Mail) and on mobile devices.
+                    Requires authenticated outbound email, use of a professional transactional provider with monitoring and bounce handling,
+                    and tested templates to avoid spam classifications and rendering issues across common clients.
                 } 
         \end{description}
 

@@ -66,7 +66,7 @@
 
         {
             A central feature of Supabase is its built-in authentication system, which supports user registration, password-based login, magic links, and role-based access 
-            control\cite{supabase-auth-overview}, simplifying the enforcement of different permission profiles for students, companies, professors and administrators. \gls{RLS}
+            control\cite{supabase-auth-overview}, simplifying the enforcement of different permission profiles for students, companies and professors. \gls{RLS}
             policies can be defined directly at the database level, ensuring that authorization rules are enforced close to the data and cannot be bypassed by misconfigured 
             \glsxtrshort{API} clients \cite{supabase-rls}. For logic that goes beyond standard \glsxtrshort{CRUD} operations - such as orchestrating notification workflows or managing student seriation - Supabase offers 
             serverless “Edge Functions”, typically written in TypeScript or JavaScript, which run in a managed environment near end users to minimize latency. \cite{supabase-edge-functions}
@@ -253,7 +253,7 @@
                     while enabling efficient code reuse and simplified maintenance.
                 }
                 \item {
-                    Synergy with \glsxtrshort{AI}-Assisted Development: The project methodology relies on Vibe Coding tools for rapid prototyping.
+                    Synergy with \glsxtrshort{AI}-Assisted Development: The project methodology relies on \textit{Vibe Coding} tools for rapid prototyping.
                     Tools such as Lovable, Bolt.new, Figma Make and Google AI Studio are optimized to generate code specifically for the React ecosystem.
                     Using React ensures  that the code generated during the prototyping phase is immediately usable and extensible, eliminating the need for
                     time-consuming library migrations.
@@ -313,6 +313,7 @@
             \end{table} 
 
 \section{AI-Assisted Development \textit{(Vibe Coding)}}
+\label{sec:sota_ai_assited_dev}
     {
         Traditional software development involves writing code manually, line by line, or using code assistants that give fragments of code in the developer's \glsxtrshort{IDE}, such as
         GitHub Copilot, Claude, or Gemini-based CLI tools.
@@ -390,18 +391,18 @@
 \section{Summary and Justification of Technological Choices}
     {
         The preceding sections surveyed alternative technologies for the backend, data persistence layer, frontend frameworks, and \glsxtrshort{AI}-assisted development.
-        This subsection summarizes and justifies the concrete choices adopted for the platform, in light of the requirements and constraints identified in Chapter 3.
+        This subsection summarizes and justifies the concrete choices adopted for the platform, in light of the requirements and constraints identified in Chapter~\ref{cha:requirements_and_system_analysis}.
     }
 
     \subsection{Backend Architecture}
         {
-            Section 2.1 compared \gls{BaaS} solutions with custom backend built with mature frameworks such as Spring Boot and Express.js. 
+            Section~\ref{sec:sota_backend} compared \gls{BaaS} solutions with custom backend built with mature frameworks such as Spring Boot and Express.js. 
             \gls{BaaS} platforms like Supabase are particularly attractive for early-stage projects because they provide read-made infrastructure
-            for authentication, storage, and real-time APIs, enabling rapid prototyping with small teams.
+            for authentication, storage, and real-time \glsxtrshortpl{API}, enabling rapid prototyping with small teams.
         }
 
         {
-            For this project, Supabase is used in the initial phase to support \glsxtrshort{AI}-assisted, Vibe Coding-driven prototyping of the core workflows.
+            For this project, Supabase will be used in the initial phase to support \glsxtrshort{AI}-assisted, \textit{Vibe Coding}-driven prototyping of the core workflows.
             However, the long-term target architecture is a custom backend implemented with Spring Boot. 
             This choice is justified by:
         }
@@ -411,21 +412,21 @@
             \item {the need to integrate cleanly with PostgreSQL features such as \gls{RLS} and LISTEN/NOTIFY}
         \end{itemize}
         {
-            In practice, the prototype built on Supabase is evolved rather than discarded: the data model and API contracts defined during
+            In practice, the prototype built on Supabase is evolved rather than discarded: the data model and \glsxtrshort{API} contracts defined during
             prototyping are reused by the Spring Boot backend, minimizing migration effort.
         }
     \subsection{Data Persistence}
         {
-            Section 2.2 contrasted relational (SQL) and non-relational (NoSQL) database models. 
+            Section~\ref{sec:sota_data_persitance} contrasted relational (\glsxtrshort{SQL}) and non-relational (\glsxtrshort{NoSQL}) database models. 
             Relational database prioritize integrity and consistency through \glsxtrshort{ACID} guarantees and referential constraints, while
-            NoSQL systems offer schema flexibility and horizontal scalability at the cost of weaker consistency.
+            \glsxtrshort{NoSQL} systems offer schema flexibility and horizontal scalability at the cost of weaker consistency.
         }
         
         {
             Given the structured nature of the problem domain-editions, students, companies, proposals, candidacies, and protocols - and the critical
             importance of correctness in operations such as seriation and assignments, a relational model is more appropriate. \\
             The expected scale (bounded by the number of students and companies in the department) does not require the extreme horizontal
-            scalability that motivates most NoSQL deployments.
+            scalability that motivates most \glsxtrshort{NoSQL} deployments.
         }
         
         {
@@ -439,80 +440,50 @@
                 supports \gls{RLS}, which is essential for enforcing multi-tenant access rules directly at the database layer;
             }
             \item {
-                provides JSON/JSONB columns for semi-structured data (\textit{e.g.,} email templates, feedback metadata), allowing 
-                limited schema flexibility without introducing a separate NoSQL system.
+                provides \glsxtrshort{JSON}/\glsxtrshort{JSONB} columns for semi-structured data (\textit{e.g.,} email templates, feedback metadata), allowing 
+                limited schema flexibility without introducing a separate \glsxtrshort{NoSQL} system.
             }
         \end{itemize}
 
     \subsection{Frontend Frameworks and Styling}
         {
-            Section 2.3 discussed React and Angular as representative frontend technologies. Angular offers an opinionated, full-stack 
-            framework, while React focuses on the view layer and relies on external libraries for routing and state. In this project React 
-            is chosen as the primary \glsxtrshort{UI} technology for two reasons:
+            Section~\ref{sec:sota_frontend} compared React and Angular as representative frontend technologies. 
+            In this project, React is chosen as the primary \glsxtrshort{UI} technology for two main reasons:
         }
         \begin{itemize}
-            \item {its component-based model fits well with the platform's need to offer multiple role-specific dashboards built from reusable components;}
             \item {
-                most \textit{Vibe Coding} tools use (Lovable, Bolt.new, Figma Make, Google AI Studio) target React as their default output,
-                allowing \glsxtrshort{AI}-generated prototypes to be refined instead of rewritten.
+                its component-based model fits the need to offer multiple role-specific dashboards built from reusable components;
+                }
+            \item {
+                it algins closely with the \textit{Vibe Coding} tools used in the prototyping phase, which predominantly
+                generate React Frontends
             }
         \end{itemize}
 
         {
-            Next.js is adopted as the framework around React because it simplifies routing and provides flexible rendering strategies
-            (\glsxtrshort{SSR}, \glsxtrshort{SSG}, \glsxtrshort{ISR}) that can be matched to different views - for example,
-            static generation for informational pages and server-side rendering for dashboards that require up-to-date data. 
+            Next.js can be adopted around React when needed, main to provide routing and flexible rendering strategies (\glsxtrshort{SSR}, \glsxtrshort{SSG}, \glsxtrshort{ISR})
+            for pages that benefit from server-side or static rendering, without changing the underlying React component model. 
+            This combination supports both rapid prototyping and a clear path to production-ready, performance interfaces.
         }
 
+    \subsection{AI-Assisted Development (\textit{Vibe Coding})}
         {
-            For styling, the platform can use a utility-first framework such as Tailwind CSS \cite{geeks4geeks-tailwind}, which many 
-            \glsxtrshort{AI} coding assistants already target, enabling rapid conversion form designs to responsive layouts.
-            However, the architecture does not depend on Tailwind specifically:
-            \begin{itemize}
-                \item {it can be combined with or replaced by other styling approaches (CSS modules, design systems).
-                    The key requirement is that styling remains modular and consistent with the component-based frontend.
-                }
-            \end{itemize}
-        }
-    \subsection{AI-Assisted Development (Vibe Coding)}
-        {
-            Section 2.4 introduced Vibe Coding tools such as Lovable, Bolt.new and Figma Make. These tools are not part of the runtime 
+            Section~\ref{sec:sota_ai_assited_dev} introduced \textit{Vibe Coding} tools such as Lovable, Bolt.new and Figma Make, which influence the development workflow
+            but are not part of the runtime architecture. In this project these tools are used to bootstrap React/Supabase prototypes
+            and to generate much of the initial \glsxtrshort{UI} and \glsxtrshort{CRUD} logic for core workflows, or to convert high-fidelity
+            Figma designs into React components that can be integrated into the main code base
+            
+            These tools are not part of the runtime 
             architecture of the platform, but they strongly influence the development workflow.
         }
         
         {
-            For this project, AI-assisted tools are used in a complementary way:
+            Generated code is treated as a starting point: it is refactored into a layered architecture and combined with a 
+            Spring Boot + PostgreSQL backend where critical concerns such as the data model, security, seriation logic, and auditing
+            are implemented and reviewed. 
+            In this way, \textit{Vibe Coding} accelerates time-to-prototype and exploration of alternatives, while the final institutional platform
+            converges on a conventional, maintainable stack.
         }
-        \begin{itemize}
-            \item {
-                A tool like Lovable or Bolt.new can bootstrap full-stack React/Supabase applications and generate much of the initial 
-                \glsxtrshort{UI} and \glsxtrshort{CRUD} logic for core workflows.
-            }
-            \item {
-                Figma Make can be used selectively to convert high-fidelity Figma designs into React components for visually complex views, 
-                which are then integrated into the main codebase.
-            }
-        \end{itemize}
-        {
-            However, these tools are treated as accelerators for prototyping, not as the final source of truth for the production system. 
-            The architectural implications are:
-        }
-        \begin{itemize}
-            \item {
-                Generated code is used as a starting point and then refactored into the layered architecture, ensuring clean separation between
-                presentation, business logic and data access.
-            }
-            \item {
-                Critical concerns - data model, security, seriation logic, auditing are implemented and reviewed in the main codebase 
-                (Spring Boot + PostgreSQL, React/Next.js) rather than being left hidden inside tool-specific projects.
-            }
-        \end{itemize}
-        {
-            In summary, Vibe Coding tools are justified as a way to reduce time-to-prototype and explore design alternatives while
-            still converging on a conventional, maintainable architecture for the long-term institutional platform.
-        }
-
-
     
 \label{sec:sota_vibe_coding}
 \ntindex[Template]{}
