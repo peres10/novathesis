@@ -8,29 +8,67 @@
 
 \typeout{NT FILE abstract-pt.tex}%
 
-Independentemente da língua em que a dissertação está escrita, geralmente esta contém pelo menos dois resumos: um resumo na mesma língua do texto principal e outro resumo numa outra língua.
+{
+  A gestão de estágios, dissertações e projetos de engenhharia no Departamento de Informática da NOVA FCT depende atualmente atualmente 
+  de uma plataform legada, tecnicamente obsoleta e limitada aos ciclos de licenciatura. 
+  Os processos do mestrado são suportados por folhas de cálculo e trocas de e-mail informais, originando dados fragmentados, dificuldades de auditoria
+  e uma carga administrativa elevada para coordandores, professores, empresas e secretaria.
+  Em paralelo, a plataforma existente sofre de problems de UX, falhas de entregabilidade de emails e fragilidades de segurança, tornando
+  inviável a sua evolução incremental.
+}
 
-A ordem dos resumos varia de acordo com a escola. Se a sua escola tiver regulamentos específicos sobre a ordem dos resumos, o template (\LaTeX) \gls{novathesis} irá respeitá-los. Caso contrário, a regra padrão no template \gls{novathesis} é ter em primeiro lugar o resumo \emph{no mesmo idioma do texto principal} e depois o resumo \emph{no outro idioma}. Por exemplo, se a dissertação for escrita em português, a ordem dos resumos será primeiro o português e depois o inglês, seguido do texto principal em português. Se a dissertação for escrita em inglês, a ordem dos resumos será primeiro em inglês e depois em português, seguida do texto principal em inglês.
+{
+  Este problema é relevante e desafiante porque a atribuição de estágios é um processo crítico para o percuso académico dos estudantes e para a relação 
+  do departamentto com as empresas. 
+  A solução tem de conciliar requisitos funcionais complexos (seriação automática, múltiplos perfis e utilizador, fluxos distintos para licenciatura)
+  com requisitos não funcionais exigentes (segurança, auditabilidade, interoperabilidade, e usabilidade), num contexto institucional onde
+  a manutenção a longo prazo é tão importante como a rapidez de desenvolvimento.
+}
+
+{
+  Esta dissertação propõe o desenho e a implementação de uma nova plataforma web unificada para gestão de propostas e candidaturas, assente numa arquitetura em camadas:
+  frontend React/Next.js, backend inicialmente suportado por Supabase e posteriormente evoluído para Spring Boot, e base de dados PostgreSQL.
+  O trabalho segue uma metodologia iterativa: levantamento requisitos, modelação de processos (BPMN) e dados (ERD), definição de casos de uso e prototipagem acelerada
+  através de ferramentas de Vibe Coding, seguida de refactoring e endurecimento arquitetural.
+}
+
+{
+  Como principais resultados, espera-se um protótipo funcional que automatiza tarefas critícas (seriação, notificações, protocolos), melhor a experiencia 
+  de utilização e a qualidade dos dados, e uma análise crítica do uso de ferramentas de Vibe Coding em contexto institucionais
+}
+
+\keywords{
+  Gestão de estágios e dissertações \and
+  Plataformas Web \and
+  Arquiteturas de Software \and
+  Vibe Coding \and
+  Desenvolvimento Full-Stack
+}
+% to add an extra black line
+
+%Independentemente da língua em que a dissertação está escrita, geralmente esta contém pelo menos dois resumos: um resumo na mesma língua do texto principal e outro resumo numa outra língua.
+
+%A ordem dos resumos varia de acordo com a escola. Se a sua escola tiver regulamentos específicos sobre a ordem dos resumos, o template (\LaTeX) \gls{novathesis} irá respeitá-los. Caso contrário, a regra padrão no template \gls{novathesis} é ter em primeiro lugar o resumo \emph{no mesmo idioma do texto principal} e depois o resumo \emph{no outro idioma}. Por exemplo, se a dissertação for escrita em português, a ordem dos resumos será primeiro o português e depois o inglês, seguido do texto principal em português. Se a dissertação for escrita em inglês, a ordem dos resumos será primeiro em inglês e depois em português, seguida do texto principal em inglês.
 %
-No entanto, esse pedido pode ser personalizado adicionando um dos seguintes ao arquivo \verb+5_packages.tex+.
+%No entanto, esse pedido pode ser personalizado adicionando um dos seguintes ao arquivo \verb+5_packages.tex+.
 
-\begin{verbatim}
-    \abstractorder(<MAIN_LANG>):={<LANG_1>,...,<LANG_N>}
-\end{verbatim}
+%\begin{verbatim}
+%    \abstractorder(<MAIN_LANG>):={<LANG_1>,...,<LANG_N>}
+%\end{verbatim}
 
-Por exemplo, para um documento escrito em Alemão com resumos em Alemão, Inglês e Italiano (por esta ordem), pode usar-se:
-\begin{verbatim}
+%Por exemplo, para um documento escrito em Alemão com resumos em Alemão, Inglês e Italiano (por esta ordem), pode usar-se:
+%\begin{verbatim}
     \ntsetup{abstractorder={de={de,en,it}}}
-\end{verbatim}
+%\end{verbatim}
 
-Relativamente ao seu conteúdo, os resumos não devem ultrapassar uma página e frequentemente tentam responder às seguintes questões (é imprescindível a adaptação às práticas habituais da sua área científica):
+%Relativamente ao seu conteúdo, os resumos não devem ultrapassar uma página e frequentemente tentam responder às seguintes questões (é imprescindível a adaptação às práticas habituais da sua área científica):
 
-\begin{enumerate}
-  \item Qual é o problema?
-  \item Porque é que é um problema interessante/desafiante?
-  \item Qual é a proposta de abordagem/solução?
-  \item Quais são as consequências/resultados da solução proposta?
-\end{enumerate}
+%\begin{enumerate}
+%  \item Qual é o problema?
+%  \item Porque é que é um problema interessante/desafiante?
+%  \item Qual é a proposta de abordagem/solução?
+%  \item Quais são as consequências/resultados da solução proposta?
+%\end{enumerate}
 
 % E agora vamos fazer um teste com uma quebra de linha no hífen a ver se a \LaTeX\ duplica o hífen na linha seguinte se usarmos \verb+"-+… em vez de \verb+-+.
 %
@@ -42,10 +80,10 @@ Relativamente ao seu conteúdo, os resumos não devem ultrapassar uma página e 
 % \begin{keywords}
 % Palavra-chave 1, Palavra-chave 2, Palavra-chave 3, Palavra-chave 4
 % \end{keywords}
-\keywords{
-  Primeira palavra-chave \and
-  Outra palavra-chave \and
-  Mais uma palavra-chave \and
-  A última palavra-chave
-}
+%\keywords{
+%  Primeira palavra-chave \and
+%  Outra palavra-chave \and
+%  Mais uma palavra-chave \and
+%  A última palavra-chave
+%}
 % to add an extra black line
