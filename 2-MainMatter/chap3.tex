@@ -307,14 +307,14 @@
             }
             \item {
                 \textbf{UC-02: Coordinator Validates and Provides Feedback on Proposal} - Critical workflow; illustrates the 
-                iterative refinement loop between coordinator and company
+                iterative refinement loop between coordinator and company/professor
             }
             \item {
                 \textbf{UC-03: System Executes Student Seriation Algorithm} - Core business logic; represents the automated 
                 ranking that differentiates this platform form manual processes
             }
             \item {
-                \textbf{UC-04: Company Responds to Coordinator Feedback and Resubmits Proposal} - Demonstrates bidirectional
+                \textbf{UC-04: Company/Professor Responds to Coordinator Feedback and Resubmits Proposal} - Demonstrates bidirectional
                 communication; shows how feedback loops improve proposal quality 
             }
             \item {
@@ -335,23 +335,19 @@
         }
         \begin{itemize}
             \item {
-                \textbf{UC-08: Company Views Assigned Candidates List and Schedule Interviews} - 
+                \textbf{UC-08: Company/Professor Views Assigned Candidates List and Schedule Interviews} - 
                 Post seriation activities; enables company participation in selection
             }
             \item {
-                \textbf{UC-09: Professor Proposes Dissertation Theme} - Master's degree specific; 
-                operationalizes previously non-functional dissertation workflow 
-            }
-            \item {
-                \textbf{UC-10: Secretariat Verifies Payment and Finalizes Protocol} - Post-assignment; ensures legal and 
+                \textbf{UC-09: Secretariat Verifies Payment and Finalizes Protocol} - Post-assignment; ensures legal and 
                 financial closure
             }
             \item {
-                \textbf{UC-11: Edition Coordinator Publishes Call for Proposals} - Communication workflow; 
+                \textbf{UC-10: Edition Coordinator Publishes Call for Proposals} - Communication workflow; 
                 ensures all companies receive the invite to send proposals to the edition
             }
             \item {
-                \textbf{UC-12: Administrator Performs Superuser Access for Student Support} - Administrative support;
+                \textbf{UC-11: Administrator Performs Superuser Access for Student Support} - Administrative support;
                 includes detailed audit logging requirements
             }
         \end{itemize}
@@ -393,7 +389,7 @@
         }
             \begin{itemize}
                 \item {
-                    Validate Proposals includes Send Feedback to Company, because every validation ends with the coordinator communicating 
+                    Validate Proposals includes Send Feedback, because every validation ends with the coordinator communicating 
                     an acceptance, rejection, or clarification request.
                 }
                 \item {
@@ -408,75 +404,3 @@
             \end{itemize}
 
     \subsection{Summary of Use Cases}
-        {
-            The use case model encompasses 12 primary use cases organized by the four main actors: 
-            Students, Companies, Coordinators, and supporting roles (Professors, Secretariat)
-        }
-
-        {
-            Student-Centric activities
-        }
-            {
-                Students interact with the platform to browse and rank proposals, submit supporting documents if required,
-                and track their candidacy status:
-            }
-            \begin{itemize}
-                \item {UC-01: Rank Internship Preferences [FR-31]}
-                \item {UC-07: Submit Supporting Documentation [FR-32]}
-                \item {Track candidacy status after seriation [FR-34]}
-            \end{itemize}
-        
-        {
-            Company-Centric Activities
-        }
-            {
-                Companies register, submit proposals, respond to coordinator feedback, and view ranked candidates:
-            }
-            \begin{itemize}
-                \item {UC-06: Register and Submit Initial Proposal [FR-21, FR-41]}
-                \item {UC-04: Respond to Coordinator Feedback and Resubmit Proposal [FR-22, FR-24]}
-                \item {UC-08: View Ranked Candidates and Schedule Interviews [FR-35, FR-36]}
-            \end{itemize}
-        
-        {
-            Coordinator-Centric Activities
-        }
-            {
-                Coordinators manage editions, validate proposals, publish calls for proposals, and execute seriation:
-            }
-            \begin{itemize}
-                \item {UC-05: Create New Edition [FR-11, FR-12]}
-                \item {UC-02: Validate Proposals [FR-22, FR-23]}
-                \item {UC-03: Execute Seriation Algorithm [FR-33]}
-            \end{itemize}
-    
-        {
-            Professor-Centric Activities
-        }
-            {
-                Professors primarily propose dissertation themes and supervise students.
-            }
-            \begin{itemize}
-                \item {UC-09: Propose Dissertation Theme [FR-71, FR-72]}
-            \end{itemize}
-
-        {
-            Cross-Functional Activities
-        }
-            {
-                Supporting workflows for academic supervision, financial closure, and administrative support:
-            }
-            \begin{itemize}
-                \item {UC-10: Verify Payments and Finalize Protocol [FR-41]}
-                \item {UC-12: Superuser Access for Student Support [FR-44, NFR-AUD-4]}
-            \end{itemize}
-
-        {
-            Conclusion
-        }
-        
-        {
-            Complete detailed specifications for all 12 use cases - including preconditions, postconditions, main flows, 
-            and alternative flows - are documented in Annex 2, Tables II.1-II.12. 
-            These specifications will serve as input for the system architecture design and form the basis for implementation and testing.
-        }

@@ -67,7 +67,7 @@
     \textbf{Use Case ID} & UC-02 \\ \hline
     \textbf{Use Case Name} & Coordinator Validates and Provides Feedback on Proposal \\ \hline
     \textbf{Primary Actor} & Edition Coordinator \\ \hline
-    \textbf{Secondary Actors} & Company Representative, System, Email Service \\ \hline
+    \textbf{Secondary Actors} & Company Representative/Professor, System, Email Service \\ \hline
     \textbf{Preconditions} &
         - A new proposal has been submitted by a Company or Professor. \newline
         - Edition Coordinator is assigned to this edition and has validation permission [FR-22]. \newline
@@ -75,7 +75,7 @@
         \\ \hline
     \textbf{Postconditions} &
         - Proposal feedback is recorded in the system. \newline
-        - Company Representative is notified via email and in-app notification. \newline
+        - Submitter is notified via email and in-app notification. \newline
         - Proposal status is updated (pending clarification, accepted, or rejected). \newline
         - Audit log records the coordinator's action with timestamp.
         \\ \hline
@@ -88,21 +88,21 @@
         6. If clarification needed: Coordinator writes specific feedback in the feedback form. \newline
         7. Coordinator selects "Request clarification" and submits [FR-22]. \newline
         8. System updates proposal status to "Awaiting Clarification". \newline
-        9. System sends email to Company Representative with feedback details [FR-53]. \newline
-        10. System posts in-app notification to Company dashboard [FR-54]. \newline
+        9. System sends email to the submitter of the proposal with feedback details [FR-53]. \newline
+        10. System posts in-app notification to the submitter's dashboard [FR-54]. \newline
         11. Audit log records: Coordinator name, action, feedback content, timestamp [FR-62]. \\ \hline
     \textbf{Alternative Flows} &
         \textbf{A1. Coordinator accepts proposal without changes:} \newline
         1. Step 6 is skipped. \newline
         2. Coordinator selects "Accept Proposal". \newline
         3. Proposal becomes visible to students for choosing. \newline
-        4. Company is notified of approval via email and in-app notification. \newline
+        4. Submitter is notified of approval via email and in-app notification. \newline
         \textbf{A2. Coordinator rejects proposal:} \newline
         1. Coordinator selects "Reject Proposal" and provides a rejection reason \newline
         2. System updates status to "Rejected". \newline
-        3. Company is notified with rejection reason via email [FR-53]. \newline
+        3. Submitter is notified with rejection reason via email [FR-53]. \newline
         4. Proposal is not visible to students \newline
-        \textbf{A3. Company fails to respond to clarification request within deadline:} \newline
+        \textbf{A3. Submitter fails to respond to clarification request within deadline:} \newline
         1. System sends automated reminder email 2 days before deadline. \newline
         2. After deadline, proposal automatically moves to "Deadline Exceeded" status \newline
         3. Coordinator can re-request clarification or reject. \\ \hline
@@ -117,7 +117,7 @@
     \textbf{Use Case ID} & UC-03 \\ \hline
     \textbf{Use Case Name} & System Executes Student Seriation Algorithm \\ \hline
     \textbf{Primary Actor} & System \\ \hline
-    \textbf{Secondary Actors} & Edition Coordinator, Student, Company \\ \hline
+    \textbf{Secondary Actors} & Edition Coordinator, Student, Company Representative/Professor \\ \hline
     \textbf{Preconditions} &
         - The seriation period has begun (coordinator has triggered seriation) \newline
         - All students have submitted their preference rankings [FR-31] \newline
@@ -128,7 +128,7 @@
         - Seriation algorithm completes successfully \newline
         - Assignments lists are generated for each proposal [FR-35] \newline
         - Students are notified of seriation results via email and in-app notification \newline
-        - Companies receive the list of students assigned for each of their proposals \newline
+        - Companies/Professors receive the list of students assigned for each of their proposals \newline
         - Audit log records seriation execution details.
         \\ \hline
     \textbf{Main Flow} &
@@ -145,7 +145,7 @@
             \end{itemize}
         6. System generates proposal-to-candidate assignment results \newline
         7. System sends email notifications to all students listing their seriation results [FR-34] \newline
-        8. System sends email notifications to all companies with their ranked candidate lists [FR-35] \newline
+        8. System sends email notifications to all companies and professors with their ranked candidate lists [FR-35] \newline
         9. System displays "Seriation Complete" confirmation to coordinator \newline
         10. Audit log records: seriation execution time, number of students processed, algorithm parameters used [FR-62]  \\ \hline
     \textbf{Alternative Flows} &
@@ -161,17 +161,17 @@
 % Consistent with UC-01 and UC-02
 \renewcommand{\arraystretch}{1.5} 
 \begin{xltabular}{\textwidth}{|l|X|}
-    \caption{Use Case Specification: Company Responds to Coordinator Feedback and Resubmits Proposal} \label{tab:UC-04} \\
+    \caption{Use Case Specification: Company/Professor Responds to Coordinator Feedback and Resubmits Proposal} \label{tab:UC-04} \\
     
     \hline
     \textbf{Use Case ID} & UC-04 \\ \hline
-    \textbf{Use Case Name} & Company Responds to Coordinator Feedback and Resubmits Proposal \\ \hline
-    \textbf{Primary Actor} & Company Representative \\ \hline
+    \textbf{Use Case Name} & Company/Professor Responds to Coordinator Feedback and Resubmits Proposal \\ \hline
+    \textbf{Primary Actor} & Company Representative/Professor \\ \hline
     \textbf{Secondary Actors} & Edition Coordinator, System \\ \hline
     \textbf{Preconditions} &
-        - Coordinator has requested clarification on company's proposal [UC-02, A3]. \newline
-        - Company has not yet exceeded the response deadline. \newline
-        - Company Representative is logged in.
+        - Coordinator has requested clarification on company's/professor's proposal [UC-02, A3]. \newline
+        - Company/Professor has not yet exceeded the response deadline. \newline
+        - Company Representative/Professor is logged in.
         \\ \hline
     \textbf{Postconditions} &
         - Modified proposal is resubmitted. \newline
@@ -180,22 +180,22 @@
         - Feedback exchange is recorded in audit trail [FR-63].
         \\ \hline
     \textbf{Main Flow} &
-        1. Company Representative receives email notification of requested clarification. \newline
-        2. Representative logs in to the platform and navigates to "My Proposals". \newline
+        1. Company Representative/Professor receives email notification of requested clarification. \newline
+        2. Representative/Professor logs in to the platform and navigates to "My Proposals". \newline
         3. System displays the proposal marked "Awaiting Clarification" with coordinator's feedback highlighted. \newline
-        4. Representative reviews feedback and modifies proposal details (e.g., clarifies location, adds requirements). \newline
-        5. Representative adds a response comment addressing each point of feedback. \newline
-        6. Representative clicks "Resubmit Proposal". \newline
+        4. Representative/Professor reviews feedback and modifies proposal details (e.g., clarifies location, adds requirements). \newline
+        5. Representative/Professor adds a response comment addressing each point of feedback. \newline
+        6. Representative/Professor clicks "Resubmit Proposal". \newline
         7. System validates modified proposal for completeness. \newline
         8. System updates proposal status to "Under Review". \newline
         9. System sends email to Edition Coordinator with notification of resubmission [FR-54]. \newline
-        10. Audit log records: resubmission timestamp, modification details, company response comment [FR-63]. \\ \hline
+        10. Audit log records: resubmission timestamp, modification details, company/professor response comment [FR-63]. \\ \hline
     \textbf{Alternative Flows} &
-        \textbf{A1. Company does not respond before the deadline:} \newline
+        \textbf{A1. Company/Professor does not respond before the deadline:} \newline
         1. System sends reminder email 2 days before deadline. \newline
         2. After deadline passes, proposal is automatically marked "Deadline Exceeded". \newline
         3. Coordinator can choose to reject or grant extension. \newline
-        \textbf{A2. Company's modifications do not resolve the coordinator's concerns:} \newline
+        \textbf{A2. Company's/Professor's modifications do not resolve the coordinator's concerns:} \newline
         1. Coordinator reviews resubmitted proposal (follows UC-02 main flow). \newline
         2. If still inadequate, coordinator can request additional clarification (cycle repeats). \\ \hline
 \end{xltabular}
@@ -331,77 +331,43 @@
 % Consistent with the rest of the Use Case Annex
 \renewcommand{\arraystretch}{1.5} 
 \begin{xltabular}{\textwidth}{|l|X|}
-    \caption{Use Case Specification: Company Views Assigned Candidates List and Schedules Interviews} \label{tab:UC-08} \\
+    \caption{Use Case Specification: Company/Professor Views Assigned Candidates List and Schedules Interviews} \label{tab:UC-08} \\
     
     \hline
     \textbf{Use Case ID} & UC-08 \\ \hline
-    \textbf{Use Case Name} & Company Views Assigned Candidates List and Schedules Interviews \\ \hline
-    \textbf{Primary Actor} & Company Representative \\ \hline
+    \textbf{Use Case Name} & Company/Professor Views Assigned Candidates List and Schedules Interviews \\ \hline
+    \textbf{Primary Actor} & Company Representative/Professors \\ \hline
     \textbf{Secondary Actors} & Coordinator, System \\ \hline
     \textbf{Preconditions} &
         - Seriation for the relevant edition has been executed successfully. \newline
-        - Company has at least one accepted proposal in that edition. \newline
-        - Representative is authenticated and linked to that company.
+        - Company/Professor has at least one accepted proposal in that edition. \newline
+        - Representative/Professor is authenticated and linked to that company.
         \\ \hline
     \textbf{Postconditions} &
-        - Representative can see ranked or assigned candidates per proposal.
+        - Representative/Professor can see ranked or assigned candidates per proposal.
         \\ \hline
     \textbf{Main Flow} &
-        1. Representative logs in and navigates to “My Proposals / Candidates”. \newline
-        2. System lists the company’s proposals for the edition and their current seriation status. \newline
-        3. Representative selects a proposal. \newline
+        1. Representative/Professor logs in and navigates to “My Proposals / Candidates”. \newline
+        2. System lists the company’s/professor's proposals for the edition and their current seriation status. \newline
+        3. Representative/Professor selects a proposal. \newline
         4. System displays the ranked candidate list or assigned students, including basic profile data allowed by policy. \newline
-        5. Representative optionally selects one or more candidates get their contacts to schedule interview outside the platform. \\ \hline
+        5. Representative/Professor optionally selects one or more candidates get their contacts to schedule interview outside the platform. \\ \hline
     \textbf{Alternative Flows} &
         \textbf{A1. No candidates available:} \newline
         1. At step 4, system indicates that no candidates were ranked for that proposal. \newline
-        2. Representative may close the view or contact the coordinator outside this use case. \\ \hline
+        2. Representative/Professor may close the view or contact the coordinator outside this use case. \\ \hline
 \end{xltabular}
+
+\newpage
 
 \newpage
 % Consistent with the rest of the Use Case Annex
 \renewcommand{\arraystretch}{1.5} 
 \begin{xltabular}{\textwidth}{|l|X|}
-    \caption{Use Case Specification: Professor Proposes Dissertation Theme} \label{tab:UC-09} \\
+    \caption{Use Case Specification: Secretariat Verifies Payment and Finalizes Protocol} \label{tab:UC-09} \\
     
     \hline
     \textbf{Use Case ID} & UC-09 \\ \hline
-    \textbf{Use Case Name} & Professor Proposes Dissertation Theme \\ \hline
-    \textbf{Primary Actor} & Professor \\ \hline
-    \textbf{Secondary Actors} & Coordinator, System \\ \hline
-    \textbf{Preconditions} &
-        - A Master’s dissertation edition is open for receiving internal proposals. \newline
-        - Professor is authenticated and has permission to submit themes.
-        \\ \hline
-    \textbf{Postconditions} &
-        - A new dissertation theme is stored with status “Submitted” or “Pending Validation”. \newline
-        - Coordinator can review and publish the theme to students.
-        \\ \hline
-    \textbf{Main Flow} &
-        1. Professor logs in and accesses “Dissertation Themes / New Theme”. \newline
-        2. System shows a form for theme details (title, abstract, objectives, prerequisites, research area, expected outcomes). \newline
-        3. Professor fills in details, selects the relevant edition, and optionally co-supervisors. \newline
-        4. Professor submits the theme. \newline
-        5. System validates required fields and stores the theme. \newline
-        6. Theme appears in the coordinator’s validation queue. \\ \hline
-    \textbf{Alternative Flows} &
-        \textbf{A1. Edition closed:} \newline
-        1. At step 3, if the dissertation edition is not accepting themes, system blocks submission. \newline
-        2. System informs the professor and shows allowed submission periods. \newline
-        \textbf{A2. Draft saving:} \newline
-        1. Before submitting, professor chooses “Save as Draft”. \newline
-        2. System saves a draft that is not yet visible to coordinators or students. \newline
-        3. Professor can later edit the draft and submit it. \\ \hline
-\end{xltabular}
-
-\newpage
-% Consistent with the rest of the Use Case Annex
-\renewcommand{\arraystretch}{1.5} 
-\begin{xltabular}{\textwidth}{|l|X|}
-    \caption{Use Case Specification: Secretariat Verifies Payment and Finalizes Protocol} \label{tab:UC-10} \\
-    
-    \hline
-    \textbf{Use Case ID} & UC-10 \\ \hline
     \textbf{Use Case Name} & Secretariat Verifies Payment and Finalizes Protocol \\ \hline
     \textbf{Primary Actor} & Secretariat \\ \hline
     \textbf{Secondary Actors} & Company Representative, Student, System \\ \hline
@@ -438,10 +404,10 @@
 % Consistent with the rest of the Use Case Annex
 \renewcommand{\arraystretch}{1.5} 
 \begin{xltabular}{\textwidth}{|l|X|}
-    \caption{Use Case Specification: Edition Coordinator Publishes Call for Proposals} \label{tab:UC-11} \\
+    \caption{Use Case Specification: Edition Coordinator Publishes Call for Proposals} \label{tab:UC-10} \\
     
     \hline
-    \textbf{Use Case ID} & UC-11 \\ \hline
+    \textbf{Use Case ID} & UC-10 \\ \hline
     \textbf{Use Case Name} & Edition Coordinator Publishes Call for Proposals \\ \hline
     \textbf{Primary Actor} & Edition Coordinator \\ \hline
     \textbf{Secondary Actors} & System, Company Representatives \\ \hline
@@ -510,15 +476,3 @@
         2. Administrator exits superuser session explicitly. \newline
         3. System returns to the administrator’s own account and logs the full session. \\ \hline
 \end{xltabular}
-
-
-%% UC-03: System Executes Student Seriation Algorithm 
-%% UC-04: Company Responds to Coordinator Feedback and Resubmits Proposal 
-%% UC-05: Edition Coordinator Creates New Edition 
-%% UC-06: Company Representatives Registers and Submits Initial Proposal 
-%% UC-07: Student Submits Support Documentation
-%% UC-08: Company Views Assigned Candidates List and Schedule Interviews
-%% UC-09: Professor Proposes Dissertation Theme 
-%% UC-10: Secretariat Verifies Payment and Finalizes Protocol -
-%% UC-11: Edition Coordinator Publishes Call for Proposals 
-%% UC-12: Administrator Performs Superuser Access for Student Support 

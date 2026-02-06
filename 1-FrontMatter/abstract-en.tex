@@ -11,28 +11,29 @@
 {
   The management of internships, dissertations, and engineering projects at the Department of Computer Science (DI) of NOVA School of Science and Technology (FCT)
   currently relies on a legacy platform that is technically obsolete and limited to undergraduate cycles.
-  Master's degree processes are supported by spreadsheets and informal email exchanges, leading to fragmented data, audit difficulties, and high administrative burden
-  for coordinators, professors, companies, and the secretariat.
-  Simultaneously, the existing platform suffers from UX problems, email deliverability failures, and security vulnerabilities, making incremental evolution unfeasible.
+  Master's degree processes are instead handled with spreadsheets and informal email exchanges, leading to fragmented data, audit difficulties, and high administrative overhead for coordinators,
+  professors, companies, and the secretariat.
+  At the same time, the existing platform suffers from UX issues, email deliverability failures, and security vulnerabilities, making incremental evolution unfeasible.
 }
 
 {
-  This problem is relevant and challenging because internship placement is a critical process for students' academic paths and for the department's relationship
+  This problem is relevant and challenging because internship and dissertation placement are critical process for students' academic paths and for the department's relationship
   with companies.
-  The solution must reconcile complex functional requirements (automated seriation, multiple user profiles, distinct workflows for different degrees) with demanding
-  non-functional requirements (security, auditability, interoperability, and usability) in an institutional context where long-term maintainability is as important as development speed.
+  The new solution must combine complex functional requirements (automated seriation, multiple user profiles, distinct workflows for different degrees) with demanding
+  non-functional requirements (security, auditability, interoperability, usability, and long-term maintainability).
 }
 
 {
-  This dissertation proposes the design and implementation of a new unified platform for managing proposals and candidacies, based on a layered architecture: a React frontend,
-  a backend initially supported by Supabase and subsequently evolved to Spring Boot, and a PostgreSQL database. 
-  The work follows an iterative methodology: requirements gathering, process (BPMN) and data (ERD) modeling, use case definition, and accelerated prototyping through Vibe Coding tools, 
+  This dissertation proposes the design and implementation of a unified web platform for managing proposals and candidacies, built on a layered architecture with a React frontend,
+  a backend initially supported by Supabase and later evolved to Spring Boot, and a PostgreSQL database. 
+  The work follows an iterative methodology that includes requirements gathering, process (BPMN) and data (ERD) modeling, use case definition, and accelerated prototyping with Vibe Coding tools, 
   followed by refactoring and architectural hardening.
 }
 
 {
-  As main results, a functional prototype is expected to automate critical tasks (seriation, notifications, protocols), improve user experience and data quality, and provide a critical
-  analysis of the user of Vibe Coding tools in institutional contexts.
+  The expected outcome is a production-ready platform prototype that centralizes all internship and dissertation processes,
+  automated critical tasks (seriation, notification, protocol handling), improves user experience and data quality for all stakeholders, 
+  and demonstrates how Vibe Coding tools can be effectively integrated into the development of institutional systems.
 }
 
 
