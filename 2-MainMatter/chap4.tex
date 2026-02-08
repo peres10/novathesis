@@ -56,11 +56,46 @@
 \label{sec:sol_bpmn}
 \ntindex[Template]{}
     {
-        TODO: mapping of workflows with bpmn
+        To complement the textual use case model and clarify the most critical workflows, three BPMN diagrams were
+        created and included in the appendices. These models focus on the processes that generate most of the coordination
+        effort in the system: company registration, proposals submission and validation, and student seriation and assginements.
+        They are intentionally simple and somewhat "raw", serving as a first iteration that captures main actors, decisions,
+        and state transitions without yet modelling every possible exception or alternate path.
     }
 
-    
+    {
+        The first diagram describes the registration of a company representative and the creation or association
+        of a company entity in the platform. 
+        It shows how an employee accesses an external registration page, submits personal details, and either selects
+        and existing company, or creates a new one, while the system validates input, stores employee and company data,
+        and sends verification e-mails.
+    }
 
+    {
+        The second diagram models the proposal submission and validation workflow for companies and professors.
+        It begins when the submitter enters an open edition, fills in the proposal form, and decides whether to save a draft
+        or submit; the system then saves the proposal and notifies coordinators that a new item is pending validation.
+        On the coordinator side the diagram highlights the three main outcomes - accept, reject or request clarifications - 
+        together with the corresponding status transitions and notifications, matching the feedback loop defined in the requirements.
+    }
+
+    {
+        The third diagram covers the seriation and assignment process across students, coordinators, companies/professors,
+        and the system. 
+        It starts with students registering in an edition and ranking proposals, followed by the coordinator triggering
+        seriation and the system computing assignments, with different mapping rules for undergraduate internships 
+        (one student to zero or one internship) and Master's dissertation (one student to zero or more themes).
+        The diagram then shows notifications to students and submitters, interview and confirmation steps on the
+        company/professor side, and iterative seriation runs when assignments are not confirmed, or there are still students
+        without any assignments.
+    }
+
+    {
+        Overall, these BPMN models do not attempt to exhaustively represent every alternative or error condition but instead
+        provide a high-level, visual view of the core lifecycle processes that drive the platform's requirements and architecture.
+        They will be refined in future iterations as the implementation uncovers additional edge cases and 
+        as coordinators and other stakeholders provide feedback on real usage. 
+    }
 
 \section{Data Model (ERD)}
 \label{sec:sol_erd}
@@ -78,3 +113,21 @@
         TODO: maybe a cronogram (gantt?) with the development phases, tests, docs writing, risks and mitigations
     }
 
+
+\iffalse
+
+
+The third diagram covers the seriation and assignment process across students, coordinators, companies/professors, 
+and the system. It starts with students registering in an edition and ranking proposals, followed by the 
+coordinator triggering 
+seriation and the system computing assignments, with different mapping rules for undergraduate internships 
+(one student to zero or one internship) and Master’s dissertations (one student to zero or more themes). 
+The diagram then shows notifications to students and submitters, interview and confirmation steps on the 
+company/professor side, and iterative seriation runs when assignments are not confirmed, aligning with 
+UC‑01, UC‑03, UC‑07, and UC‑08.
+
+Overall, these BPMN models do not attempt to exhaustively represent every alternative or error condition 
+but instead provide a high-level, visual view of the core lifecycle processes that drive the platform’s 
+requirements and architecture. They will be refined in future iterations as the implementation uncovers additional 
+edge cases and as coordinators and other stakeholders provide feedback on real usage.
+\fi
