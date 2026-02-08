@@ -101,10 +101,46 @@
 \label{sec:sol_erd}
 \ntindex[Template]{}
     {
-        TODO: presentations of the ER diagram (db diagram) e definition of the entities there
+        The data model for the platform is organized around a relational schema that reflects the main actors, academic structures, and workflows
+        identified in the requirements and use cases, it is summarized in the \gls{ERD} presented in Appendix D (Figure D.1).
+        At the core of the schema is the User entity, which stores generic account information (name, e-mail, status, creation date)
+        and is linked to UserRole and UserRoleAssingment so that a single user can accumulate multiple roles over time 
+        (for example, a professor who is also an edition coordinator). 
+        Specialized profiles such as Student, Professor, and CompanyEmployee extend User with domain-specific attributes:
+        Student references academic data and supporting files (CV, image),
+        Professor holds scientific field and contact details, and CompanyEmployee ties a user to a specific Company and optional department.
     }
 
+    {
+        The academic context is structured around Edition, which represents and internship or dissertation cycle and is enriched by
+        EditionDates (key deadlines and milestones) and associative tables such as EditionProposal, EditionStudent, EditionCoordinator,
+        while preserving edition-specific configuration (deadlines, capacity limits, coordinator assignments), and supports
+        functional requirements such as per-edition proposals limits and the distinction between undergraduate internships and Master's
+        dissertations.
+        Companies are modelled with a Company entity that can reference a parent company (to represent groups or departments), a responsible
+        employee, and an Address, which together provide the structure needed for validation and communication between the \gls{DI} and companies.
+    }
 
+    {
+        The core lifecycle of proposals and candidacies is captured by Proposal, Candidacy, and Attribution.
+        Proposal stores the main attributes of an internship or dissertation theme, including submitter links (company or professor)
+        and an optional ProposalPreviousAgreement sub-entity for cases where a student and/or a professor already have an informal agreement.
+        Candidacy links a Student, Proposal, and Edition, with preference rank and timestamps, while Attribution records the outcome of 
+        seriation and later decisions (status and audit timestamps), aligning with the use cases for ranking, seriation, and assignment.
+        Communication and feedback are handled by Interaction and ProposalFeedback, which represent messages between actors, their metadata
+        (author, destination, type, attachments), and whether a proposal was updated after feedback, providing traceability required for auditability,
+        and iterative refinement.
+    }
+
+    {
+        Cross-cutting concerns are supported by a small set of utility entities. File and Image provide a generic mechanism to store metadata
+        for uploaded documents and images (CVs, protocols, profile pictures), while StudentAcademicData keeps academic data of students (ECTS, average grade)
+        used by the seriation algorithm without embedding this logic directly into core entities.
+        Foreign keys and many-to-many association tables enforce referential integrity and reject business relationships (for example,
+        students participating in multiple editions, proposals reused across editions), while the relational model remains flexible enough to evolve 
+        as additional requirements and entities are refined beyond this initial ERD.
+        
+    }
 
 \section{Work Plan}
 \label{sec:sol_workplan}
@@ -115,19 +151,38 @@
 
 
 \iffalse
+The data model for the platform is organized around a relational schema that reflects 
+the main actors, academic structures, and workflows identified in the requirements and use cases, 
+and it is summarized in the Entity–Relationship Diagram (ERD) presented in Appendix D (Figure D.1). 
+At the core of the schema is the User entity, which stores generic account information (name, e‑mail, status, creation date) 
+and is linked to UserRole and UserRoleAssignment so that a single user can accumulate multiple roles over time 
+(for example, a professor who is also an edition coordinator). Specialized profiles such as Student, Professor, 
+and CompanyEmployee extend User with domain-specific attributes: Student references academic data and supporting files (CV, image), 
+Professor holds scientific field and contact details, and CompanyEmployee ties a user to a specific Company and optional department.
+​
+The academic context is structured around Edition, which represents an internship or dissertation cycle and is enriched by 
+EditionDates (key milestones) and associative tables such as EditionProposal, EditionStudent, EditionCoordinator, 
+and EditionCompanyProposalLimit. This design allows the same proposal or student to participate in different editions 
+while preserving edition-specific configuration (deadlines, capacity limits, coordinator assignments), 
+and supports functional requirements such as per‑edition proposal caps and the distinction between undergraduate internships 
+and Master’s dissertations. Companies are modelled with a Company entity that can reference a parent company (to represent groups 
+or departments), a responsible employee, and an Address, which together provide the structure needed for validation, protocol 
+management, and communication.
+​
+The core lifecycle of proposals and candidacies is captured by Proposal, Candidacy, and Attribution. 
+Proposal stores the main attributes of an internship or dissertation theme, including submitter links (company or professor) 
+and an optional ProposalPreviousAgreement sub-entity for cases where a student and professor/company already have an informal agreement. 
+Candidacy links a Student, Proposal, and Edition, with preference rank and timestamps, while Attribution records the outcome of 
+seriation and later decisions (status and audit timestamps), aligning with the use cases for ranking, seriation, and assignment. 
+Communication and feedback are handled by Interaction and ProposalFeedback, which represent messages between actors, their metadata 
+(author, destination, type, attachments), and whether a proposal was updated after feedback, providing the traceability required for 
+auditability and iterative refinement.
 
-
-The third diagram covers the seriation and assignment process across students, coordinators, companies/professors, 
-and the system. It starts with students registering in an edition and ranking proposals, followed by the 
-coordinator triggering 
-seriation and the system computing assignments, with different mapping rules for undergraduate internships 
-(one student to zero or one internship) and Master’s dissertations (one student to zero or more themes). 
-The diagram then shows notifications to students and submitters, interview and confirmation steps on the 
-company/professor side, and iterative seriation runs when assignments are not confirmed, aligning with 
-UC‑01, UC‑03, UC‑07, and UC‑08.
-
-Overall, these BPMN models do not attempt to exhaustively represent every alternative or error condition 
-but instead provide a high-level, visual view of the core lifecycle processes that drive the platform’s 
-requirements and architecture. They will be refined in future iterations as the implementation uncovers additional 
-edge cases and as coordinators and other stakeholders provide feedback on real usage.
+Cross-cutting concerns are supported by a small set of utility entities. File and Image provide a generic mechanism to 
+store metadata for uploaded documents and images (CVs, protocol scans, profile pictures), while StudentAcademicData 
+keeps derived academic indicators (ECTS, averages) used by the seriation algorithm without embedding this logic directly into core entities.
+Foreign keys and many-to-many association tables enforce referential integrity and reflect business relationships 
+(for example, students participating in multiple editions, proposals reused across editions), 
+while the relational model remains flexible enough to evolve as additional requirements and 
+entities are refined beyond this initial ERD. A more detailed description of each entity and its attributes is provided in Appendix D.
 \fi
