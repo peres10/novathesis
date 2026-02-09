@@ -319,6 +319,8 @@
         GitHub Copilot, Claude, or Gemini-based CLI tools.
         \textit{Vibe Coding} tools differ from these assistants because instead of focusing on line-level code completion, they provide an integrated environment where 
         a \glsxtrfullpl{LLM} generates and iteratively refines entire screens, workflows, or even full-stack applications through natural language instructions, with live preview and project-level context \cite{cloudflare-vibecoding-2025,devto-vibe-coding-2025}.
+        For this reason, the dissertation concentrates on \textit{Vibe Coding} tools specifically designed for the \glsxtrshort{UI} and application scaffolding with immediate visual feedback - namely
+        Lovable, Bolt.new, and Figma Make - rather than on generic code completion tools.
         This section analyzes the capabilities of such tools to determine their viability for the rapid prototyping phase of this project.
     }       
             
@@ -351,7 +353,8 @@
                 }
         \subsubsection*{Figma Make}
             {
-                    Figma Make is tightly integrated into the Figma ecosystem and is therefore particularly attractive to designers.
+                    Figma Make is tightly integrated into the Figma ecosystem, a widely used collaborative design platform for creating high-fidelity \glsxtrshort{UX} layouts,
+                    and is therefore particularly attractive to designers \cite{figma}.
                     It starts from high-fidelity UI layouts and turns them into interactive prototypes that closely match the original design.
                     This design-first approach is powerful for validating user flows and visual details with stakeholders. 
                     However, the generated code is harder to reuse outside Figma, and complexity grows quickly once custom logic and structure are layered on top.

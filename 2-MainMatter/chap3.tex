@@ -35,14 +35,14 @@
         }
 
         {
-            Email Deliverability Crisis: A particularly severe technical deficiency resides in the email infrastructure. 
-            Due to the lack of modern authentication and deliverability configurations, transactional emails sent by the platform - intended for registration notifications, deadline reminders, call for proposals - are systematically flagged as spam by email providers \cite{smtp-improve-deliverability-transactional-mails}. 
+            Email Deliverability Crisis: A particularly severe technical problem resides in the email infrastructure. 
+            Due to the lack of modern authentication and deliverability configurations, emails sent by the platform - intended for registration notifications, deadline reminders, call for proposals - are systematically flagged as spam by email providers \cite{smtp-improve-deliverability-transactional-mails}. 
             This breakdown in communication disrupts the workflow between the department, students, and companies, reducing the operational effectiveness of the platform regardless of other functionality.
         }
 
     \subsection{Functionalities and Limitations per Role}
         {
-            Administration and Coordination: The administrator profile provides a global overview of entities and proposals, allowing actions such as bulk student imports via CSV and basic permission management. 
+            Administration and Coordination: The administrator profile provides access to a global overview of entities and proposals, allowing actions such as bulk student imports via CSV and basic permission management. 
             A “\textit{superuser}” feature exists, allowing administrators to access any user account without credentials for troubleshooting purposes. However, a critical gap exists in audit logging: 
             while the system logs normal and superuser's logins and logouts, it lacks comprehensive action logging that tracks what users do during their sessions. 
             For compliance and accountability, the platform should record specific administrative actions such as proposal status changes, student data modifications, permissions adjustments, and bulk import operations.
@@ -359,7 +359,7 @@
             \item {Actors - Primary (initiates the goal) and secondary (supports the goal) participants}
             \item {Preconditions - System state and permissions required before the use case can begin}
             \item {Postconditions - Guaranteed system state after the use case completes (success of failure)}
-            \item {Main Flow - The primary, "happy path" sequence of steps}
+            \item {Main Flow - The primary sequence of steps when the use case executes successfully, without errors or exceptional conditions}
             \item {Alternative Flows - Exception handling, edge cases, and variant paths 
                 (numbered A1, A2, A3, etc.) describing specific conditions where the main flow diverges.
             }
@@ -402,3 +402,17 @@
                 }
 
             \end{itemize}
+    
+    \subsection{Summary}
+            {
+                This chapter analyses the limitations of the legacy platform and documented the current processes, leading to the identification
+                of the main stakeholders, functional requirements, non-functional requirements, and key use cases that shape the envisioned system.
+            }
+
+            {
+                These requirements provide a structured baseline for design and implementation, but they should be regarded as a living artifact:
+                during the development of the platform, it is expected that some requirements will be refined, extended or newly added as stakeholders 
+                provide feedback and additional constraints or opportunities are discovered.
+                This controlled evolution of requirements will be managed iteratively to ensure that the final system remains aligned with 
+                the operational needs of the department and the objectives defined for this project.
+            }

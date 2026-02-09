@@ -15,10 +15,10 @@
 \ntindex[Template]{}
     {
         The proposed platform follows a three-layer architecture that separates user interface, application logic and data persistence, 
-        while remaining compatible with the technologies and requirements 
-        established in earlier chapters, as illustrated in Figure~\ref{fig:Figure_Architecture_Diagram}.
-        At a high level, this structure is designed to support incremental evolution 
-        from a prototype to a long-lived institutional system, without forcing disruptive changes to the overall design.
+        as illustrated in Figure~\ref{fig:Figure_Architecture_Diagram}.
+        This layered structure follows established practice for web applications of this kind and is particularly appropriate here 
+        because it simplifies maintenance and allows the platform incrementally, 
+        without forcing disruptive changes to the overall design.
     }
     % raquel sequeira silva
     {
@@ -115,7 +115,7 @@
     }
 
     {
-        The academic context is structured around \textit{Edition}, which represents and internship or dissertation cycle and is enriched by
+        The academic context is structured around \textit{Edition}, which represents an internship or dissertation cycle and is complemented by
         \textit{EditionDates} (key deadlines and milestones) and associative tables such as \textit{EditionProposal}, \textit{EditionStudent}, \textit{EditionCoordinator},
         while preserving edition-specific configuration (deadlines, capacity limits, coordinator assignments), and supports
         functional requirements such as per-edition proposals limits and the distinction between undergraduate internships and Master's
@@ -158,23 +158,23 @@
         \subsection*{Planned phases and timing (by month)}
             \begin{itemize}
                 \item { 
-                    {\textbf{March} - Initial Prototyping and Parallel Refinement of Models}
+                    {\textbf{March} - Environment setup and initial prototyping}
                     \begin{itemize}
                         \item {
-                            Start building an initial React/Supabase prototype with Vibe Coding tools for key flows such as company registration, proposal submission,
-                            and basic student interaction.
+                            Build an initial React/Supabase prototype with Vibe Coding tools for core flows such as company registration, proposal submission, and 
+                            basic student interaction, aiming to keep this within a few weeks.
                         }
                         \item {
                             In parallel, refine and, when needed, adjust the existing requirements, use case specifications, BPMN diagrams, and ERD based on both feedback
                             and needs from the first prototype.
                         }
                         \item {
-                            Set up the development environment structure, and basic \glsxtrshort{CI} routines to support subsequent iterations.
+                            Set up the development environment structure, and basic \glsxtrshort{CI} routines for frontend, backend and database.
                         }
                     \end{itemize}
                 }
                 \item {
-                    {\textbf{April} - Expanding Prototype Coverage and Data Layer Alignment}
+                    {\textbf{April} - Expanding Prototype Coverage and early Spring Boot backend}
                     \begin{itemize}
                         \item {
                             Extend the prototype to cover additional workflows: student ranking, basic seriation logic, and simple notification flows
@@ -184,16 +184,17 @@
                             Align the PostgreSQL schema with the ERD, including creation of tables, constraints, and initial \gls{RLS} rules that reflect the role model.
                         }
                         \item {
-                            Perform informal usability checks with stakeholders and create a list of improvement points to guide the next phase.
+                            Start introducing a Spring Boot backend in parallel for selected core use cases (e.g., proposal validation and feedback loop), preparing the gradual
+                            migration away from Supabase-only backend.
                         }
                     \end{itemize}
                 }
                 \item {
-                    {\textbf{May} - Backend Hardening and Architecture Evolution}
+                    {\textbf{May} - Backend consolidation and integration}
                     \begin{itemize}
                         \item {
-                            Begin the transition from a Supabase-only backend to a Spring Boot backend for core business logic (proposal validation, feedback loop,
-                            seriation, user and company management).
+                            Expand the Spring Boot backend to cover the main business logic (proposal lifecycle, seriation, user and company management) while progressively
+                            reducing reliance on Supabase functionalities.
                         }
                         \item {
                             Define and implement REST API endpoints and integrate OAuth-based authentication with the university identity provider for student login.
@@ -204,11 +205,11 @@
                     \end{itemize}
                 }
                 \item {
-                    {\textbf{June} - Implementation of Core Workflows and Data Model Refinement}
+                    {\textbf{June} - Implementation of Core Workflows and hardening}
                     \begin{itemize}
                         \item {
-                            Complete the main end-to-end workflows: proposal lifecycle (submission, validation, clarification), student applications
-                            and seriation and protocol management.
+                            Complete the main end-to-end workflows (submission, validation, clarification, candidacies, seriation, basic protocol management)
+                            using the Spring Boot backend and PostgreSQL schema.
                         }
                         \item {
                             Refine the ERD and database schema based on usage and performance observations (indexes, additional constraints, small structural adjustments).
@@ -229,12 +230,13 @@
                             Optimize the performance of key dashboards and API calls and reinforce security aspects (\glsxtrshort{RBAC} enforcement, audit coverage, error handling for edge cases).
                         }
                         \item {
-                            Prepare realistic demo scenarios and datasets to support evaluation with stakeholders and for use in the dissertation.
+                            Reserve a short vacation period starting at the end July and continuing into early August, limiting work during that window to minor fixes
+                            or small tasks that do not block later phases.
                         }
                     \end{itemize}
                 }
                 \item {
-                    {\textbf{August} - Validation, Evaluation, and Documentation Consolidation}
+                    {\textbf{August} - Validation, evaluation and documentation consolidation}
                     \begin{itemize}
                         \item {
                             Perform more systematic validation against the functional and non-functional requirements in Appendix~\ref{ann:fr_nfr_appendix},
@@ -266,7 +268,7 @@
 
     \begin{figure}[htbp]
             \centering
-            \includegraphics[width=16cm]{MyFigures/gantt_chart}
+            \includegraphics[width=155mm]{MyFigures/gantt_chart}
             \caption{Gantt chart of the planned work for the dissertation, showing the main development, validation, and writing activities from March to September 2026}
             \label{fig:Gantt_Chart}
     \end{figure}

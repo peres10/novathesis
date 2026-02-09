@@ -143,9 +143,11 @@
       }
     \item{
       \textbf{\glsxtrshort{AI}-Assisted Rapid Prototyping (\textit{Vibe Coding})}: 
-      The initial implementation phase will leverage \textit{Vibe Coding} tools, such as Lovable, 
-      Figma Make or Google AI Studio, to quickly generate the frontend and core functional 
-      interfaces \cite{vibecoding2025}. 
+      The initial implementation phase will leverage \textit{Vibe Coding} tools to quickly 
+      generate the frontend and core functional 
+      interfaces. 
+      In particular, the project will likely use Bolt.new as the main environment for prompt-to-full-stack prototyping, with 
+      Lovable as an alternative option if needed, and Figma Make to support the design and generation of visually complex UI components \cite{vibecoding2025}. 
       These tools excel at creating user interfaces 
       through iterative natural language prompting. 
       During this stage, Supabase will be utilized as \gls{BaaS} to provide an immediate 
@@ -193,7 +195,28 @@
   \label{sec:intro_doc_structure}
   
   {
-    TODO
+    This dissertation plan is organized into four main chapters, followed by appendices.
+    Chapter~\ref{cha:introduction} introduces the context, problem statement, objectives, and methodology 
+    adopted for the project.
+  }
+
+  {
+    Chapter~\ref{cha:state_of_the_art} presents the state of the art and technological choices considered for the platform,
+    covering backend architectures, data persistence models, frontend frameworks, and \glsxtrshort{AI}-assisted development tools,
+    and concludes with a justification of the selected stack.
+  }
+
+  {
+    Chapter~\ref{cha:requirements_and_system_analysis} analyzes the current legacy system and describes the elicitation of
+    requirements for the new platform, including stakeholders, functional and non-functional requirements, and the main use
+    cases that structure the system's behavior.
+  }
+
+  {
+    Chapter~\ref{cha:solution_proposal} proposes the solution, detailing the overall system architecture, the \glsxtrshort{BPMN} models for
+    core processes, the data model \glsxtrshort{ERD}, and the work plan that guides implementation and evaluation.
+    The appendices provide the full catalog of requirements, detailed use case specifications, \glsxtrshort{BPMN} diagrams, and 
+    the complete \glsxtrshort{ERD}.
   }
 
 %%%% extra
