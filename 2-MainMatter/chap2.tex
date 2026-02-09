@@ -151,7 +151,7 @@
         \begin{itemize}
             \item {
                 Structured Data and Integrity: The academic context requires rigorous data consistency.
-                For instance, a Candidacy must strictly link to an existing Student and a valid Proposal.
+                For instance, an Application must strictly link to an existing Student and a valid Proposal.
                 The relational model enforces referential integrity through primary and foreign key constraints, preventing "orphaned" records - 
                 a situation where a child record references a non-existent parent record \cite{acceldata-referential-integrity}. This is particularly critical in the \glsxtrshort{DI} management platform, 
                 where deleted Companies should not retain active Proposals, and Students cannot be assigned to non-existent projects.
@@ -243,7 +243,7 @@
             }
 
             {
-                React is selected as the core library for building the platform's user interface for two primary reasons:
+                React may be selected as the core library for building the platform's user interface for two primary reasons:
             }
             \begin{enumerate}
                 \item {
@@ -272,7 +272,7 @@
                 Angular is a full-featured, opinionated frontend framework maintained by Google that provides an integrated solution for components,
                 routing, forms, and state management in a single toolkit. 
                 Unlike React, which focuses on the view layer and relies on additional libraries for concerns such as routing, Angular ships with a more
-                prescriptive structure (modules, services, dependency injection), which can be advantageous for large teams that value strong convetions.
+                prescriptive structure (modules, services, dependency injection), which can be advantageous for large teams that value strong conventions.
             }
 
             {
@@ -286,7 +286,7 @@
 
         \subsection*{Summary}
             {
-                In summary, the platform adopts a React-based frontend because it combines flexible component model, 
+                In summary, the platform will adopt a React-based frontend because it combines flexible component model, 
                 strong tool support, and excellent compatibility with \glsxtrshort{AI}-assisted "\textit{Vibe Coding}" workflows, while
                 still allowing future adoption of frameworks like Next.js for \glsxtrshort{SSR} or \glsxtrshort{SSG} if needed. 
                 Angular remains a robust alternative for institutional systems, but in this context its more opinionated structure and weaker
@@ -423,7 +423,7 @@
         }
         
         {
-            Given the structured nature of the problem domain-editions, students, companies, proposals, candidacies, and protocols - and the critical
+            Given the structured nature of the problem domain-editions, students, companies, proposals, applications, and protocols - and the critical
             importance of correctness in operations such as seriation and assignments, a relational model is more appropriate. \\
             The expected scale (bounded by the number of students and companies in the department) does not require the extreme horizontal
             scalability that motivates most \glsxtrshort{NoSQL} deployments.
@@ -469,7 +469,7 @@
     \subsection{AI-Assisted Development (\textit{Vibe Coding})}
         {
             Section~\ref{sec:sota_ai_assited_dev} introduced \textit{Vibe Coding} tools such as Lovable, Bolt.new and Figma Make, which influence the development workflow
-            but are not part of the runtime architecture. In this project these tools are used to bootstrap React/Supabase prototypes
+            but are not part of the runtime architecture. In this project these tools will be used to bootstrap React/Supabase prototypes
             and to generate much of the initial \glsxtrshort{UI} and \glsxtrshort{CRUD} logic for core workflows, or to convert high-fidelity
             Figma designs into React components that can be integrated into the main code base
             

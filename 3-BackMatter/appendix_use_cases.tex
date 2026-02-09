@@ -1,7 +1,7 @@
 \typeout{NT FILE appendix_use_cases.tex}%
 
 \chapter{Appendix B - Use Cases Specifications}
-\label{ann:use_cases_appendix}
+\label{ann:use_cases_annex}
 
 %%%% Functional Requirements
 \section*{Use Cases}
@@ -303,17 +303,17 @@
         - Coordinator or edition configuration requires supporting documents for that edition or specific proposals.
         \\ \hline
     \textbf{Postconditions} &
-        - Supporting documents (e.g., CV, motivation letter, recommendations) are uploaded and linked to the student’s candidacies. \newline
+        - Supporting documents (e.g., CV, motivation letter, recommendations) are uploaded and linked to the student’s applications. \newline
         - Coordinator and companies (where applicable) can access documents during seriation and evaluation.
         \\ \hline
     \textbf{Main Flow} &
-        1. Student opens the “My Candidacies / Rankings” page. \newline
-        2. System indicates which candidacies or editions require supporting documents. \newline
-        3. Student selects a candidacy requiring documents. \newline
+        1. Student opens the “My Applications / Rankings” page. \newline
+        2. System indicates which applications or editions require supporting documents. \newline
+        3. Student selects an application requiring documents. \newline
         4. System displays required and optional document types (e.g., CV required, motivation letter optional). \newline
         5. Student uploads the requested files and confirms. \newline
-        6. System validates file types and sizes, stores them securely, and links them to the corresponding candidacy. \newline
-        7. System shows a confirmation and updates the candidacy status to “Documents Submitted”. \\ \hline
+        6. System validates file types and sizes, stores them securely, and links them to the corresponding application. \newline
+        7. System shows a confirmation and updates the application status to “Documents Submitted”. \\ \hline
     \textbf{Alternative Flows} &
         \textbf{A1. Missing required document:} \newline
         1. At step 5, student omits a required file. \newline
@@ -322,7 +322,7 @@
         1. Uploaded file exceeds size limit or uses a forbidden type. \newline
         2. System rejects that file and informs the student of allowed types and limits. \newline
         \textbf{A3. Update documents:} \newline
-        1. Before the document deadline, student returns to the candidacy. \newline
+        1. Before the document deadline, student returns to the application. \newline
         2. System allows replacing or adding documents. \newline
         3. New versions are stored and previous versions are either archived or overwritten. \\ \hline
 \end{xltabular}

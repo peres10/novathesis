@@ -33,7 +33,7 @@
         The application layer exposes a REST \glsxtrshort{API} that encapsulates all business logic. 
         During the initial prototyping phase, this layer can rely on managed services (such as Supabase) for basic authentication
         and \glsxtrshort{CRUD} operations, so that core workflows can be validated quickly with real users.
-        As the system stabilizes, a Spring Boot-based backed assumes responsibility for the domain logic.
+        As the system stabilizes, a Spring Boot-based backend assumes responsibility for the domain logic.
     }
 
     {
@@ -60,14 +60,14 @@
 \ntindex[Template]{}
     {
         To complement the textual use case model and clarify the most critical workflows, three \glsxtrshort{BPMN} diagrams were
-        created and included and included in the Appendix~\ref{ann:bpmn_appendix} (Figures~\ref{fig:BPMN1}-\ref{fig:BPMN3}). These models focus on the processes that generate most of the coordination
+        created and included in the Appendix~\ref{ann:bpmn_appendix} (Figures~\ref{fig:BPMN1}-\ref{fig:BPMN3}). These models focus on the processes that generate most of the coordination
         effort in the system: company registration, proposals submission and validation, and student seriation and assignments.
         They are intentionally simple and somewhat "raw", serving as a first iteration that captures main actors, decisions,
         and state transitions without yet modelling every possible exception or alternate path.
     }
 
     {
-        The first diagram describes the registration of a company representative and the creation or association
+        The first diagram (Figure~\ref{fig:BPMN1}) describes the registration of a company representative and the creation or association
         of a company entity in the platform. 
         It shows how an employee accesses an external registration page, submits personal details, and either selects
         and existing company, or creates a new one, while the system validates input, stores employee and company data,
@@ -75,7 +75,7 @@
     }
 
     {
-        The second diagram models the proposal submission and validation workflow for companies and professors.
+        The second diagram (Figure~\ref{fig:BPMN2}) models the proposal submission and validation workflow for companies and professors.
         It begins when the submitter enters an open edition, fills in the proposal form, and decides whether to save a draft
         or submit; the system then saves the proposal and notifies coordinators that a new item is pending validation.
         On the coordinator side the diagram highlights the three main outcomes - accept, reject or request clarifications - 
@@ -83,7 +83,7 @@
     }
 
     {
-        The third diagram covers the seriation and assignment process across students, coordinators, companies/professors,
+        The third diagram (Figure~\ref{fig:BPMN3}) covers the seriation and assignment process across students, coordinators, companies/professors,
         and the system. 
         It starts with students registering in an edition and ranking proposals, followed by the coordinator triggering
         seriation and the system computing assignments, with different mapping rules for undergraduate internships 
@@ -125,10 +125,10 @@
     }
 
     {
-        The core lifecycle of proposals and candidacies is captured by \textit{Proposal}, \textit{Candidacy}, and \textit{Attribution}.
+        The core lifecycle of proposals and applications is captured by \textit{Proposal}, \textit{Application}, and \textit{Assig}.
         \textit{Proposal} stores the main attributes of an internship or dissertation theme, including submitter links (company or professor)
         and an optional \textit{ProposalPreviousAgreement} sub-entity for cases where a student and/or a professor already have an informal agreement.
-        \textit{Candidacy} links a \textit{Student}, \textit{Proposal}, and \textit{Edition}, with preference rank and timestamps, while \textit{Attribution} records the outcome of 
+        \textit{Application} links a \textit{Student}, \textit{Proposal}, and \textit{Edition}, with preference rank and timestamps, while \textit{Assignment} records the outcome of 
         seriation and later decisions (status and audit timestamps), aligning with the use cases for ranking, seriation, and assignment.
         Communication and feedback are handled by \textit{Interaction} and \textit{ProposalFeedback}, which represent messages between actors, their metadata
         (author, destination, type, attachments), and whether a proposal was updated after feedback, providing traceability required for auditability,
@@ -149,11 +149,132 @@
 \label{sec:sol_workplan}
 \ntindex[Template]{}
     {
-        TODO: maybe a cronogram (gantt?) with the development phases, tests, docs writing, risks and mitigations
+        The work plan follows the iterative methodology outline in Section~\ref{sec:intro_methodology}, mapping its main phases on the period from 
+        March to September. 
+        The schedule is organized so that early months already include hands-on prototyping, middle months focus on hardening the architecture and 
+        implementing core workflows, and the last month emphasizes thesis writing and final validation, with overlapping activities across phases.
     }
+    {
+        \subsection*{Planned phases and timing (by month)}
+            \begin{itemize}
+                \item { 
+                    {\textbf{March} - Initial Prototyping and Parallel Refinement of Models}
+                    \begin{itemize}
+                        \item {
+                            Start building an initial React/Supabase prototype with Vibe Coding tools for key flows such as company registration, proposal submission,
+                            and basic student interaction.
+                        }
+                        \item {
+                            In parallel, refine and, when needed, adjust the existing requirements, use case specifications, BPMN diagrams, and ERD based on both feedback
+                            and needs from the first prototype.
+                        }
+                        \item {
+                            Set up the development environment structure, and basic \glsxtrshort{CI} routines to support subsequent iterations.
+                        }
+                    \end{itemize}
+                }
+                \item {
+                    {\textbf{April} - Expanding Prototype Coverage and Data Layer Alignment}
+                    \begin{itemize}
+                        \item {
+                            Extend the prototype to cover additional workflows: student ranking, basic seriation logic, and simple notification flows
+                            backed by Supabase.
+                        }
+                        \item {
+                            Align the PostgreSQL schema with the ERD, including creation of tables, constraints, and initial \gls{RLS} rules that reflect the role model.
+                        }
+                        \item {
+                            Perform informal usability checks with stakeholders and create a list of improvement points to guide the next phase.
+                        }
+                    \end{itemize}
+                }
+                \item {
+                    {\textbf{May} - Backend Hardening and Architecture Evolution}
+                    \begin{itemize}
+                        \item {
+                            Begin the transition from a Supabase-only backend to a Spring Boot backend for core business logic (proposal validation, feedback loop,
+                            seriation, user and company management).
+                        }
+                        \item {
+                            Define and implement REST API endpoints and integrate OAuth-based authentication with the university identity provider for student login.
+                        }
+                        \item {
+                            Introduce structured audit logging and improve notification handling, ensuring consistency with architecture in Figure~\ref{fig:Figure_Architecture_Diagram}
+                        }
+                    \end{itemize}
+                }
+                \item {
+                    {\textbf{June} - Implementation of Core Workflows and Data Model Refinement}
+                    \begin{itemize}
+                        \item {
+                            Complete the main end-to-end workflows: proposal lifecycle (submission, validation, clarification), student applications
+                            and seriation and protocol management.
+                        }
+                        \item {
+                            Refine the ERD and database schema based on usage and performance observations (indexes, additional constraints, small structural adjustments).
+                        }
+                        \item {
+                            Expand automated testing (unit/integration tests) and conduct targeted non-functional checks (performance of critical queries, RLS correctness).
+                        }
+                    \end{itemize}
+                }
+                \item {
+                    {\textbf{July} - Advanced Features, Integration and Optimization}
+                    \begin{itemize}
+                        \item {
+                            Implement remainings such as per-edition company proposal limits, export capabilities, improved admin tools (superuser supports, configuration screens),
+                            feedback on companies.
+                        }
+                        \item {
+                            Optimize the performance of key dashboards and API calls and reinforce security aspects (\glsxtrshort{RBAC} enforcement, audit coverage, error handling for edge cases).
+                        }
+                        \item {
+                            Prepare realistic demo scenarios and datasets to support evaluation with stakeholders and for use in the dissertation.
+                        }
+                    \end{itemize}
+                }
+                \item {
+                    {\textbf{August} - Validation, Evaluation, and Documentation Consolidation}
+                    \begin{itemize}
+                        \item {
+                            Perform more systematic validation against the functional and non-functional requirements in Appendix~\ref{ann:fr_nfr_appendix},
+                            including seriation correctness, email deliverability, usability and auditability. 
+                        }
+                        \item {
+                            Collect structured feedback from stakeholders on the platform and prioritize any feasible adjustments within the remaining schedule.
+                        }
+                        \item {
+                            Consolidate technical documentation (architecture, APIs, data model, deployment notes) and ensure that BPMN and ERD diagrams reflect the implemented system.
+                        }
+                    \end{itemize}
+                }
+                \item {
+                    {\textbf{September} - Thesis Writing and Final Adjustments}
+                    \begin{itemize}
+                        \item {
+                            Focus primarily on writing and finalizing the dissertation document, while reserving limited time for minor fixes or polish to the platform if necessary.
+                        }
+                    \end{itemize}
+                }
+            \end{itemize}
+    }
+    
+
+    {
+        Here's a Gantt Chart representing each work phase:
+    }
+
+    \begin{figure}[htbp]
+            \centering
+            \includegraphics[width=16cm]{MyFigures/gantt_chart}
+            \caption{Gantt chart of the planned work for the dissertation, showing the main development, validation, and writing activities from March to September 2026}
+            \label{fig:Gantt_Chart}
+    \end{figure}
+    
 
 
 \iffalse
-
+    
+            
 
 \fi

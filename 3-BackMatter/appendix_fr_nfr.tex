@@ -43,7 +43,7 @@
 {
     \begin{table}[H]
         \centering
-        \caption{Functional Requirements - Student Candidacies and Seriation}
+        \caption{Functional Requirements - Student Applications and Seriation}
         \begin{tabular}{|l|p{12cm}|} % 'l' for ID, 'p' for wrapped text
             \hline
             \textbf{ID} & \textbf{Description} \\ \hline
@@ -97,7 +97,7 @@
         \begin{tabular}{|l|p{12cm}|} % 'l' for ID, 'p' for wrapped text
             \hline
             \textbf{ID} & \textbf{Description} \\ \hline
-            FR-61 & The system shall allow Edition Coordinators and Administrators to export lists of students, proposals, candidacies, and final assignments in open standard formats (CSV, JSON). \\ \hline
+            FR-61 & The system shall allow Edition Coordinators and Administrators to export lists of students, proposals, applications, and final assignments in open standard formats (CSV, JSON). \\ \hline
             FR-62 & The system shall maintain detailed audit logs of critical system actions (user logins/logouts, proposal status changes, superuser access, permission modifications, bulk imports), with timestamps and user attribution. \\ \hline
             FR-63 & The system shall provide auditable records of all proposal feedback exchanges (coordinator feedback, company responses, timestamp of modifications) for compliance and dispute resolution. \\ \hline
         \end{tabular}
@@ -176,7 +176,7 @@
         \begin{tabular}{|l|p{11cm}|} % 'l' for ID, 'p' for wrapped text
             \hline
             \textbf{ID} & \textbf{Description} \\ \hline
-            NFR-PERF-1 & All user-facing pages (dashboards, proposal lists, candidacy tracking) shall load within 3 seconds under normal load conditions. \\ \hline
+            NFR-PERF-1 & All user-facing pages (dashboards, proposal lists, application tracking) shall load within 3 seconds under normal load conditions. \\ \hline
             NFR-PERF-2 & Critical dashboards (Coordinator Edition Dashboard, Company Proposal Tracker, Student Status View) shall support real-time updates using WebSocket subscriptions or server-sent events, reflecting database changes without manual page refresh. \\ \hline
             NFR-PERF-3 & API endpoints shall respond within 500 ms for 95\% of requests under typical load, and within 2 seconds for 99\% of requests. \\ \hline
             NFR-PERF-4 & The system shall implement API rate limiting to protect against denial-of-service attacks and ensure fair resource allocation, limiting each user/API client to reasonable thresholds (e.g. 100 requests/minute for standard users, 300 requests/minute for bulk operations). \\ \hline
@@ -193,7 +193,7 @@
             \textbf{ID} & \textbf{Description} \\ \hline
             NFR-USAB-1 & The user interface shall be responsive and mobile-friendly, providing an optimal viewing experience on desktop (1920x1080) and mobile devices (320x568). \\ \hline
             NFR-USAB-2 & All interactive elements shall provide clear visual feedback (hover states, focus indicators, loading states) enabling users to understand the current application state. \\ \hline
-            NFR-USAB-3 & New user workflows (registration, proposal submission, candidacy ranking) shall be completable without raining or external documentation, with clear inline guidance and error messages. \\ \hline
+            NFR-USAB-3 & New user workflows (registration, proposal submission, application ranking) shall be completable without raining or external documentation, with clear inline guidance and error messages. \\ \hline
         \end{tabular}
     \end{table}    
 }
