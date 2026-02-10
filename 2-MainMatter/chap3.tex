@@ -31,7 +31,7 @@
             A more critical vulnerability lies in the platform's network architecture: 
             the system communicates exclusively over \glsxtrshort{HTTP} (without \glsxtrshort{SSL}/\glsxtrshort{TLS} encryption), 
             representing a severe risk for transmitting sensitive student data and access credentials. 
-            Data transmitted over unencrypted \glsxtrshort{HTTP} is exposed to interception and eavesdropping, allowing attackers to read login credentials, personal information, and institutional data in plaintext \cite{geeks4geeks-difference-http-https}.
+            Data transmitted over unencrypted \glsxtrshort{HTTP} is exposed to interception and eavesdropping, allowing attackers to read login credentials, personal information, and institutional data in plaintext \cite{rfc8446-tls13}.
         }
 
         {
@@ -289,7 +289,7 @@
     \subsection{Detailed Use Case Specifications}
         {
             This subsection documents the detailed specification of key use cases using the standard Cockburn template format:
-            Use Case Name, Primary Actor(s), Secondary Actor(s), Preconditions, Postconditions, Main Flow, Alternative Flows \cite{visual-pardigm-uml-use-case-modeling}.
+            Use Case Name, Primary Actor(s), Secondary Actor(s), Preconditions, Postconditions, Main Flow, Alternative Flows \cite{cockburn-2000-writing-use-cases, cockburn-1997-structuring-use-cases}.
             The complete specifications for all use cases identified in this section are presented in Appendix~\ref{ann:use_cases_appendix}, Tables \ref{tab:UC-01}-\ref{tab:UC-12}.
         }
 
@@ -347,7 +347,7 @@
                 ensures all companies receive the invite to send proposals to the edition
             }
             \item {
-                \textbf{UC-11: Administrator Performs Superuser Access for Student Support} - Administrative support;
+                \textbf{UC-11: Coordinator Performs Superuser Access for Student Support} - Administrative support;
                 includes detailed audit logging requirements
             }
         \end{itemize}

@@ -443,15 +443,15 @@
 % Consistent with the rest of the Use Case Annex
 \renewcommand{\arraystretch}{1.5} 
 \begin{xltabular}{\textwidth}{|l|X|}
-    \caption{Use Case Specification: Administrator Performs Superuser Access for Student Support} \label{tab:UC-12} \\
+    \caption{Use Case Specification: Coordinator Performs Superuser Access for Student Support} \label{tab:UC-12} \\
     
     \hline
-    \textbf{Use Case ID} & UC-12 \\ \hline
-    \textbf{Use Case Name} & Administrator Performs Superuser Access for Student Support \\ \hline
-    \textbf{Primary Actor} & System Administrator \\ \hline
+    \textbf{Use Case ID} & UC-11 \\ \hline
+    \textbf{Use Case Name} & Coordinator Performs Superuser Access for Student Support \\ \hline
+    \textbf{Primary Actor} & Edition Coordinator \\ \hline
     \textbf{Secondary Actors} & Student, Coordinator, Company Representative, System \\ \hline
     \textbf{Preconditions} &
-        - Administrator is authenticated with elevated permissions. \newline
+        - Edition Coordinator is authenticated. \newline
         - A support request has been raised (e.g., user cannot access their account, data inconsistency, wrong role assignment). \newline
         - Superuser actions are enabled and auditable.
         \\ \hline
@@ -460,19 +460,19 @@
         - All actions executed under superuser mode are logged with timestamp, actor, and justification.
         \\ \hline
     \textbf{Main Flow} &
-        1. Administrator opens the “Support / Superuser Access” area. \newline
+        1. Coordinator opens the “Support / Superuser Access” area. \newline
         2. System lists open support tickets or allows searching by user, edition, or proposal. \newline
-        3. Administrator selects a case and views context (user roles, assignments, logs). \newline
-        4. Based on the case the administrator logs in the Superuser with the other user's login. \newline
-        5. Administrators troubleshoots the problems. \newline
+        3. Coordinator selects a case and views context (user roles, assignments, logs). \newline
+        4. Based on the case the Coordinator logs in the Superuser with the other user's login. \newline
+        5. Coordinator troubleshoots the problems. \newline
         6. Logs out of the accounts being accessed. [A2] \\ \hline 
     \textbf{Alternative Flows} &
         \textbf{A1. Action not allowed by policy:} \newline
         1. The requested operation violates locked-data policy. \newline
         2. System blocks the action and explains that such changes require a different process. \newline
-        3. Administrator records this outcome in the ticket. \newline
+        3. Coordinator records this outcome in the ticket. \newline
         \textbf{A2. Impersonation session ended:} \newline
         1. During impersonation, administrator finishes troubleshooting. \newline
-        2. Administrator exits superuser session explicitly. \newline
-        3. System returns to the administrator’s own account and logs the full session. \\ \hline
+        2. Coordinator exits superuser session explicitly. \newline
+        3. System returns to the coordinator's own account and logs the full session. \\ \hline
 \end{xltabular}

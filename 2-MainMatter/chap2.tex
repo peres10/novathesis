@@ -22,7 +22,7 @@
 {
     Modern web application stacks are characterized by a wide range of choices at each layer, from infrastructure and backend services to frontend 
     frameworks and development workflows. On the backend, developers must choose between fully managed \gls{BaaS}
-    platforms \cite{acropolium-baas-2024} and 
+    platforms \cite{lertaul-2014-ebaas, dbapi-2025-baas-platform} and 
     custom backends that offer fine-grained control over domain logic, performance, and governance. 
     On the frontend, single-page web applications and 
     component-based frameworks (such as React, Angular, or Vue) are commonly combined with RESTful or GraphQL \glsxtrshortpl{API}, enabling decoupled 
@@ -46,12 +46,12 @@
         The choice of backend architecture directly influences development speed, scalability, operational complexity, and the ability to encode complex business 
         rules such as student seriation and multirole access control. For this project, two main paradigms are considered: \glsxtrlong{BaaS} solutions, 
         which offer ready-made infrastructure and managed services, and custom backends built with mature frameworks such as Spring Boot and Express.js, 
-        which provide full control over domain modeling, integration patterns, and deployment environments. \cite{merixstudio-baas-vs-custom-be-2019}
+        which provide full control over domain modeling, integration patterns, and deployment environments. \cite{lertaul-2014-ebaas, dbapi-2025-baas-platform}
     }
 
     {
         \glsxtrshort{BaaS} platforms typically optimize for rapid time-to-market by abstracting away server provisioning, database management, and authentication, making them well-suited 
-        for early-stage prototyping and small teams \cite{pointofsaas-baas-2025}. In contrast, custom backends allow tailoring of data models, ownerships of the entire codebase, and fine-grained observability, 
+        for early-stage prototyping and small teams \cite{dbapi-2025-baas-platform}. In contrast, custom backends allow tailoring of data models, ownerships of the entire codebase, and fine-grained observability, 
         which becomes critical for institutional applications that must satisfy compliance, long-term maintainability, and integration with existing academic processes.
     }
 
@@ -96,7 +96,7 @@
 
         {
             The Node.js ecosystem provides a rich set of libraries for templated email generation and delivery, including tools such as Handlebars or \glsxtrshort{EJS} to render dynamic 
-            \glsxtrshort{HTML} email bodies \cite{handlebars-js, ejs-js} for coordinators and administrators. Combined with tasks schedulers or message queues, Express-based backends can orchestrate asynchronous 
+            \glsxtrshort{HTML} email bodies \cite{handlebars-js, ejs-js} for coordinators. Combined with tasks schedulers or message queues, Express-based backends can orchestrate asynchronous 
             communications and background jobs \cite{node-js}, helping address a key functional gap of legacy systems that rely on manual email workflows and ad hoc templates.
         }
     
@@ -130,7 +130,7 @@
 \label{sec:sota_data_persitance}
 \ntindex[Template]{}
     {
-        The selection of a data persistence model is a fundamental architectural decision that dictates how the system ensures data integrity, scalability, and retrieval efficiency \cite{aws-res-vs-no-rel-2026, geeks4geeks-sql-vs-nosql-2025}.
+        The selection of a data persistence model is a fundamental architectural decision that dictates how the system ensures data integrity, scalability, and retrieval efficiency \cite{ali-2019-sql-nosql-bigdata}.
         Given the complex ecosystem of the thesis and internships management, which involves multiple stakeholders (Students, Professors, Companies, Secretariat, etc...) and multi-stage
         lifecycle workflows for academic projects, this section evaluates the trade-offs between Relational (\glsxtrshort{SQL}) and Non-Relational (\glsxtrshort{NoSQL}) databases.
     }
@@ -153,13 +153,13 @@
                 Structured Data and Integrity: The academic context requires rigorous data consistency.
                 For instance, an Application must strictly link to an existing Student and a valid Proposal.
                 The relational model enforces referential integrity through primary and foreign key constraints, preventing "orphaned" records - 
-                a situation where a child record references a non-existent parent record \cite{acceldata-referential-integrity}. This is particularly critical in the \glsxtrshort{DI} management platform, 
+                a situation where a child record references a non-existent parent record \cite{referential-integrity-1990}. This is particularly critical in the \glsxtrshort{DI} management platform, 
                 where deleted Companies should not retain active Proposals, and Students cannot be assigned to non-existent projects.
             }
             \item {
                 Referential integrity mechanism ensure that every foreign key in a child table corresponds to a valid primary key in the parent table,
                 maintaining logical consistency across the entire database. Beyond preventing data anomalies, referential integrity supports cascading
-                updates and deletions, ensuring that changes propagate correctly across related entities \cite{ibm-db2-foreignkey-121, acceldata-referential-integrity}. 
+                updates and deletions, ensuring that changes propagate correctly across related entities \cite{ibm-db2-foreignkey-121, referential-integrity-1990}. 
             }
             \item {
                 Complex Querying: The platform requires complex join operations to generate views - for example, listing all proposals for a specific edition
@@ -168,7 +168,7 @@
             }
             \item{
                 PostgreSQL: This project will initially utilize PostgreSQL (via Supabase for rapid prototyping). Beyond standard SQL features, PostgreSQL offers support for
-                complex data types (\glsxtrshort{JSON}/\glsxtrshort{JSONB}, arrays, enums) and Stored Procedures \cite{architecture-weekly-postgresql-jsonb, postgresql-json-18}. This allows the system to handle semi-structured data - such as
+                complex data types (\glsxtrshort{JSON}/\glsxtrshort{JSONB}, arrays, enums) and Stored Procedures \cite{postgres-jsonb-docs, postgresql-json-18}. This allows the system to handle semi-structured data - such as
                 like flexible feedback forms or email template configurations - while maintaining the benefits of a relational schema for academic entities.
             }
         \end{itemize}
@@ -176,7 +176,7 @@
     \subsection{The Non-Relational Model (\glsxtrshort{NoSQL})}
         {
             \glsxtrshort{NoSQL} databases (e.g., document stores like MongoDB or key-value systems like Redis) offer schema flexibility and horizontal scalability, often at the cost
-            of immediate consistency (\glsxtrshort{ACID} properties) \cite{aws-res-vs-no-rel-2026}
+            of immediate consistency (\glsxtrshort{ACID} properties) \cite{ali-2019-sql-nosql-bigdata}.
         }
         \begin{itemize}
             \item {
@@ -236,9 +236,9 @@
 
         \subsection{React.js}
             {
-                React is a free, open-source JavaScript library maintained by Meta that specializes in building interactive user interfaces through component-based architecture \cite{react-docs-2026, react-meta-opensource-2026}.
+                React is a free, open-source JavaScript library maintained by Meta that specializes in building interactive user interfaces through component-based architecture \cite{react-docs-2026}.
                 Unlike traditional web development where the entire page must be reloaded on data changes, React efficiently re-renders only the components that have actually changed, 
-                using its virtual DOM reconciliation process to minimize performance overhead \cite{geeks4geeks-reactjs-reconciliation}. React uses \gls{JSX}, a syntax extension that allows developers to write HTML-like code directly
+                using its virtual DOM reconciliation process to minimize performance overhead. React uses \gls{JSX}, a syntax extension that allows developers to write HTML-like code directly
                 within JavaScript \cite{react-docs-2026}, making the \glsxtrshort{UI} logic more readable and maintainable.
             }
 
@@ -248,7 +248,7 @@
             \begin{enumerate}
                 \item {
                     Component-Based Architecture: React allows for the creation of reusable, self-contained \glsxtrshort{UI} components
-                    (e.g. "ProposalCards" where all the details from a proposal are, that can be used in multiple pages) \cite{geeks4geeks-react-component-based-architecture-2025}. 
+                    (e.g. "ProposalCards" where all the details from a proposal are, that can be used in multiple pages). 
                     This modular approach ensures consistency across the distinct interfaces required for Students, Professors, and Companies, 
                     while enabling efficient code reuse and simplified maintenance.
                 }
